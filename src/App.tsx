@@ -1,8 +1,12 @@
+import { ThemeProvider } from "@material-ui/core";
+import Routes from "./routes/routes";
+import MUITheme from "./theme/theme";
+
 function App() {
   return (
-    <div className="App">
-      
-    </div>
+    <ThemeProvider theme={MUITheme}>
+      <Routes />
+    </ThemeProvider>
   );
 }
 
