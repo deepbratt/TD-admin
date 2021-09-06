@@ -8,7 +8,7 @@ export interface IInitialState {
 
 const initialState: IInitialState = {
   user: {},
-  isLoggedIn: localStorage.getItem("TOKEN NAME HERE") ? true : true,
+  isLoggedIn: false,
   token: "",
 };
 
