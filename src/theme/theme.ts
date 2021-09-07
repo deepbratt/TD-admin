@@ -3,9 +3,15 @@ import { theme } from "./globalFontSize";
 import createPalette from "@material-ui/core/styles/createPalette";
 
 const MUITheme = createTheme({
-  overrides: {
-  },
-  palette: createPalette({}),
+  overrides: {},
+  palette: createPalette({
+    secondary: {
+      main: "#092C4C",
+    },
+    primary: {
+      main: "#1773FF",
+    },
+  }),
   typography: {
     fontFamily: "'IBM Plex Sans', sans-serif",
     fontWeightLight: 400,

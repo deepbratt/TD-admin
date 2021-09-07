@@ -8,7 +8,7 @@ export interface IInitialState {
 
 const initialState: IInitialState = {
   user: {},
-  isLoggedIn: false,
+  isLoggedIn: true,
   token: "",
 };
 
