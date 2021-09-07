@@ -14,7 +14,7 @@ const InfoCardStyles = makeStyles((theme) => ({
     lineHeight: "50px",
   },
   contentRoot: {
-    paddingBottom: "5px",
+    padding: "30px 30px 10px 30px",
   },
   bottomItems: {
     padding: "10px 0",
@@ -41,7 +41,7 @@ const InfoCards: React.FC<IInfoCardProps> = ({ header, data, icon }) => {
         </Typography>
         <Grid container>
           <Grid item container xs={12}>
-            <Grid item container xs={6} justifyContent="center">
+            <Grid item container xs={6}>
               <Typography
                 className={totalStyles}
                 variant="h2"

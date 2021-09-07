@@ -1,15 +1,12 @@
 import { Grid } from "@material-ui/core";
 import GroupRounded from "@material-ui/icons/GroupRounded";
 import InfoCards from "../../components/InfoCards";
+import DashboardTable from "../../sections/DashboardTable";
 
 const Home = () => {
   let infoCardProps = {
     header: "Total Owner",
-    icon: (
-      <GroupRounded
-        style={{ fontSize: "50px" }}
-      />
-    ),
+    icon: <GroupRounded style={{ fontSize: "50px" }} />,
     data: {
       today: 78,
       thisMonth: 200,
@@ -31,6 +28,9 @@ const Home = () => {
         <Grid item xs={12} sm={6}>
           <InfoCards {...infoCardProps} />
         </Grid>
+      </Grid>
+      <Grid item xs={12} lg={10}>
+        <DashboardTable />
       </Grid>
     </Grid>
   );

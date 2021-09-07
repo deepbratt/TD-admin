@@ -29,3 +29,11 @@ export const PROFILE: string = "Profile";
 export const LOGOUT: string = "Logout";
 export const CANT_FIND_RESULT: string =
   "Sorry! No results found against your search criteria.";
+
+// table cells
+export const USER_IMAGE: string = "User Image";
+export const AD_ID: string = "Ad ID";
+export const MAKE_MODEL: string = "Make & Model";
+export const AMOUNT: string = "Amount";
+export const STATUS: string = "Status";
+export const ACTION: string = "Action";

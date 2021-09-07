@@ -87,7 +87,7 @@ const Login = () => {
             />
 
             <NavLink to={paths.forgotPassword}>
-              <Typography variant="button" gutterBottom>
+              <Typography variant="body2" gutterBottom>
                 {FORGOT_PASS}
               </Typography>
             </NavLink>
