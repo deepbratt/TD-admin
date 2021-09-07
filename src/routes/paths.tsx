@@ -6,6 +6,7 @@ export const paths = {
   home: "/",
   dashboard: "/dashboard",
   login: "/login",
+  forgotPassword: "/forgot-password",
 };
 
 export const routes = {
