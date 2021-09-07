@@ -1,12 +1,11 @@
 import {
   AppBar,
-  Typography,
   IconButton,
   makeStyles,
   Toolbar,
   Drawer,
 } from "@material-ui/core";
-// import MenuIcon from "@material-ui/icons/Menu";
+import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { useState } from "react";
 import SideBar from "../SiderBar";
@@ -21,39 +20,36 @@ const HeaderStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
   },
-  appBar: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-  },
   drawerPaper: {
-    width: drawerWidth,
     backgroundColor: theme.palette.secondary.main,
   },
 }));
 
 const Header = () => {
-  const { appBar, toolbar, drawer, drawerPaper } = HeaderStyles();
+  const { toolbar, drawerPaper } = HeaderStyles();
+  const [open, setOpen] = useState(true);
+
+  const toggleDrawer = () => {
+    setOpen(!open);
+  };
 
   return (
-    <AppBar color="inherit" className={appBar}>
+    <AppBar color="inherit" position="fixed">
       <Toolbar className={toolbar}>
-        <Typography variant="h6" noWrap>
-          Tez Dealz Admin Panel
-        </Typography>
+        <IconButton edge="start" color="inherit" onClick={toggleDrawer}>
+          <MenuIcon />
+        </IconButton>
+
         <IconButton color="inherit">
           <AccountCircle />
         </IconButton>
       </Toolbar>
       <Drawer
-        className={drawer}
-        variant="permanent"
         classes={{
           paper: drawerPaper,
         }}
+        open={open}
+        onClose={toggleDrawer}
       >
         <SideBar />
       </Drawer>

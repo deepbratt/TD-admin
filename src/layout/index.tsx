@@ -9,7 +9,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <>
       <Header />
-      <Grid container>{children}</Grid>
+      <Grid container justifyContent="center">
+        <Grid style={{ marginTop: "80px" }} item xs={12}>
+          {children}
+        </Grid>
+      </Grid>
     </>
   );
 };
