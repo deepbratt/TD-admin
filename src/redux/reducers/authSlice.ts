@@ -20,13 +20,13 @@ const authSlice = createSlice({
       state.isLoggedIn = true;
       state.user = action.payload.data.user;
       state.token = action.payload.token;
-      localStorage.setItem("TOKEN NAME HERE", action.payload.token);
+      localStorage.setItem("tezdealz_ad_jwt", action.payload.token);
     },
     logout: (state) => {
       state.user = {};
       state.token = "";
       state.isLoggedIn = false;
-      localStorage.removeItem("TOKEN NAME HERE");
+      localStorage.removeItem("tezdealz_ad_jwt");
     },
     updateUserData: (state, action) => {
       state.user = action.payload.data.user;
