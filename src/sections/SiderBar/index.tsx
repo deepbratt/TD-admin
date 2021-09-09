@@ -1,54 +1,81 @@
 import {
   Divider,
+  IconButton,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
   makeStyles,
+  useTheme,
 } from "@material-ui/core";
 import { useHistory } from "react-router";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { MenuItems, IMenuItem } from "./menuItems";
 import Logo from "../../assets/icons/logo.png";
-import { Colors } from "../../theme/themeConstants";
 
 const SideBarStyles = makeStyles((theme) => ({
   toolbar: {
-    ...theme.mixins.toolbar,
     display: "flex",
-    justifyContent: "center",
     alignItems: "center",
+    justifyContent: "space-between",
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
   },
-  selected: {
-    backgroundColor: Colors.white,
+  listItemStyles: {
+    "&:hover": {
+      backgroundColor: theme.palette.common.white,
+      color: theme.palette.common.black,
+      "& > span, *": {
+        color: theme.palette.common.black,
+      },
+    },
   },
 }));
 
-const SideBar: React.FC = () => {
-  const { toolbar, selected } = SideBarStyles();
+interface ISidebarProps {
+  open: boolean;
+  handleDrawerClose: Function;
+}
+
+const SideBar: React.FC<ISidebarProps> = ({ open, handleDrawerClose }) => {
+  const { toolbar, listItemStyles } = SideBarStyles();
   const history = useHistory();
+  const theme = useTheme();
   return (
     <div>
       <div className={toolbar}>
-        <img height="50px" src={Logo} alt="Tez Dealz logo" />
+        <img
+          style={{ visibility: open ? "visible" : "hidden" }}
+          height="50px"
+          src={Logo}
+          alt="Tez Dealz logo"
+        />
+        <div>
+          <IconButton
+            style={{ color: "white" }}
+            onClick={() => handleDrawerClose()}
+          >
+            <ChevronRightIcon />
+          </IconButton>
+        </div>
       </div>
-      <Divider style={{ backgroundColor: Colors.white }} />
-      <List style={{ width: 240 }}>
+      <Divider style={{ backgroundColor: theme.palette.common.white }} />
+      <List>
         {MenuItems.map((menuItem: IMenuItem) => (
           <ListItem
-            style={{ color: Colors.white }}
-            classes={{
-              selected: selected,
-            }}
+            className={listItemStyles}
             button
             key={`menu-Item-${menuItem.text}`}
             onClick={() => history.push(menuItem.link)}
           >
-            <ListItemIcon style={{ color: Colors.white }}>
+            <ListItemIcon style={{ color: theme.palette.common.white }}>
               <menuItem.icon />
             </ListItemIcon>
             <ListItemText
               primary={menuItem.text}
-              style={{ color: Colors.white }}
+              style={{ color: theme.palette.common.white }}
             />
           </ListItem>
         ))}

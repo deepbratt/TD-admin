@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import clsx from "clsx";
 import {
   AppBar,
   IconButton,
@@ -17,24 +19,80 @@ import { useHistory } from "react-router";
 import { LOGOUT } from "../../utils/constants/language/en/buttonLabels";
 import { logout } from "../../redux/reducers/authSlice";
 
+const drawerWidth = 240;
+
 const HeaderStyles = makeStyles((theme) => ({
-  toolbar: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
   root: {
     display: "flex",
   },
-  drawerPaper: {
+  toolbar: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  menuButton: {
+    marginRight: 36,
+  },
+  hide: {
+    visibility: "hidden",
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: "nowrap",
+  },
+  drawerOpen: {
+    width: drawerWidth,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  drawerClose: {
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: "hidden",
+    width: theme.spacing(7) + 1,
+    [theme.breakpoints.up("sm")]: {
+      width: theme.spacing(9) + 1,
+    },
     backgroundColor: theme.palette.secondary.main,
   },
 }));
 
 const Header = () => {
-  const { toolbar, drawerPaper } = HeaderStyles();
+  const {
+    root,
+    appBar,
+    appBarShift,
+    drawer,
+    drawerOpen,
+    drawerClose,
+    menuButton,
+    hide,
+    toolbar,
+  } = HeaderStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
 
@@ -42,7 +100,11 @@ const Header = () => {
     setAnchorEl(event.currentTarget);
   };
 
-  const toggleDrawer = () => {
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
     setOpen(!open);
   };
 
@@ -74,13 +136,26 @@ const Header = () => {
   );
 
   return (
-    <>
-      <AppBar color="inherit" position="fixed">
+    <div className={root}>
+      <CssBaseline />
+      <AppBar
+        position="fixed"
+        className={clsx(appBar, {
+          [appBarShift]: open,
+        })}
+      >
         <Toolbar className={toolbar}>
-          <IconButton edge="start" color="inherit" onClick={toggleDrawer}>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            className={clsx(menuButton, {
+              [hide]: open,
+            })}
+          >
             <MenuIcon />
           </IconButton>
-
           <IconButton
             color="inherit"
             edge="end"
@@ -93,18 +168,24 @@ const Header = () => {
             <AccountCircle fontSize="large" />
           </IconButton>
         </Toolbar>
-        <Drawer
-          classes={{
-            paper: drawerPaper,
-          }}
-          open={open}
-          onClose={toggleDrawer}
-        >
-          <SideBar />
-        </Drawer>
+        {renderMenu}
       </AppBar>
-      {renderMenu}
-    </>
+      <Drawer
+        variant="permanent"
+        className={clsx(drawer, {
+          [drawerOpen]: open,
+          [drawerClose]: !open,
+        })}
+        classes={{
+          paper: clsx({
+            [drawerOpen]: open,
+            [drawerClose]: !open,
+          }),
+        }}
+      >
+        <SideBar open={open} handleDrawerClose={handleDrawerClose} />
+      </Drawer>
+    </div>
   );
 };
 

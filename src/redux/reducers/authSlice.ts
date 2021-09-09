@@ -8,7 +8,7 @@ export interface IInitialState {
 
 const initialState: IInitialState = {
   user: {},
-  isLoggedIn: true,
+  isLoggedIn: localStorage.getItem("tdwadminjwt") ? true : false,
   token: "",
 };
 
@@ -20,13 +20,13 @@ const authSlice = createSlice({
       state.isLoggedIn = true;
       state.user = action.payload.data.user;
       state.token = action.payload.token;
-      localStorage.setItem("TOKEN NAME HERE", action.payload.token);
+      localStorage.setItem("tdwadminjwt", action.payload.token);
     },
     logout: (state) => {
       state.user = {};
       state.token = "";
       state.isLoggedIn = false;
-      localStorage.removeItem("TOKEN NAME HERE");
+      localStorage.removeItem("tdwadminjwt");
     },
     updateUserData: (state, action) => {
       state.user = action.payload.data.user;

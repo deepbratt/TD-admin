@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/reducers/authSlice";
+import { addData } from "../../utils/API/API";
 import { API_ENDPOINTS } from "../../utils/API/endpoints";
 import useValidation from "../../utils/hooks/useValidation";
 
@@ -40,8 +41,6 @@ export const useForm = (validateOnChange = false) => {
 
   useEffect(() => {
     if (responseMessage.status === "success") {
-      console.log("responseData", responseData);
-      console.log("[useForm]", responseData);
       dispatch(login(responseData));
     }
   }, [responseMessage]);
@@ -55,34 +54,34 @@ export const useForm = (validateOnChange = false) => {
       };
       setIsLoading(true);
       console.log("requestBody", requestBody);
-      // await addData(USERS + LOGIN, requestBody)
-      //   .then((response) => {
-      //     console.log("data", response);
-      //     setIsLoading(false);
-      //     if (response.status === "success") {
-      //       setAlertOpen(true);
-      //       setResponseData(response);
-      //       setResponseMessage({
-      //         status: response.status,
-      //         message: response.message,
-      //       });
-      //     } else {
-      //       setAlertOpen(true);
-      //       setResponseMessage({
-      //         status: "error",
-      //         message: response.message,
-      //       });
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     setIsLoading(false);
-      //     console.log("Error log", error);
-      //     setAlertOpen(true);
-      //     setResponseMessage({
-      //       status: error.status,
-      //       message: error.message,
-      //     });
-      //   });
+      await addData(USERS + LOGIN, requestBody)
+        .then((response) => {
+          console.log("data", response);
+          setIsLoading(false);
+          if (response.status === "success") {
+            setAlertOpen(true);
+            setResponseData(response);
+            setResponseMessage({
+              status: response.status,
+              message: response.message,
+            });
+          } else {
+            setAlertOpen(true);
+            setResponseMessage({
+              status: "error",
+              message: response.message,
+            });
+          }
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          console.log("Error log", error);
+          setAlertOpen(true);
+          setResponseMessage({
+            status: error.status,
+            message: error.message,
+          });
+        });
     }
   };
 
