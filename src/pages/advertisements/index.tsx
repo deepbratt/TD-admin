@@ -1,19 +1,20 @@
 import {
-  Divider,
   Grid,
   IconButton,
   InputAdornment,
   makeStyles,
   TextField,
-  Typography,
 } from "@material-ui/core";
 import { SearchOutlined } from "@material-ui/icons";
 import { Pagination } from "@material-ui/lab";
 import CarCard from "../../components/CarCard";
+import CustomDivider from "../../components/CustomDivider";
 import Loader from "../../components/Loader";
 import Toast from "../../components/Toast";
 import SecondaryLayout from "../../layout/SecondaryLayout";
+import PageHeader from "../../sections/PageHeader";
 import { Colors } from "../../theme/themeConstants";
+import { ADVERTISEMENTS } from "../../utils/constants/language/en/text";
 import useAdvertisements from "./useAdvertisements";
 
 const AdverstisementStyles = makeStyles(() => ({
@@ -42,15 +43,8 @@ const Advertisements = () => {
   return (
     <SecondaryLayout>
       <Grid container style={{minHeight:"90vh"}}>
-        <Grid
-          item
-          xs={12}
-          style={{ display: "flex" }}
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Typography variant="h3">Advertisements</Typography>
-          <TextField
+        <PageHeader heading={ADVERTISEMENTS}>
+        <TextField
             placeholder="Search"
             // value={keywords}
             onKeyDown={(e)=>{if(e.key === "Enter"){
@@ -75,10 +69,8 @@ const Advertisements = () => {
               ),
             }}
           />
-        </Grid>
-        <Divider
-          style={{ backgroundColor: "grey", width: "100%", marginTop: 5 }}
-        />
+        </PageHeader>
+        <CustomDivider/>
         {result.map((item: any, index: number) => (
           <Grid
             item

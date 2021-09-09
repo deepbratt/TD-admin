@@ -21,6 +21,8 @@ import moment from "moment";
 import Toast from "../Toast";
 import Loader from "../Loader";
 import useCarCard from "./useCarCard";
+import { useHistory } from "react-router";
+import { ACTIVE, BAN, DELETE, INACTIVE, SOLD, UNBAN, UNSOLD } from "../../utils/constants/language/en/buttonLabels";
 
 interface CarCardProps {
   data: any;
@@ -41,10 +43,12 @@ const CarCard = ({ data, layoutType = "list" }: CarCardProps) => {
     toastMessage,
     isLoading,
   } = useCarCard(data)
+  const history = useHistory()
   return (
     <Card
       style={{ cursor: "pointer" }}
       className={layoutType === "list" ? root : grid}
+      onClick={()=>history.push('/car/'+data._id)}
     >
       <Grid container style={{ border: "5px solid" + Colors.background }}>
         <Grid item xs={12} sm={layoutType !== "list" ? 12 : 3}>
@@ -83,7 +87,7 @@ const CarCard = ({ data, layoutType = "list" }: CarCardProps) => {
             >
               {data.isSold ? (
                 <span className={featuredBadge}>
-                  <Typography variant="body2">{"SOLD"}</Typography>
+                  <Typography variant="body2">{SOLD}</Typography>
                 </span>
               ) : null}
               <Grid item container justifyContent="space-between" xs={12}>
@@ -162,7 +166,7 @@ const CarCard = ({ data, layoutType = "list" }: CarCardProps) => {
                       variant="body2"
                       component="span"
                     >
-                      {data.isSold ? "SOLD" : "UNSOLD"}
+                      {data.isSold ? SOLD : UNSOLD}
                     </Typography>
                   </Grid>
                   <Grid item>
@@ -171,7 +175,7 @@ const CarCard = ({ data, layoutType = "list" }: CarCardProps) => {
                       variant="body2"
                       component="span"
                     >
-                      {isActive ? "ACTIVE" : "INACTIVE"}
+                      {isActive ? ACTIVE : INACTIVE}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -209,12 +213,12 @@ const CarCard = ({ data, layoutType = "list" }: CarCardProps) => {
                 <RemoveCircleOutline color="error" />
               )
             }
-            onClick={() => toggleActive()}
+            onClick={(e) => toggleActive(e)}
             color="secondary"
             variant="contained"
             fullWidth
           >
-            {!isActive ? "Active" : "Inactive"}
+            {!isActive ? ACTIVE : INACTIVE}
           </Button>
 
           <Button
@@ -225,23 +229,23 @@ const CarCard = ({ data, layoutType = "list" }: CarCardProps) => {
                 <Block color="error" />
               )
             }
-            onClick={() => toggleBan()}
+            onClick={(e) => toggleBan(e)}
             color="secondary"
             variant="contained"
             fullWidth
           >
-            {isBanned ? "Unban" : "Ban"}
+            {isBanned ? UNBAN : BAN}
           </Button>
 
           <Button
             endIcon={<Delete color="error" />}
-            onClick={() => deleteAd()}
+            onClick={(e) => deleteAd(e)}
             title="Delete"
             color="secondary"
             variant="contained"
             fullWidth
           >
-            Delete
+            {DELETE}
           </Button>
         </Grid>
       </Grid>

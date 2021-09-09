@@ -10,7 +10,8 @@ const useCarCard = (data: any) => {
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
 
-  const toggleBan = () => {
+  const toggleBan = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation()
     let banUnban = isBanned ? API_ENDPOINTS.MARK_UNBAN : API_ENDPOINTS.MARK_BAN;
     setIsLoading(true);
     updateData(
@@ -30,7 +31,8 @@ const useCarCard = (data: any) => {
     });
   };
 
-  const toggleActive = () => {
+  const toggleActive = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation()
     let activeInactive = isActive
       ? API_ENDPOINTS.MARK_INACTIVE
       : API_ENDPOINTS.MARK_ACTIVE;
@@ -52,7 +54,8 @@ const useCarCard = (data: any) => {
     });
   };
 
-  const deleteAd = () => {
+  const deleteAd = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation()
     setIsLoading(true);
     deleteData(`${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}/${data._id}`).then(
       (response: any) => {

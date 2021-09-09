@@ -37,3 +37,7 @@ export const MAKE_MODEL: string = "Make & Model";
 export const AMOUNT: string = "Amount";
 export const STATUS: string = "Status";
 export const ACTION: string = "Action";
+export const DELETE = "Delete";
+export const BAN = "Ban"
+export const UNBAN = "Unban"
+export const EDIT = "Edit"
