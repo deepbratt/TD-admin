@@ -25,10 +25,10 @@ const AdverstisementStyles = makeStyles(() => ({
 const Advertisements = () => {
   const classes = AdverstisementStyles();
   const {
-    data,
+    // data,
     result,
-    page,
-    setPage,
+    // page,
+    // setPage,
     isLoading,
     toastMessage,
     toastOpen,
@@ -36,7 +36,7 @@ const Advertisements = () => {
     setToastOpen,
     pageCount,
     getCars,
-    keywords,
+    // keywords,
     setKeywords
   } = useAdvertisements();
   return (
