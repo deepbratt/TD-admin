@@ -25,9 +25,9 @@ interface IInfoCardProps {
   header: string;
   icon: any;
   data: {
-    total: number;
-    thisMonth: number;
     today: number;
+    monthly: number;
+    total: number;
   };
 }
 
@@ -101,7 +101,7 @@ const InfoCards: React.FC<IInfoCardProps> = ({ header, data, icon }) => {
               This Month -
             </Typography>
             <Typography variant="body1" color="primary" gutterBottom>
-              {data.thisMonth}
+              {data.monthly}
             </Typography>
           </Grid>
         </Grid>

@@ -1,8 +1,8 @@
 export const API_ENDPOINTS = {
   USERS: "/Users",
   LOGIN: "/login",
+  ADS: "/ads",
   CARS: "/cars",
-  OWNERS_TOTAL: "/total-owners",
-  OWNERS_TODAY: "/owners-monthly-stats",
-  OWNERS_MONTHLY: "/owners-added-today",
+  CARS_STATS: "/cars-stats",
+  OWNERS_STATS: "/car-owners-stats",
 };
