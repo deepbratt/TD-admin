@@ -123,7 +123,7 @@ const Header = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={() => history.push(paths.dashboard)}>Profile</MenuItem>
+      <MenuItem onClick={() => history.push(paths.dashboard)}>Setting</MenuItem>
       <MenuItem
         onClick={() => {
           dispatch(logout());

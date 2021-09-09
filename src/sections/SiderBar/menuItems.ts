@@ -17,7 +17,7 @@ export const MenuItems: IMenuItem[] = [
   { icon: DashboardRoundedIcon, link: paths.dashboard, text: "Dashboard" },
   {
     icon: SupervisorAccountRoundedIcon,
-    link: paths.dashboard,
+    link: paths.admin,
     text: "Admin",
   },
   { icon: DomainRoundedIcon, link: paths.dashboard, text: "Advertisement" },

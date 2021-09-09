@@ -1,5 +1,5 @@
 export const API_ENDPOINTS = {
-  USERS: "/users",
+  USERS: "/Users",
   LOGIN: "/login",
   CARS: "/cars",
   OWNERS_TOTAL: "/total-owners",
