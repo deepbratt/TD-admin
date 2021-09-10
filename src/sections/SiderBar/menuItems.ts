@@ -6,9 +6,11 @@ import DriveEtaRoundedIcon from "@material-ui/icons/DriveEtaRounded";
 import GamepadRoundedIcon from "@material-ui/icons/GamepadRounded";
 
 import { paths } from "../../routes/paths";
+import { SvgIconTypeMap } from "@material-ui/core";
+import { OverridableComponent } from "@material-ui/core/OverridableComponent";
 
 export interface IMenuItem {
-  icon: any;
+  icon: OverridableComponent<SvgIconTypeMap<{}, "svg">>;
   link: string;
   text: string;
 }

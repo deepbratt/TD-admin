@@ -5,7 +5,7 @@ interface SecondaryLayoutProps{
 }
 const SecondaryLayout = ({children}: SecondaryLayoutProps) =>{
     return (
-        <Paper style={{margin:"20px", backgroundColor:"white", padding:"10px"}}>
+        <Paper style={{margin:"0", backgroundColor:"white", padding:"10px"}}>
             {children}
         </Paper>
     )
