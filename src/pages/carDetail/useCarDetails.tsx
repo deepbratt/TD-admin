@@ -1,6 +1,6 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { deleteData, getData, updateData } from "../../utils/API/APIs";
 import { API_ENDPOINTS } from "../../utils/API/endpoints";
 import calendarIcon from "../../assets/icons/calendar.png";
@@ -74,14 +74,18 @@ const defaultData = {
 
 const useCarDetails = () => {
   const [data, setData] = useState<any>();
+  const [deleteDialog, setDeleteDialog] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [toastOpen, setToastOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
   const [result, setResult] = useState<any>(defaultData);
   const { id } = useParams<{ id: string }>();
+  const history = useHistory()
   const [isBanned, setIsBanned] = useState(false);
   const [isActive, setIsActive] = useState(true);
+  const [isSold, setIsSold] = useState(true);
+  const [sellDialog, setSellDialog] = useState(false);
   const [detail, setDetail] = useState<Array<any>>([]);
   const [seller, setSeller] = useState<Array<any>>([]);
   const [specs, setSpecs] = useState<Array<any>>([]);
@@ -99,6 +103,7 @@ const useCarDetails = () => {
           setResult(responseResult);
           setIsBanned(responseResult.banned);
           setIsActive(responseResult.active);
+          setIsSold(responseResult.isSold)
           setDetail([
             { name: REGISTERED_IN, value: responseResult.registrationCity },
             { name: ASSEMBLY, value: responseResult.assembly },
@@ -173,6 +178,31 @@ const useCarDetails = () => {
       setIsLoading(false);
     });
   };
+  const toggleSold = (soldHere:boolean=false) => {
+    let soldUnsold = isSold
+      ? API_ENDPOINTS.MARK_UNSOLD
+      : API_ENDPOINTS.MARK_SOLD;
+      if(sellDialog){
+        setSellDialog(false)
+      }
+      let requestBody = {soldByUs: soldHere}
+    setIsLoading(true);
+    updateData(
+      `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${soldUnsold}/${id}` , !isSold ? requestBody : undefined
+    ).then((response: any) => {
+      if (response && response.data && response.data.status === "success") {
+        setIsSold(!isSold);
+        setToastMessage(response.data.message);
+        setToastType("success");
+      } else {
+        console.log(response);
+        setToastMessage(response.message);
+        setToastType("error");
+      }
+      setToastOpen(true);
+      setIsLoading(false);
+    });
+  };
 
   const deleteAd = () => {
     setIsLoading(true);
@@ -181,6 +211,7 @@ const useCarDetails = () => {
         if (response && response.data && response.data.status === "success") {
           setToastMessage(response.data.message);
           setToastType("success");
+          history.goBack()
         } else {
           console.log(response);
           setToastMessage(response.message);
@@ -188,6 +219,7 @@ const useCarDetails = () => {
         }
         setToastOpen(true);
         setIsLoading(false);
+        setDeleteDialog(false)
       }
     );
   };
@@ -211,10 +243,16 @@ const useCarDetails = () => {
     deleteAd,
     toggleActive,
     toggleBan,
+    toggleSold,
     id,
     seller,
     detail,
-    specs
+    specs,
+    setDeleteDialog,
+    deleteDialog,
+    setSellDialog,
+    sellDialog,
+    isSold
   };
 };
 

@@ -41,3 +41,5 @@ export const DELETE = "Delete";
 export const BAN = "Ban"
 export const UNBAN = "Unban"
 export const EDIT = "Edit"
+export const SOLD_HERE_DIALOG_OK = "Yes"
+export const SOLD_HERE_DIALOG_REJECT = "No"
