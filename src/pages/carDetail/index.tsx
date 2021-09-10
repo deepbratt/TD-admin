@@ -38,10 +38,16 @@ const CarDetail = () => {
     deleteAd,
     toggleActive,
     toggleBan,
+    toggleSold,
     id,
     detail,
     seller,
     specs,
+    deleteDialog,
+    setDeleteDialog,
+    sellDialog,
+    setSellDialog,
+    isSold
   } = useCarDetails();
   const history = useHistory();
   return (
@@ -141,6 +147,12 @@ const CarDetail = () => {
                 deleteAd={deleteAd}
                 toggleActive={toggleActive}
                 toggleBan={toggleBan}
+                deleteDialog={deleteDialog}
+                setDeleteDialog={setDeleteDialog}
+                isSold={isSold}
+                sellDialog={sellDialog}
+                setSellDialog={setSellDialog}
+                toggleSold={toggleSold}
               />
             </Grid>
             <Grid item xs={12}>

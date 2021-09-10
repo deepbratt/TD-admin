@@ -3,6 +3,7 @@ const Home = lazy(() => import("../pages/home"));
 const Login = lazy(() => import("../pages/login"));
 const Advertisements = lazy(() => import("../pages/advertisements"));
 const CarDetail = lazy(() => import("../pages/carDetail"));
+const AddEditCar = lazy(() => import("../pages/AddEditCar"));
 
 export const paths = {
   home: "/",
@@ -11,6 +12,7 @@ export const paths = {
   forgotPassword: "/forgot-password",
   adverstisements: "/advertisements",
   carDetail: "/car/:id",
+  addEditCar: "/add-edit/car/",
 };
 
 export const routes = {
@@ -19,6 +21,7 @@ export const routes = {
   login: "/login",
   advertisements: "/advertisements",
   carDetail: "/car/:id",
+  addEditCar: "/add-edit/car/:id?",
 };
 
 export const privateRoutes = {
@@ -36,6 +39,11 @@ export const privateRoutes = {
     name: "Car Detail",
     path: routes.carDetail,
     component: CarDetail,
+  },
+  [paths.addEditCar]: {
+    name: "Add Edit Car",
+    path: routes.addEditCar,
+    component: AddEditCar,
   },
 };
 

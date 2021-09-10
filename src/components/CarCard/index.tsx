@@ -23,6 +23,8 @@ import Loader from "../Loader";
 import useCarCard from "./useCarCard";
 import { useHistory } from "react-router";
 import { ACTIVE, BAN, DELETE, INACTIVE, SOLD, UNBAN, UNSOLD } from "../../utils/constants/language/en/buttonLabels";
+import ConfirmationDialog from "../ConfirmationDialog";
+import addEditCarData from "../../utils/constants/language/en/addEditCarData";
 
 interface CarCardProps {
   data: any;
@@ -42,6 +44,8 @@ const CarCard = ({ data, layoutType = "list" }: CarCardProps) => {
     toastType,
     toastMessage,
     isLoading,
+    deleteDialog,
+    setDeleteDialog
   } = useCarCard(data)
   const history = useHistory()
   return (
@@ -239,7 +243,10 @@ const CarCard = ({ data, layoutType = "list" }: CarCardProps) => {
 
           <Button
             endIcon={<Delete color="error" />}
-            onClick={(e) => deleteAd(e)}
+            onClick={(e) => {
+              e.stopPropagation()
+              setDeleteDialog(true)
+            }}
             title="Delete"
             color="secondary"
             variant="contained"
@@ -255,6 +262,15 @@ const CarCard = ({ data, layoutType = "list" }: CarCardProps) => {
         open={toastOpen}
         onClose={() => setToastOpen(false)}
       />
+      <ConfirmationDialog
+          open={deleteDialog}
+          title={addEditCarData.deleteDialogTitle}
+          message={addEditCarData.deleteDialogMessage}
+          rejectBtnLabel={addEditCarData.buttons.cancelDelete}
+          confirmBtnLabel={addEditCarData.buttons.confirmDelete}
+          handleConfirmation={deleteAd}
+          handleRejection={() => {setDeleteDialog(false)}}
+        />
       <Loader open={isLoading} isBackdrop={true} />
     </Card>
   );

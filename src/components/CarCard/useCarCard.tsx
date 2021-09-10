@@ -5,6 +5,7 @@ import { API_ENDPOINTS } from "../../utils/API/endpoints";
 const useCarCard = (data: any) => {
   const [isBanned, setIsBanned] = useState(data.banned);
   const [isActive, setIsActive] = useState(data.active);
+  const [deleteDialog, setDeleteDialog] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [toastOpen, setToastOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
@@ -54,8 +55,7 @@ const useCarCard = (data: any) => {
     });
   };
 
-  const deleteAd = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.stopPropagation()
+  const deleteAd = () => {
     setIsLoading(true);
     deleteData(`${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}/${data._id}`).then(
       (response: any) => {
@@ -69,6 +69,7 @@ const useCarCard = (data: any) => {
         }
         setToastOpen(true);
         setIsLoading(false);
+        setDeleteDialog(false)
       }
     );
   };
@@ -84,6 +85,8 @@ const useCarCard = (data: any) => {
     toastType,
     toastMessage,
     isLoading,
+    deleteDialog,
+    setDeleteDialog
   };
 };
 
