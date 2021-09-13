@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Grid } from "@material-ui/core";
 import InfoCards from "../../components/InfoCards";
 import DashboardTable from "../../sections/DashboardTable";
-import { getAllData } from "../../utils/API/APIs";
+import { getData } from "../../utils/API/APIs";
 import { API_ENDPOINTS } from "../../utils/API/endpoints";
 import GroupRounded from "@material-ui/icons/GroupRounded";
 import DriveEtaRoundedIcon from "@material-ui/icons/DriveEtaRounded";
@@ -27,7 +27,7 @@ const Home = () => {
   });
 
   const getOwnersStats = async () => {
-    await getAllData(ADS + CARS + OWNERS_STATS)
+    await getData(ADS + CARS + OWNERS_STATS)
       .then((response) => {
         if (response.status === "success") {
           setCarOwnersStats(response.data.result);
@@ -39,7 +39,7 @@ const Home = () => {
   };
 
   const getCarsListingStats = async () => {
-    await getAllData(ADS + CARS + CARS_STATS)
+    await getData(ADS + CARS + CARS_STATS)
       .then((response) => {
         if (response.status === "success") {
           setCarListingStats(response.data.result);

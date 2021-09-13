@@ -2,6 +2,7 @@ export const API_ENDPOINTS = {
   USERS: "/users",
   LOGIN: "/admin-panel-login",
   CARS: "/cars",
+  ADS: "/ads",
   CARS_STATS: "/cars-stats",
   OWNERS_STATS: "/car-owners-stats",
   MARK_INACTIVE: "/mark-inactive",

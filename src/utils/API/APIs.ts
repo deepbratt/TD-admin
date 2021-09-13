@@ -50,6 +50,7 @@ export const updateData = async (endpoint: string, requestBody?: object) => {
     return error;
   }
 };
+
 export const updateFormData = async (endpoint: string, requestBody?: object) => {
   try {
     const result = await axiosFormInstance.patch(endpoint, requestBody);
@@ -58,6 +59,7 @@ export const updateFormData = async (endpoint: string, requestBody?: object) => 
     return error;
   }
 };
+
 export const deleteData = async (endpoint: string) => {
   try {
     const result = await axiosInstance.delete(endpoint);
