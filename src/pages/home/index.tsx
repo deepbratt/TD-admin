@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Grid } from "@material-ui/core";
 import InfoCards from "../../components/InfoCards";
-import DashboardTable from "../../sections/DashboardTable";
+import DashboardTable from "../../sections/DashboardTable";z
 import { getData } from "../../utils/API/APIs";
 import { API_ENDPOINTS } from "../../utils/API/endpoints";
 import GroupRounded from "@material-ui/icons/GroupRounded";
