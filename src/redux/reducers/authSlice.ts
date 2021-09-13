@@ -8,7 +8,7 @@ export interface IInitialState {
 
 const initialState: IInitialState = {
   user: {},
-  isLoggedIn: localStorage.getItem("tdwadminjwt") ? true : false,
+  isLoggedIn: localStorage.getItem("tezdealz_ad_jwt") ? true : false,
   token: "",
 };
 
