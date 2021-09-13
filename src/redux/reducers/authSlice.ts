@@ -8,7 +8,7 @@ export interface IInitialState {
 
 const initialState: IInitialState = {
   user: {},
-  isLoggedIn: true,
+  isLoggedIn: localStorage.getItem("tdwadminjwt") ? true : false,
   token: "",
 };
 

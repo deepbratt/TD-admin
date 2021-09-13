@@ -12,7 +12,7 @@ const useCarCard = (data: any) => {
   const [toastType, setToastType] = useState("success");
 
   const toggleBan = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.stopPropagation()
+    e.stopPropagation();
     let banUnban = isBanned ? API_ENDPOINTS.MARK_UNBAN : API_ENDPOINTS.MARK_BAN;
     setIsLoading(true);
     updateData(
@@ -33,7 +33,7 @@ const useCarCard = (data: any) => {
   };
 
   const toggleActive = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.stopPropagation()
+    e.stopPropagation();
     let activeInactive = isActive
       ? API_ENDPOINTS.MARK_INACTIVE
       : API_ENDPOINTS.MARK_ACTIVE;
@@ -69,7 +69,7 @@ const useCarCard = (data: any) => {
         }
         setToastOpen(true);
         setIsLoading(false);
-        setDeleteDialog(false)
+        setDeleteDialog(false);
       }
     );
   };
@@ -86,7 +86,7 @@ const useCarCard = (data: any) => {
     toastMessage,
     isLoading,
     deleteDialog,
-    setDeleteDialog
+    setDeleteDialog,
   };
 };
 

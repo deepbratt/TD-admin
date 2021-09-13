@@ -1,16 +1,20 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { login } from "../../redux/reducers/authSlice";
 import { addData } from "../../utils/API/APIs";
 import { API_ENDPOINTS } from "../../utils/API/endpoints";
 import useValidation from "../../utils/hooks/useValidation";
 
 const initialValues: any = {
+  firstName: "",
+  lastName: "",
+  username: "",
   data: "",
+  role: "",
   password: "",
+  confirmPassword: "",
 };
 
-export const useForm = (validateOnChange = false) => {
+export const useForm = (validateOnChange = false, id: string) => {
   const [values, setValues] = useState(initialValues);
   const [alertOpen, setAlertOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -21,12 +25,11 @@ export const useForm = (validateOnChange = false) => {
     message: "",
   });
 
-  const { USERS, LOGIN } = API_ENDPOINTS;
+  const { USERS } = API_ENDPOINTS;
   const dispatch = useDispatch();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
     setValues({
       ...values,
       [name]: value,
@@ -39,31 +42,31 @@ export const useForm = (validateOnChange = false) => {
     setErrors({});
   };
 
-  useEffect(() => {
-    if (responseMessage.status === "success") {
-      dispatch(login(responseData));
-    }
-  }, [responseMessage]);
-
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (validate()) {
       let requestBody = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        username: values.username,
         data: values.data,
+        role: values.role,
         password: values.password,
+        passwordConfirm: values.confirmPassword,
       };
       setIsLoading(true);
       console.log("requestBody", requestBody);
-      await addData(USERS + LOGIN, requestBody)
+      await addData(USERS, requestBody)
         .then((response) => {
           console.log("data", response);
           setIsLoading(false);
-          if (response && response.data && response.data.status === "success") {
+          if (response.status === "success") {
+            resetForm();
             setAlertOpen(true);
-            setResponseData(response.data);
+            setResponseData(response);
             setResponseMessage({
-              status: response.data.status,
-              message: response.data.message,
+              status: response.status,
+              message: response.message,
             });
           } else {
             setAlertOpen(true);
@@ -72,7 +75,6 @@ export const useForm = (validateOnChange = false) => {
               message: response.message,
             });
           }
-          setIsLoading(false);
         })
         .catch((error) => {
           setIsLoading(false);
