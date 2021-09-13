@@ -38,20 +38,21 @@ const Advertisements = () => {
     pageCount,
     getCars,
     // keywords,
-    setKeywords
+    setKeywords,
   } = useAdvertisements();
   return (
     <SecondaryLayout>
-      <Grid container style={{minHeight:"90vh"}}>
+      <Grid container>
         <PageHeader heading={ADVERTISEMENTS}>
-        <TextField
+          <TextField
             placeholder="Search"
             // value={keywords}
-            onKeyDown={(e)=>{if(e.key === "Enter"){
-              return getCars(1)
-            }
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                return getCars(1);
+              }
             }}
-            onChange={(e)=>setKeywords(e.target.value)}
+            onChange={(e) => setKeywords(e.target.value)}
             style={{ backgroundColor: Colors.background }}
             InputProps={{
               classes: {
@@ -62,7 +63,10 @@ const Advertisements = () => {
                   position="start"
                   className={classes.inputStyles}
                 >
-                  <IconButton className={classes.inputStyles} onClick={()=>getCars(1)}>
+                  <IconButton
+                    className={classes.inputStyles}
+                    onClick={() => getCars(1)}
+                  >
                     <SearchOutlined />
                   </IconButton>
                 </InputAdornment>
@@ -70,7 +74,7 @@ const Advertisements = () => {
             }}
           />
         </PageHeader>
-        <CustomDivider/>
+        <CustomDivider />
         {result.map((item: any, index: number) => (
           <Grid
             item
@@ -85,10 +89,14 @@ const Advertisements = () => {
         <Grid
           item
           xs={12}
-          style={{ display: "flex" , marginTop:5}}
+          style={{ display: "flex", marginTop: 5 }}
           justifyContent="flex-end"
         >
-          <Pagination count={pageCount} onChange={(event, value)=>getCars(value)} color="secondary"/>
+          <Pagination
+            count={pageCount}
+            onChange={(event, value) => getCars(value)}
+            color="secondary"
+          />
         </Grid>
       </Grid>
       <Loader open={isLoading} isBackdrop={true} />
