@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Paper,
   Table,
@@ -10,6 +11,8 @@ import {
   Divider,
   InputBase,
   TableBody,
+  TableFooter,
+  TablePagination,
 } from "@material-ui/core";
 import {
   alpha,
@@ -97,9 +100,20 @@ export const Row: React.FC<IUserTableRow> = (props) => {
 interface IUserTableProps {
   data?: IUserTableRow[];
   loading: boolean;
+  page: number;
+  rowsPerPage: number;
+  handleChangePage: (event: unknown, newPage: number) => void;
+  handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const AdminTable: React.FC<IUserTableProps> = ({ data, loading }) => {
+const AdminTable: React.FC<IUserTableProps> = ({
+  data,
+  loading,
+  page,
+  rowsPerPage,
+  handleChangePage,
+  handleChangeRowsPerPage,
+}) => {
   const { toolbar, search, searchIcon, inputRoot, inputInput } = TableStyles();
 
   return (
@@ -132,9 +146,9 @@ const AdminTable: React.FC<IUserTableProps> = ({ data, loading }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {loading && (
+          {loading ? (
             <>
-              {[...Array(8)].map((item, index) => (
+              {[...Array(rowsPerPage)].map((item, index) => (
                 <TableRow key={index}>
                   <TableCell>
                     <Skeleton variant="rect" width="100%" />
@@ -154,10 +168,24 @@ const AdminTable: React.FC<IUserTableProps> = ({ data, loading }) => {
                 </TableRow>
               ))}
             </>
+          ) : (
+            data && data.map((user: IUserTableRow) => <Row {...user} />)
           )}
-          {data && data.map((user: IUserTableRow) => <Row {...user} />)}
         </TableBody>
       </Table>
+      {data && (
+        <>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25, 50, 100]}
+            component="div"
+            count={data.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </>
+      )}
     </TableContainer>
   );
 };

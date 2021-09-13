@@ -34,9 +34,26 @@ const AdminUsers: React.FC = () => {
   const [users, setUsers] = useState<IUserTableRow[]>();
   const [isLoading, setIsLoading] = useState(false);
 
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
   const getUsers = async () => {
     setIsLoading(true);
-    await getData(USERS)
+    let params = "?";
+    params = params + "limit=" + rowsPerPage;
+    params = params + "&page=" + page;
+    await getData(USERS + params)
       .then((response) => {
         setIsLoading(false);
         console.log("response", response);
@@ -52,7 +69,7 @@ const AdminUsers: React.FC = () => {
 
   useEffect(() => {
     getUsers();
-  }, []);
+  }, [page, rowsPerPage]);
 
   return (
     <Grid container justifyContent="center" spacing={2}>
@@ -75,7 +92,14 @@ const AdminUsers: React.FC = () => {
         </Grid>
       </Grid>
       <Grid item container xs={12} lg={10}>
-        <AdminTable data={users} loading={isLoading} />
+        <AdminTable
+          data={users}
+          loading={isLoading}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          handleChangePage={handleChangePage}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}
+        />
       </Grid>
     </Grid>
   );
