@@ -9,6 +9,7 @@ import {
   Typography,
   Divider,
   InputBase,
+  TableBody,
 } from "@material-ui/core";
 import {
   alpha,
@@ -17,13 +18,16 @@ import {
   createStyles,
 } from "@material-ui/core/styles";
 import {
+  ADMIN_USER_LIST,
   ACTION,
-  AD_ID,
-  MAKE_MODEL,
-  STATUS,
-  USER_IMAGE,
+  USERNAME,
+  FULL_NAME,
+  EMAIL_PHONE,
+  ROLE,
 } from "../../utils/constants/language/en/buttonLabels";
 import SearchIcon from "@material-ui/icons/Search";
+import { IUserTableRow } from "../../pages/adminUsers";
+import { Skeleton } from "@material-ui/lab";
 
 const TableStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -77,14 +81,31 @@ const TableStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const DashboardTable: React.FC = () => {
+export const Row: React.FC<IUserTableRow> = (props) => {
+  const { username, firstName, lastName, email, phone, role, _id } = props;
+  return (
+    <TableRow>
+      <TableCell>{username}</TableCell>
+      <TableCell>{firstName + lastName}</TableCell>
+      <TableCell>{email ? email : phone}</TableCell>
+      <TableCell>{role}</TableCell>
+      <TableCell align="center">{ACTION}</TableCell>
+    </TableRow>
+  );
+};
+
+interface IUserTableProps {
+  data?: IUserTableRow[];
+  loading: boolean;
+}
+
+const AdminTable: React.FC<IUserTableProps> = ({ data, loading }) => {
   const { toolbar, search, searchIcon, inputRoot, inputInput } = TableStyles();
+
   return (
     <TableContainer component={Paper}>
       <Toolbar className={toolbar}>
-        <Typography variant="h3">
-          Car Bookings
-        </Typography>
+        <Typography variant="h3">{ADMIN_USER_LIST}</Typography>
         <div className={search}>
           <div className={searchIcon}>
             <SearchIcon color="inherit" />
@@ -103,16 +124,42 @@ const DashboardTable: React.FC = () => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>{AD_ID}</TableCell>
-            <TableCell>{USER_IMAGE}</TableCell>
-            <TableCell>{MAKE_MODEL}</TableCell>
-            <TableCell>{STATUS}</TableCell>
+            <TableCell>{USERNAME}</TableCell>
+            <TableCell>{FULL_NAME}</TableCell>
+            <TableCell>{EMAIL_PHONE}</TableCell>
+            <TableCell>{ROLE}</TableCell>
             <TableCell align="center">{ACTION}</TableCell>
           </TableRow>
         </TableHead>
+        <TableBody>
+          {loading && (
+            <>
+              {[...Array(8)].map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell>
+                    <Skeleton variant="rect" width="100%" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton variant="rect" width="100%" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton variant="rect" width="100%" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton variant="rect" width="100%" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton variant="rect" width="100%" />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </>
+          )}
+          {data && data.map((user: IUserTableRow) => <Row {...user} />)}
+        </TableBody>
       </Table>
     </TableContainer>
   );
 };
 
-export default DashboardTable;
+export default AdminTable;
