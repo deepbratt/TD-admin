@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
     backdrop: {
       zIndex: theme.zIndex.drawer + 1,
       color: Colors.white,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.whiteTransparent,
     },
     root: {
       display: "flex",
