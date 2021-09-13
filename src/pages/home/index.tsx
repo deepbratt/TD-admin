@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Grid } from "@material-ui/core";
 import InfoCards from "../../components/InfoCards";
 import DashboardTable from "../../sections/DashboardTable";
-import { getAllData } from "../../utils/API/API";
+import { getAllData } from "../../utils/API/APIs";
 import { API_ENDPOINTS } from "../../utils/API/endpoints";
 import GroupRounded from "@material-ui/icons/GroupRounded";
 import DriveEtaRoundedIcon from "@material-ui/icons/DriveEtaRounded";

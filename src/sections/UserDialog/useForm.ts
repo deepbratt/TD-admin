@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { addData } from "../../utils/API/API";
+import { addData } from "../../utils/API/APIs";
 import { API_ENDPOINTS } from "../../utils/API/endpoints";
 import useValidation from "../../utils/hooks/useValidation";
 
