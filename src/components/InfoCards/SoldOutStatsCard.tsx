@@ -9,7 +9,7 @@ import {
 import { makeStyles } from "@material-ui/styles";
 import { IStats } from "../../pages/home";
 
-const InfoCardStyles = makeStyles((theme) => ({
+const SoldOutStatsCardtyles = makeStyles((theme) => ({
   totalStyles: {
     fontSize: "35px",
     lineHeight: "50px",
@@ -19,21 +19,26 @@ const InfoCardStyles = makeStyles((theme) => ({
   },
   bottomItems: {
     padding: "10px 0",
+    marginLeft: "30px",
   },
   valuesMargin: {
     marginLeft: "5px",
   },
 }));
 
-interface IInfoCardProps {
+interface ISoldOutStatsCardProps {
   header: string;
   icon: any;
   data: IStats;
 }
 
-const InfoCards: React.FC<IInfoCardProps> = ({ header, data, icon }) => {
+const SoldOutStatsCard: React.FC<ISoldOutStatsCardProps> = ({
+  header,
+  data,
+  icon,
+}) => {
   const { contentRoot, totalStyles, bottomItems, valuesMargin } =
-    InfoCardStyles();
+    SoldOutStatsCardtyles();
   return (
     <Card>
       <CardContent className={contentRoot}>
@@ -49,7 +54,7 @@ const InfoCards: React.FC<IInfoCardProps> = ({ header, data, icon }) => {
                 color="primary"
                 gutterBottom
               >
-                {data.total}
+                {data.total} %
               </Typography>
             </Grid>
             <Grid item container xs={6} justifyContent="center">
@@ -67,39 +72,7 @@ const InfoCards: React.FC<IInfoCardProps> = ({ header, data, icon }) => {
       <Divider variant="fullWidth" />
       <Grid container>
         <Grid className={bottomItems} item container xs={12}>
-          <Grid
-            item
-            container
-            xs={6}
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Typography
-              variant="body1"
-              color="secondary"
-              gutterBottom
-              component="span"
-            >
-              Today -
-            </Typography>
-            <Typography
-              className={valuesMargin}
-              variant="body1"
-              color="primary"
-              gutterBottom
-              component="span"
-            >
-              {data.today}
-            </Typography>
-          </Grid>
-
-          <Grid
-            item
-            container
-            xs={6}
-            justifyContent="center"
-            alignItems="center"
-          >
+          <Grid item container xs={12} alignItems="center">
             <Typography variant="body1" color="secondary" gutterBottom>
               This Month -
             </Typography>
@@ -109,7 +82,7 @@ const InfoCards: React.FC<IInfoCardProps> = ({ header, data, icon }) => {
               color="primary"
               gutterBottom
             >
-              {data.monthly}
+              {data.monthly} %
             </Typography>
           </Grid>
         </Grid>
@@ -118,4 +91,4 @@ const InfoCards: React.FC<IInfoCardProps> = ({ header, data, icon }) => {
   );
 };
 
-export default InfoCards;
+export default SoldOutStatsCard;
