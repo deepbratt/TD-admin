@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import { addData, deleteData, getData, updateData } from "../../utils/API/APIs";
 import { API_ENDPOINTS } from "../../utils/API/endpoints";
 
-const useCarMakes = () => {
+const useCarVersions= () => {
+    const {id} = useParams<{id:string}>()
   const [data, setData] = useState<any>();
   const [result, setResult] = useState([]);
   const [deleteDialog, setDeleteDialog] = useState(false);
@@ -11,14 +13,14 @@ const useCarMakes = () => {
   const [toastOpen, setToastOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
-  const [makeName, setMakeName] = useState("");
-  const [makeId, setMakeId] = useState("");
+  const [versionName, setVersionName] = useState("");
+  const [versionId, setVersionId] = useState("")
 
   // functions
-  const getMakes = () => {
+  const getVersions = () => {
     setIsLoading(true);
     getData(
-      `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.CAR_MAKES}`
+      `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.MODEL_VERSIONS}${id}`
     )
       .then((response: any) => {
         console.log(response);
@@ -40,37 +42,38 @@ const useCarMakes = () => {
 
   const addEditData = async(formBody:any)=>{
     let apiResponse : any
-    if(makeId){
-      apiResponse = await updateData(`${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.CAR_MAKES}/${makeId}`, formBody)
+    if(versionId){
+      apiResponse = await updateData(`${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.VERSION}/${versionId}`, formBody)
     }else{
-      apiResponse = await addData(`${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.CAR_MAKES}`, formBody)
+      apiResponse = await addData(`${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.VERSION}`, formBody)
     }
     return apiResponse
   }
 
-  const createMake = () => {
+  const createVersion = () => {
     setIsLoading(true);
-    let body = { name: makeName };
+    let body = { name: versionName, make_id: id };
     addEditData(body)
       .then((response: any) => {
         console.log(response);
         if (response && response.data && response.data.status === "success") {
-          if(makeId){
-            let temp = result
-             temp = temp.filter((item:any)=>{
-               if(item._id===makeId){
-                 item.name = makeName
-               }
-               return item
-              })
-              setResult([...temp])
-          }else{
-            let temp:any = result
-            temp.push(response.data.data.result)
-            setResult(temp)
-          }
+            if(versionId){
+                let temp = result
+                 temp = temp.filter((item:any)=>{
+                   if(item._id===versionId){
+                     item.name = versionName
+                   }
+                   return item
+                  })
+                  setResult([...temp])
+              }else{
+                let temp:any = result
+                temp.push(response.data.data.result)
+                setResult(temp)
+              }
           setToastMessage(response.data.message);
           setToastType("success");
+          getVersions()
         } else {
           if (response.message) {
             setToastMessage(response.message);
@@ -82,36 +85,36 @@ const useCarMakes = () => {
         setToastOpen(true);
       })
       .then(() => setIsLoading(false));
-    cancelCreateMake()
+      cancelCreateVersion()
   };
 
-  const cancelCreateMake = () => {
-    setMakeName("");
-    setMakeId("");
+  const editVersion=(version:any)=>{
+    setVersionId(version._id);
+    setVersionName(version.name);
+    setAddDialog(true);
+  }
+
+  const cancelCreateVersion = () => {
+    setVersionName("");
+    setVersionId("")
     setAddDialog(false);
   };
 
-  const editMake = (make:any) => {
-    setMakeId(make._id);
-    setMakeName(make.name);
-    setAddDialog(true);
-  };
-
-  const deleteMake = () => {
-    if (makeId === "") {
-      setDeleteDialog(false);
-      return;
-    }
-    setIsLoading(true);
+  const deleteVersion = () => {
+      if(versionId===""){
+          setDeleteDialog(false)
+          return
+      }
+      setIsLoading(true)
     deleteData(
-      `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.CAR_MAKES}/${makeId}`
+      `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.VERSION}${versionId}`
     )
       .then((response: any) => {
         console.log(response);
         if (response && response.data && response.data.status === "success") {
           setToastMessage(response.data.message);
           setToastType("success");
-          getMakes();
+          getVersions()
         } else {
           if (response.message) {
             setToastMessage(response.message);
@@ -123,13 +126,13 @@ const useCarMakes = () => {
         setToastOpen(true);
       })
       .then(() => setIsLoading(false));
-    setDeleteDialog(false);
-    setMakeId("");
+      setDeleteDialog(false)
+      setVersionId('')
   };
 
   //   useEffects
   useEffect(() => {
-    getMakes();
+    getVersions();
   }, []);
 
   return {
@@ -149,15 +152,15 @@ const useCarMakes = () => {
     deleteDialog,
     addDialog,
     setAddDialog,
-    makeName,
-    setMakeName,
-    createMake,
-    cancelCreateMake,
-    deleteMake,
-    makeId,
-    setMakeId,
-    editMake
+    versionName,
+    setVersionName,
+    createVersion,
+    cancelCreateVersion,
+    deleteVersion,
+    versionId,
+    setVersionId,
+    editVersion
   };
 };
 
-export default useCarMakes;
+export default useCarVersions;

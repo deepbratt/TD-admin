@@ -20,6 +20,11 @@ export const API_ENDPOINTS = {
   MARK_UNBAN: "/unban",
   CAR_MAKES: "/makes",
   MAKE_MODELS: "/models/?make_id=",
+  MODEL:"/models",
+  ADD_VERSION:"/add-versions?model_id=",
+  REMOVE_VERSION:"/remove-versions?model_id=",
   MODEL_VERSIONS: "/versions?model_id=",
-  USER_PASSWORD:"/updateUserPassword"
+  VERSION: "/versions",
+  USER_PASSWORD:"/updateUserPassword",
+  OWNERS:"/owners-list"
 };

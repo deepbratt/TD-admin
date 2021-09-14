@@ -9,9 +9,9 @@ import NoResults from "../../components/NoResults";
 import Toast from "../../components/Toast";
 import SecondaryLayout from "../../layout/SecondaryLayout";
 import PageHeader from "../../sections/PageHeader";
-import useCarMakes from "./useCarMakes";
+import useCarVersions from "./useCarVersions";
 
-const CarMakes = () => {
+const CarVersions = () => {
   const {
     result,
     toastMessage,
@@ -21,48 +21,48 @@ const CarMakes = () => {
     isLoading,
     setDeleteDialog,
     deleteDialog,
-    makeName,
-    setMakeName,
+    versionName,
+    setVersionName,
     addDialog,
     setAddDialog,
-    createMake,
-    cancelCreateMake,
-    deleteMake,
-    setMakeId,
-    editMake
-  } = useCarMakes();
+    createVersion,
+    cancelCreateVersion,
+    deleteVersion,
+    setVersionId,
+    editVersion
+  } = useCarVersions();
   const history = useHistory()
   return (
     <SecondaryLayout>
       <Grid container>
-        <PageHeader heading={"Car Makes"}>
+        <PageHeader heading={"Car Versions"}>
           <Button endIcon={<Add />} variant="contained" color="secondary" onClick={()=>setAddDialog(true)}>
-            Add Make
+            Add Version
           </Button>
         </PageHeader>
         <CustomDivider />
-        {result.map((make: any, index: number) => (
+        {result.map((version: any, index: number) => (
           <Grid
             item
             xs={12}
             container
             justifyContent="space-between"
             alignItems="center"
-            key={make._id + index}
+            key={version._id + index}
           >
             <div style={{ display: "flex" }}>
-              <Typography variant="body2">{make.name}</Typography>
+              <Typography variant="body2">{version.name}</Typography>
             </div>
             <div>
-              <IconButton onClick={()=>history.push('/car-models/'+make.make_id)} title="View Models">
+            <IconButton onClick={()=>history.push('/car-versions/'+version.make_id)} title="View Versions">
                 <OpenInNew color={"primary"} />
               </IconButton>
-              <IconButton onClick={()=>editMake(make)} title="Edit">
+              <IconButton onClick={()=>editVersion(version)}>
                 <Edit color={"secondary"} />
               </IconButton>
-              <IconButton title="Delete" onClick={()=>{
+              <IconButton onClick={()=>{
                 setDeleteDialog(true)
-                setMakeId(make._id)
+                setVersionId(version._id)
                 }}>
                 <Delete color="error" />
               </IconButton>
@@ -73,22 +73,22 @@ const CarMakes = () => {
         {result.length < 1 && <NoResults />}
       </Grid>
       <InputDialog
-        handleChange={(e) => setMakeName(e.target.value)}
+        handleChange={(e) => setVersionName(e.target.value)}
         helperText="This field is required"
-        label="Make Name"
+        label="Version Name"
         open={addDialog}
-        title="Add New Make"
-        value={makeName}
-        handleConfirmation={createMake}
-        handleRejection={cancelCreateMake}
+        title="Add New Version"
+        value={versionName}
+        handleConfirmation={createVersion}
+        handleRejection={cancelCreateVersion}
       />
       <ConfirmationDialog
           open={deleteDialog}
-          title={"Delete Make"}
-          message={"Are you sure that you want to delete this Car Make"}
+          title={"Delete Version"}
+          message={"Are you sure that you want to delete this Car Version"}
           rejectBtnLabel={"Cancel"}
           confirmBtnLabel={"Yes"}
-          handleConfirmation={deleteMake}
+          handleConfirmation={deleteVersion}
           handleRejection={() => {setDeleteDialog(false)}}
         />
       <Loader open={isLoading} isBackdrop={true} />
@@ -102,4 +102,4 @@ const CarMakes = () => {
   );
 };
 
-export default CarMakes;
+export default CarVersions;
