@@ -143,7 +143,6 @@ const AdminUsers: React.FC = () => {
         item
         container
         xs={12}
-        sm={10}
         justifyContent="space-between"
         alignItems="center"
       >
@@ -163,7 +162,7 @@ const AdminUsers: React.FC = () => {
           />
         </Grid>
       </Grid>
-      <Grid item container xs={12} lg={10}>
+      <Grid item container xs={12}>
         <AdminTable
           data={users}
           loading={isLoading}

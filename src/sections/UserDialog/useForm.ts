@@ -92,17 +92,17 @@ export const useForm = (
         .then((response) => {
           console.log("data", response);
           setIsLoading(false);
-          if (response.status === "success") {
+          if (response && response.data && response.data.status === "success") {
             resetForm();
             setAlertOpen(true);
             setResponseMessage({
-              status: response.status,
-              message: response.message,
+              status: response.data.status,
+              message: response.data.message,
             });
           } else {
             setAlertOpen(true);
             setResponseMessage({
-              status: "error",
+              status: "Error",
               message: response.message,
             });
           }
@@ -112,7 +112,7 @@ export const useForm = (
           console.log("Error log", error);
           setAlertOpen(true);
           setResponseMessage({
-            status: error.status,
+            status: "Error",
             message: error.message,
           });
         });

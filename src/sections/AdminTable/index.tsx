@@ -24,7 +24,9 @@ import {
   ACTION,
   USERNAME,
   FULL_NAME,
-  EMAIL_PHONE,
+  EMAIL,
+  PHONE,
+  NOT_AVAILABLE,
   ROLE,
 } from "../../utils/constants/language/en/buttonLabels";
 import SearchIcon from "@material-ui/icons/Search";
@@ -100,7 +102,8 @@ export const Row: React.FC<IUserTableRowProps> = ({
     <TableRow>
       <TableCell>{username}</TableCell>
       <TableCell>{firstName + " " + lastName}</TableCell>
-      <TableCell>{email ? email : phone}</TableCell>
+      <TableCell>{email ? email : NOT_AVAILABLE}</TableCell>
+      <TableCell>{phone ? phone : NOT_AVAILABLE}</TableCell>
       <TableCell>{role}</TableCell>
       <TableCell align="center">
         <IconButton onClick={() => handleUpdate(_id)}>
@@ -166,7 +169,8 @@ const AdminTable: React.FC<IUserTableProps> = ({
           <TableRow>
             <TableCell>{USERNAME}</TableCell>
             <TableCell>{FULL_NAME}</TableCell>
-            <TableCell>{EMAIL_PHONE}</TableCell>
+            <TableCell>{EMAIL}</TableCell>
+            <TableCell>{PHONE}</TableCell>
             <TableCell>{ROLE}</TableCell>
             <TableCell align="center">{ACTION}</TableCell>
           </TableRow>
