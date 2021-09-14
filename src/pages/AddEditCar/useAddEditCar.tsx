@@ -133,7 +133,7 @@ const useAddEditCar = () => {
   ];
 
   const profileRedirect = () =>{
-    history.goBack()
+    history.push('/advertisements')
   }
 
   const needAssistance = (needed : boolean = false)=>{
@@ -373,7 +373,7 @@ const useAddEditCar = () => {
         });
         setImages([]);
         if(id){
-          history.goBack(); 
+          history.push("/car/"+id); 
         }
         setActiveStep(0);
       } else {

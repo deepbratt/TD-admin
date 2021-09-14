@@ -23,7 +23,7 @@ export const MenuItems: IMenuItem[] = [
     text: "Admin",
   },
   { icon: DomainRoundedIcon, link: paths.adverstisements, text: "Advertisement" },
-  { icon: GroupRoundedIcon, link: paths.dashboard, text: "Users" },
+  { icon: GroupRoundedIcon, link: paths.clientUsers, text: "Users" },
   { icon: DriveEtaRoundedIcon, link: paths.dashboard, text: "Car Brands" },
   { icon: GamepadRoundedIcon, link: paths.dashboard, text: "Car Features" },
 ];
