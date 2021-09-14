@@ -27,15 +27,15 @@ const Advertisements = () => {
     pageCount,
     getCars,
     // keywords,
-    setKeywords
+    setKeywords,
   } = useAdvertisements();
   return (
     <SecondaryLayout>
-      <Grid container style={{minHeight:"90vh"}}>
+      <Grid container>
         <PageHeader heading={ADVERTISEMENTS}>
           <HeaderSearch setKeywords={setKeywords} getResults={()=>getCars(1)}/>
         </PageHeader>
-        <CustomDivider/>
+        <CustomDivider />
         {result.map((item: any, index: number) => (
           <Grid
             item
@@ -50,10 +50,14 @@ const Advertisements = () => {
         <Grid
           item
           xs={12}
-          style={{ display: "flex" , marginTop:5}}
+          style={{ display: "flex", marginTop: 5 }}
           justifyContent="flex-end"
         >
-          <Pagination count={pageCount} onChange={(event, value)=>getCars(value)} color="secondary"/>
+          <Pagination
+            count={pageCount}
+            onChange={(event, value) => getCars(value)}
+            color="secondary"
+          />
         </Grid>
       </Grid>
       <Loader open={isLoading} isBackdrop={true} />
