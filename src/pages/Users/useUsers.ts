@@ -18,9 +18,9 @@ const initialFieldValues = {
 const useUsers = () => {
   const dataLimit = 10;
   const [data, setData] = useState();
+  const [openAddDialog, setOpenAddDialog] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [toastOpen, setToastOpen] = useState(false);
-  const [openAddDialog, setOpenAddDialog] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
   const [result, setResult] = useState([]);

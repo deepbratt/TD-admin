@@ -105,7 +105,7 @@ const Users = () => {
           </TableBody>
         </Table>
       </TableContainer>
-            {result.length < 1 && <NoResults/>}
+      {result.length < 1 && <NoResults/>}
       <Grid container>
         <Grid
           item
