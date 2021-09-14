@@ -120,7 +120,7 @@ const Users = () => {
           />
         </Grid>
       </Grid>
-      <UserDialog open={openAddDialog} setOpen={setOpenAddDialog} disableRole/>
+      <UserDialog open={openAddDialog} setOpen={setOpenAddDialog} disableRole update={false} id="" setUpdate={()=>null} />
       <Loader open={isLoading} isBackdrop={true} />
       <Toast
         onClose={() => setToastOpen(false)}
