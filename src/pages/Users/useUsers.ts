@@ -1,10 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { getData } from "../../utils/API/APIs";
 import { API_ENDPOINTS } from "../../utils/API/endpoints";
 
-const useAdvertisements = (createdBy?:string) => {
+const formReducer = (state: any, event: any) => {
+  return {
+    ...state,
+    [event.name]: event.value,
+  };
+};
+
+const initialFieldValues = {
+  userType: "All",
+  userActive: "All",
+  userBanned: "All",
+};
+
+const useUsers = () => {
   const dataLimit = 10;
   const [data, setData] = useState();
+  const [openAddDialog, setOpenAddDialog] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [toastOpen, setToastOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
@@ -13,13 +27,26 @@ const useAdvertisements = (createdBy?:string) => {
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
   const [keywords, setKeywords] = useState("");
+  const [filters, setFilters] = useReducer(formReducer, initialFieldValues);
 
   // functions
-  const getCars = (pageValue = page) => {
+  const handleChange = (event: any) => {
+    setFilters({
+      name: event.target.name,
+      value:
+        event.target.name === "image"
+          ? event.target.files[0]
+          : event.target.value,
+    });
+    event.target.value = event.target.name === "image" && null;
+  };
+
+  const getUsers = (pageValue = page) => {
     setIsLoading(true);
-    let endpoint = `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}?limit=${dataLimit}&page=${pageValue}`;
+    let endpoint = `${API_ENDPOINTS.USERS}?role=User&limit=${dataLimit}&page=${pageValue}`;
     endpoint += keywords ? "&keyword=" + keywords : "";
-    endpoint += createdBy ? "&createdBy=" + createdBy : "";
+    endpoint += filters.userActive==="All" ? "" : filters.userActive==="Active" ? "&active=" +true : "&active=" +false;
+    endpoint += filters.userBanned==="All" ? "" : filters.userBanned==="Banned" ?  "&ban=" + true:  "&ban=" + false;
     getData(endpoint)
       .then((response: any) => {
         console.log(response);
@@ -46,8 +73,8 @@ const useAdvertisements = (createdBy?:string) => {
 
   //   useEffects
   useEffect(() => {
-    getCars();
-  }, []);
+    getUsers(1);
+  }, [filters]);
 
   //   return
   return {
@@ -63,8 +90,12 @@ const useAdvertisements = (createdBy?:string) => {
     pageCount,
     keywords,
     setKeywords,
-    getCars,
+    getUsers,
+    handleChange,
+    filters,
+    setFilters,
+    setOpenAddDialog,
+    openAddDialog
   };
 };
-
-export default useAdvertisements;
+export default useUsers;
