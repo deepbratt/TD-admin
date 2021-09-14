@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import {
   createStyles,
@@ -23,15 +24,17 @@ import { IMenuItem, MenuItems } from "./menuItems";
 import { Colors } from "../../theme/themeConstants";
 import { useHistory, useLocation } from "react-router";
 import { AccountCircle } from "@material-ui/icons";
-import { useDispatch } from "react-redux";
 import { Menu, MenuItem } from "@material-ui/core";
 import { paths } from "../../routes/paths";
 import { logout } from "../../redux/reducers/authSlice";
-import { LOGOUT } from "../../utils/constants/language/en/buttonLabels";
+import {
+  SETTINGS,
+  LOGOUT,
+} from "../../utils/constants/language/en/buttonLabels";
 import Logo from "../../assets/icons/logo.png";
+import { RootState } from "../../redux/store";
 
 const drawerWidth = 240;
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -137,6 +140,7 @@ const SideBarPersist = ({ children }: sideBarProps) => {
   const theme = useTheme();
   const history = useHistory();
   const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.auth.user);
   const { pathname } = useLocation();
   const [open, setOpen] = React.useState(true);
 
@@ -170,7 +174,9 @@ const SideBarPersist = ({ children }: sideBarProps) => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={() => history.push(paths.dashboard)}>Profile</MenuItem>
+      <MenuItem onClick={() => history.push(`${paths.setting}/${user._id}`)}>
+        {SETTINGS}
+      </MenuItem>
       <MenuItem
         onClick={() => {
           dispatch(logout());
@@ -251,7 +257,7 @@ const SideBarPersist = ({ children }: sideBarProps) => {
             )}
           </IconButton>
         </div>
-        <Divider style={{backgroundColor:Colors.white}}/>
+        <Divider style={{ backgroundColor: Colors.white }} />
         <List>
           {MenuItems.map((menuItem: IMenuItem) => (
             <ListItem

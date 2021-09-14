@@ -142,7 +142,6 @@ const UserDialog: React.FC<IUserProps> = ({
                   label="Role"
                   name={fieldNames.role}
                   value={values.role}
-                  error={errors.role}
                   onChange={handleInputChange}
                   disabled={disableRole}
                 >

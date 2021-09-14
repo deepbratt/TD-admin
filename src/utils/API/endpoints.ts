@@ -26,5 +26,6 @@ export const API_ENDPOINTS = {
   MODEL_VERSIONS: "/versions?model_id=",
   VERSION: "/versions",
   USER_PASSWORD:"/updateUserPassword",
-  OWNERS:"/owners-list"
+  OWNERS:"/owners-list",
+  UPDATE_PASSWORD: "/updateUserPassword",
 };
