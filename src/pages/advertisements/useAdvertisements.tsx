@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getData } from "../../utils/API/APIs";
 import { API_ENDPOINTS } from "../../utils/API/endpoints";
 
-const useAdvertisements = () => {
+const useAdvertisements = (createdBy?:string) => {
   const dataLimit = 10;
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -19,6 +19,7 @@ const useAdvertisements = () => {
     setIsLoading(true);
     let endpoint = `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}?limit=${dataLimit}&page=${pageValue}`;
     endpoint += keywords ? "&keyword=" + keywords : "";
+    endpoint += createdBy ? "&createdBy=" + createdBy : "";
     getData(endpoint)
       .then((response: any) => {
         console.log(response);

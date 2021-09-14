@@ -92,7 +92,7 @@ const UserDialog: React.FC<IUserProps> = ({
                 onChange={handleInputChange}
               />
             </Grid>
-            {!disableRole && <Grid item xs={12}>
+            {<Grid item xs={12}>
               <InputField
                 select
                 label="Role"

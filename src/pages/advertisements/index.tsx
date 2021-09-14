@@ -1,19 +1,22 @@
-import {
-  Grid,
-} from "@material-ui/core";
+import { Button, Grid, Typography } from "@material-ui/core";
+import { Add } from "@material-ui/icons";
 import { Pagination } from "@material-ui/lab";
+import { useHistory } from "react-router";
 import CarCard from "../../components/CarCard";
 import CustomDivider from "../../components/CustomDivider";
 import HeaderSearch from "../../components/HeaderSearch";
 import Loader from "../../components/Loader";
+import NoResults from "../../components/NoResults";
 import Toast from "../../components/Toast";
 import SecondaryLayout from "../../layout/SecondaryLayout";
 import PageHeader from "../../sections/PageHeader";
 import { ADVERTISEMENTS } from "../../utils/constants/language/en/text";
 import useAdvertisements from "./useAdvertisements";
 
-
-const Advertisements = () => {
+interface AdvertisementsProps {
+  createdBy?: string;
+}
+const Advertisements: React.FC<AdvertisementsProps> = (props) => {
   const {
     // data,
     result,
@@ -28,12 +31,27 @@ const Advertisements = () => {
     getCars,
     // keywords,
     setKeywords,
-  } = useAdvertisements();
+  } = useAdvertisements(props.createdBy);
+  const history = useHistory();
   return (
     <SecondaryLayout>
       <Grid container>
         <PageHeader heading={ADVERTISEMENTS}>
-          <HeaderSearch setKeywords={setKeywords} getResults={()=>getCars(1)}/>
+          <div>
+          <HeaderSearch
+            setKeywords={setKeywords}
+            getResults={() => getCars(1)}
+          />
+          {props.createdBy && <Button
+            endIcon={<Add />}
+            variant="contained"
+            color="secondary"
+            onClick={() => history.push("/add/car/" + props.createdBy)}
+            style={{padding:"2px 10px", marginLeft:"5px"}}
+          >
+            ADD CAR
+          </Button>}
+          </div>
         </PageHeader>
         <CustomDivider />
         {result.map((item: any, index: number) => (
@@ -47,6 +65,9 @@ const Advertisements = () => {
             <CarCard data={item} layoutType="list" />
           </Grid>
         ))}
+        {result.length < 1 && (
+          <NoResults/>
+        )}
         <Grid
           item
           xs={12}
@@ -72,3 +93,7 @@ const Advertisements = () => {
 };
 
 export default Advertisements;
+
+Advertisements.defaultProps = {
+  createdBy: "",
+};

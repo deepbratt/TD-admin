@@ -74,7 +74,7 @@ const initialRequireError_2 = {
 const useAddEditCar = () => {
   const history = useHistory();
   const size = Sizes();
-  const { id } = useParams<{ id: string }>();
+  const { id, userId } = useParams<{ id: string, userId: string }>();
   const formRef = useRef<any>(null);
   // const {user} = useSelector((state: RootState)=>state.auth)
   const [assistanceDialog, setAssistanceDialog] = useState(false)
@@ -201,15 +201,11 @@ const useAddEditCar = () => {
   }, [id]);
 
   useEffect(() => {
-    // if(!user.phone){
-    //   setPhoneRequiredDialog(true)
-    // }else{
-    //   setAssistanceDialog(true)
-    // }
+console.log('userid', userId)
     if (id) {
       getCarData();
     }
-  }, [getCarData, id]);
+  }, [getCarData, id, userId]);
 
   const allFalse = (obj: any) => {
     for (var o in obj) {
@@ -319,6 +315,9 @@ const useAddEditCar = () => {
     console.log('submit following data: ');
     console.log(formData);
     let fd = new FormData();
+    if(userId){
+      fd.append('createdBy', userId)
+    }
     fd.append('country', 'Pakistan');
     fd.append('city', formData.city);
     fd.append('province', formData.province);

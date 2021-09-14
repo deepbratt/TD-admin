@@ -14,6 +14,7 @@ import { makeStyles } from "@material-ui/styles";
 import CustomDivider from "../../components/CustomDivider";
 import HeaderSearch from "../../components/HeaderSearch";
 import Loader from "../../components/Loader";
+import NoResults from "../../components/NoResults";
 import SelectComponent from "../../components/SelectComponent";
 import TableRowComponent from "../../components/TableRowComponent";
 import Toast from "../../components/Toast";
@@ -104,6 +105,7 @@ const Users = () => {
           </TableBody>
         </Table>
       </TableContainer>
+            {result.length < 1 && <NoResults/>}
       <Grid container>
         <Grid
           item
