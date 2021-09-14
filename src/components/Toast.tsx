@@ -11,10 +11,10 @@ const Alert = (props: any) => (
 );
 
 const Toast = ({ open, message, type, onClose }: IProp) => {
-  const closeToast = (e:React.SyntheticEvent<Element, Event>)=>{
-    e.stopPropagation()
-    onClose()
-  }
+  const closeToast = (e: React.SyntheticEvent<Element, Event>) => {
+    e.stopPropagation();
+    onClose();
+  };
   return (
     <Snackbar
       anchorOrigin={{
@@ -22,9 +22,12 @@ const Toast = ({ open, message, type, onClose }: IProp) => {
         horizontal: "left",
       }}
       open={open}
-      autoHideDuration={20}
+      autoHideDuration={5}
     >
-      <Alert onClose={(e:React.SyntheticEvent<Element, Event>)=>closeToast(e)} severity={type}>
+      <Alert
+        onClose={(e: React.SyntheticEvent<Element, Event>) => closeToast(e)}
+        severity={type}
+      >
         {message}
       </Alert>
     </Snackbar>

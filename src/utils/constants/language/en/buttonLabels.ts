@@ -27,19 +27,31 @@ export const COMPARE: string = "Compare";
 export const SHORTLIST_ITEMS: string = "SHORTLIST ITEMS";
 export const PROFILE: string = "Profile";
 export const LOGOUT: string = "Logout";
+export const AD: string = "Ad";
+export const UPDATE: string = "Update";
+export const USER: string = "User";
+export const MANAGE_USER: string = "Manage Admin Panel Users";
 export const CANT_FIND_RESULT: string =
   "Sorry! No results found against your search criteria.";
 
 // table cells
+export const ADMIN_USER_LIST: string = "Admin User List";
 export const USER_IMAGE: string = "User Image";
 export const AD_ID: string = "Ad ID";
 export const MAKE_MODEL: string = "Make & Model";
 export const AMOUNT: string = "Amount";
+export const FULL_NAME: string = "Full Name";
+export const EMAIL_PHONE: string = "Email/Phone";
+export const EMAIL: string = "Email";
+export const PHONE: string = "Phone";
+export const NOT_AVAILABLE: string = "Not Available";
+export const USERNAME: string = "Username";
+export const ROLE: string = "Role";
 export const STATUS: string = "Status";
 export const ACTION: string = "Action";
 export const DELETE = "Delete";
-export const BAN = "Ban"
-export const UNBAN = "Unban"
-export const EDIT = "Edit"
-export const SOLD_HERE_DIALOG_OK = "Yes"
-export const SOLD_HERE_DIALOG_REJECT = "No"
+export const BAN = "Ban";
+export const UNBAN = "Unban";
+export const EDIT = "Edit";
+export const SOLD_HERE_DIALOG_OK = "Yes";
+export const SOLD_HERE_DIALOG_REJECT = "No";
