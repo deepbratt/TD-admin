@@ -9,6 +9,8 @@ const AddEditCar = lazy(() => import("../pages/AddEditCar"));
 const Users = lazy(() => import("../pages/Users"));
 const UserDetail = lazy(() => import("../pages/UserDetail"));
 const CarMakes = lazy(() => import("../pages/CarMakes"));
+const CarModels = lazy(() => import("../pages/CarModels"));
+const CarVersions = lazy(() => import("../pages/CarVersions"));
 
 export const paths = {
   home: "/",
@@ -22,8 +24,10 @@ export const paths = {
   addCar: "/add/car/",
   editCar: "/edit/car/",
   clientUsers: "/users",
-  userDetail: "/user",
-  carMakes: "/car-makes",
+  userDetail:"/user",
+  carMakes:"/car-makes",
+  carModel:"/car-models/:id",
+  carVersions:"/car-versions/:id",
 };
 
 export const routes = {
@@ -36,9 +40,11 @@ export const routes = {
   carDetail: "/car/:id",
   addCar: "/add/car/:userId?",
   editCar: "/edit/car/:id?",
-  clientUsers: "/users",
-  userDetail: "/user/:id?",
-  carMakes: "/car-makes",
+  clientUsers:"/users",
+  userDetail:"/user/:id?",
+  carMakes:"/car-makes",
+  carModels:"/car-models/:id",
+  carVersions:"/car-versions/:id",
 };
 
 export const privateRoutes = {
@@ -96,6 +102,16 @@ export const privateRoutes = {
     name: "Car Makes",
     path: routes.carMakes,
     component: CarMakes,
+  },
+  [paths.carModel]: {
+    name: "Car Models",
+    path: routes.carModels,
+    component: CarModels,
+  },
+  [paths.carVersions]: {
+    name: "Car Versions",
+    path: routes.carVersions,
+    component: CarVersions,
   },
 };
 

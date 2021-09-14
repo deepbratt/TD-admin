@@ -1,4 +1,4 @@
-import { IconButton, InputAdornment, makeStyles, TextField } from "@material-ui/core"
+import { IconButton, InputAdornment, makeStyles, OutlinedTextFieldProps, TextField, TextFieldProps } from "@material-ui/core"
 import { SearchOutlined } from "@material-ui/icons"
 import { Colors } from "../theme/themeConstants"
 
@@ -7,12 +7,11 @@ interface HeaderSearchProps{
     getResults: (pageValue?: number) => void
 }
 
-const HeaderSearch = ({setKeywords, getResults} : HeaderSearchProps) =>{
+const HeaderSearch:React.FC<TextFieldProps & HeaderSearchProps> = ({setKeywords, getResults,variant="outlined",...props}) =>{
     const classes = HeaderSearchStyles()
     return(
         <TextField
             placeholder="Search"
-            // value={keywords}
             onKeyDown={(e)=>{if(e.key === "Enter"){
               return getResults(1)
             }
@@ -20,6 +19,7 @@ const HeaderSearch = ({setKeywords, getResults} : HeaderSearchProps) =>{
             onChange={(e)=>setKeywords(e.target.value)}
             style={{ backgroundColor: Colors.background }}
             InputProps={{
+              disableUnderline: true,
               classes: {
                 input: classes.inputStyles,
                 adornedEnd:classes.adornedEndStyle
@@ -35,6 +35,8 @@ const HeaderSearch = ({setKeywords, getResults} : HeaderSearchProps) =>{
                 </InputAdornment>
               ),
             }}
+            variant="outlined"
+            {...props}
           />
     )
 
@@ -50,3 +52,7 @@ const HeaderSearchStyles = makeStyles(() => ({
         padding:"0"
     }
   }));
+
+  HeaderSearch.defaultProps = {
+    variant: "outlined",
+  };

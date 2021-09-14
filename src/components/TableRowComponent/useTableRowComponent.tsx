@@ -3,7 +3,7 @@ import { deleteData, updateData } from "../../utils/API/APIs";
 import { API_ENDPOINTS } from "../../utils/API/endpoints";
 
 const useTableRowComponent = (data: any) => {
-  const [isBanned, setIsBanned] = useState(data.ban);
+  const [isBanned, setIsBanned] = useState(data.banned);
   const [isActive, setIsActive] = useState(data.active);
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

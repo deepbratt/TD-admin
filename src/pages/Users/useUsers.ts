@@ -46,7 +46,8 @@ const useUsers = () => {
     let endpoint = `${API_ENDPOINTS.USERS}?role=User&limit=${dataLimit}&page=${pageValue}`;
     endpoint += keywords ? "&keyword=" + keywords : "";
     endpoint += filters.userActive==="All" ? "" : filters.userActive==="Active" ? "&active=" +true : "&active=" +false;
-    endpoint += filters.userBanned==="All" ? "" : filters.userBanned==="Banned" ?  "&ban=" + true:  "&ban=" + false;
+    endpoint += filters.userBanned==="All" ? "" : filters.userBanned==="Banned" ?  "&banned=" + true:  "&banned=" + false;
+    endpoint = filters.userType==="Sellers" ? API_ENDPOINTS.ADS+API_ENDPOINTS.CARS+API_ENDPOINTS.OWNERS : endpoint
     getData(endpoint)
       .then((response: any) => {
         console.log(response);

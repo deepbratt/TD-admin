@@ -36,7 +36,6 @@ const Users = () => {
     getUsers,
     handleChange,
     filters,
-    setFilters,
     setOpenAddDialog,
     openAddDialog
   } = useUsers();
@@ -62,6 +61,7 @@ const Users = () => {
           name="userActive"
           onChange={handleChange}
           value={filters.userActive}
+          disabled={filters.userType==="Sellers"}
           InputProps={{
             classes: {
               input: classes.inputStyle,
@@ -73,6 +73,7 @@ const Users = () => {
           label="Ban"
           name="userBanned"
           onChange={handleChange}
+          disabled={filters.userType==="Sellers"}
           value={filters.userBanned}
           InputProps={{
             classes: {
@@ -80,7 +81,7 @@ const Users = () => {
             },
           }}
         />
-        <HeaderSearch setKeywords={setKeywords} getResults={getUsers} />
+        <HeaderSearch setKeywords={setKeywords} getResults={getUsers} disabled={filters.userType==="Sellers"}/>
         <Button endIcon={<Add />} variant="contained" color="secondary" onClick={()=>setOpenAddDialog(true)}>
           ADD User
         </Button>

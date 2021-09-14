@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import { addData, deleteData, getData, updateData } from "../../utils/API/APIs";
 import { API_ENDPOINTS } from "../../utils/API/endpoints";
 
-const useCarMakes = () => {
+const useCarModels = () => {
+    const {id} = useParams<{id:string}>()
   const [data, setData] = useState<any>();
   const [result, setResult] = useState([]);
   const [deleteDialog, setDeleteDialog] = useState(false);
@@ -11,14 +13,14 @@ const useCarMakes = () => {
   const [toastOpen, setToastOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
-  const [makeName, setMakeName] = useState("");
-  const [makeId, setMakeId] = useState("");
+  const [modelName, setModelName] = useState("");
+  const [modelId, setModelId] = useState("")
 
   // functions
-  const getMakes = () => {
+  const getModels = () => {
     setIsLoading(true);
     getData(
-      `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.CAR_MAKES}`
+      `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.MAKE_MODELS}${id}`
     )
       .then((response: any) => {
         console.log(response);
@@ -40,37 +42,38 @@ const useCarMakes = () => {
 
   const addEditData = async(formBody:any)=>{
     let apiResponse : any
-    if(makeId){
-      apiResponse = await updateData(`${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.CAR_MAKES}/${makeId}`, formBody)
+    if(modelId){
+      apiResponse = await updateData(`${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.MODEL}/${modelId}`, formBody)
     }else{
-      apiResponse = await addData(`${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.CAR_MAKES}`, formBody)
+      apiResponse = await addData(`${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.MODEL}`, formBody)
     }
     return apiResponse
   }
 
-  const createMake = () => {
+  const createModel = () => {
     setIsLoading(true);
-    let body = { name: makeName };
+    let body = { name: modelName, make_id: id };
     addEditData(body)
       .then((response: any) => {
         console.log(response);
         if (response && response.data && response.data.status === "success") {
-          if(makeId){
-            let temp = result
-             temp = temp.filter((item:any)=>{
-               if(item._id===makeId){
-                 item.name = makeName
-               }
-               return item
-              })
-              setResult([...temp])
-          }else{
-            let temp:any = result
-            temp.push(response.data.data.result)
-            setResult(temp)
-          }
+            if(modelId){
+                let temp = result
+                 temp = temp.filter((item:any)=>{
+                   if(item._id===modelId){
+                     item.name = modelName
+                   }
+                   return item
+                  })
+                  setResult([...temp])
+              }else{
+                let temp:any = result
+                temp.push(response.data.data.result)
+                setResult(temp)
+              }
           setToastMessage(response.data.message);
           setToastType("success");
+          getModels()
         } else {
           if (response.message) {
             setToastMessage(response.message);
@@ -82,36 +85,36 @@ const useCarMakes = () => {
         setToastOpen(true);
       })
       .then(() => setIsLoading(false));
-    cancelCreateMake()
+      cancelCreateModel()
   };
 
-  const cancelCreateMake = () => {
-    setMakeName("");
-    setMakeId("");
+  const editModel=(model:any)=>{
+    setModelId(model._id);
+    setModelName(model.name);
+    setAddDialog(true);
+  }
+
+  const cancelCreateModel = () => {
+    setModelName("");
+    setModelId("")
     setAddDialog(false);
   };
 
-  const editMake = (make:any) => {
-    setMakeId(make._id);
-    setMakeName(make.name);
-    setAddDialog(true);
-  };
-
-  const deleteMake = () => {
-    if (makeId === "") {
-      setDeleteDialog(false);
-      return;
-    }
-    setIsLoading(true);
+  const deleteModel = () => {
+      if(modelId===""){
+          setDeleteDialog(false)
+          return
+      }
+      setIsLoading(true)
     deleteData(
-      `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.CAR_MAKES}/${makeId}`
+      `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.MODEL}/${modelId}`
     )
       .then((response: any) => {
         console.log(response);
         if (response && response.data && response.data.status === "success") {
           setToastMessage(response.data.message);
           setToastType("success");
-          getMakes();
+          getModels()
         } else {
           if (response.message) {
             setToastMessage(response.message);
@@ -123,13 +126,13 @@ const useCarMakes = () => {
         setToastOpen(true);
       })
       .then(() => setIsLoading(false));
-    setDeleteDialog(false);
-    setMakeId("");
+      setDeleteDialog(false)
+      setModelId('')
   };
 
   //   useEffects
   useEffect(() => {
-    getMakes();
+    getModels();
   }, []);
 
   return {
@@ -149,15 +152,15 @@ const useCarMakes = () => {
     deleteDialog,
     addDialog,
     setAddDialog,
-    makeName,
-    setMakeName,
-    createMake,
-    cancelCreateMake,
-    deleteMake,
-    makeId,
-    setMakeId,
-    editMake
+    modelName,
+    setModelName,
+    createModel,
+    cancelCreateModel,
+    deleteModel,
+    modelId,
+    setModelId,
+    editModel
   };
 };
 
-export default useCarMakes;
+export default useCarModels;
