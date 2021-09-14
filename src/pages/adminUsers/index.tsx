@@ -3,12 +3,13 @@ import { Grid, Typography } from "@material-ui/core";
 import CustomButton from "../../components/CustomButton";
 import UserDialog from "../../sections/UserDialog";
 import AdminTable from "../../sections/AdminTable";
-import { getData } from "../../utils/API/APIs";
+import { deleteData, getData } from "../../utils/API/APIs";
 import { API_ENDPOINTS } from "../../utils/API/endpoints";
 import {
   AD_USER,
   MANAGE_USER,
 } from "../../utils/constants/language/en/buttonLabels";
+import Toast from "../../components/Toast";
 
 export interface IUserTableRow {
   username: string;
@@ -32,10 +33,19 @@ const AdminUsers: React.FC = () => {
   const { USERS } = API_ENDPOINTS;
   const [open, setOpen] = useState(false);
   const [users, setUsers] = useState<IUserTableRow[]>();
-  const [isLoading, setIsLoading] = useState(false);
+  const [userID, setUserID] = useState("");
+  const [update, setUpdate] = useState(false);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [keywords, setKeywords] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [responseMessage, setResponseMessage] = useState({
+    status: "",
+    message: "",
+  });
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -48,11 +58,67 @@ const AdminUsers: React.FC = () => {
     setPage(0);
   };
 
+  const handleSearchInputChange = (e: any) => {
+    if (e.key === "Enter") {
+      setKeywords(e.target.value);
+    }
+  };
+
+  const handleAlertClose = (
+    event: React.SyntheticEvent | React.MouseEvent,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setAlertOpen(false);
+  };
+
+  const handleUpdate = async (id: string) => {
+    setUpdate(true);
+    setUserID(id);
+    setOpen(true);
+  };
+
+  const handleDelete = async (id: string) => {
+    await deleteData(USERS + "/" + id)
+      .then((response) => {
+        setIsLoading(false);
+        console.log("response", response);
+        if (response && response.data && response.data.status === "success") {
+          setAlertOpen(true);
+          setResponseMessage({
+            status: "success",
+            message: "User Deleted Successfully!",
+          });
+          getUsers();
+        } else {
+          setAlertOpen(true);
+          setResponseMessage({
+            status: "Error",
+            message: response.message,
+          });
+        }
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        setAlertOpen(true);
+        setResponseMessage({
+          status: "Error",
+          message: error.message,
+        });
+        console.log("Error", error);
+      });
+  };
+
   const getUsers = async () => {
     setIsLoading(true);
     let params = "?";
     params = params + "limit=" + rowsPerPage;
     params = params + "&page=" + page;
+    if (keywords !== "") {
+      params = params + "&keyword=" + keywords;
+    }
     await getData(USERS + params)
       .then((response) => {
         setIsLoading(false);
@@ -69,15 +135,15 @@ const AdminUsers: React.FC = () => {
 
   useEffect(() => {
     getUsers();
-  }, [page, rowsPerPage]);
+  }, [page, rowsPerPage, keywords, open]);
 
   return (
     <Grid container justifyContent="center" spacing={2}>
       <Grid
         item
         container
-        xs={10}
-        sm={8}
+        xs={12}
+        sm={10}
         justifyContent="space-between"
         alignItems="center"
       >
@@ -88,7 +154,13 @@ const AdminUsers: React.FC = () => {
           <CustomButton color="secondary" onClick={() => setOpen(true)}>
             {AD_USER}
           </CustomButton>
-          <UserDialog open={open} setOpen={setOpen} />
+          <UserDialog
+            open={open}
+            setOpen={setOpen}
+            id={userID}
+            update={update}
+            setUpdate={setUpdate}
+          />
         </Grid>
       </Grid>
       <Grid item container xs={12} lg={10}>
@@ -97,10 +169,22 @@ const AdminUsers: React.FC = () => {
           loading={isLoading}
           page={page}
           rowsPerPage={rowsPerPage}
+          keywords={keywords}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
+          handleSearchInputChange={handleSearchInputChange}
+          handleUpdate={handleUpdate}
+          handleDelete={handleDelete}
         />
       </Grid>
+      {responseMessage.status !== "" && (
+        <Toast
+          open={alertOpen}
+          onClose={handleAlertClose}
+          type={responseMessage.status}
+          message={responseMessage.message}
+        />
+      )}
     </Grid>
   );
 };

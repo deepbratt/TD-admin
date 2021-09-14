@@ -188,7 +188,7 @@ const Home = () => {
 
   return (
     <Grid container spacing={3} justifyContent="center">
-      <Grid item container spacing={3} xs={12} lg={8}>
+      <Grid item container xs={12} lg={10} spacing={3}>
         <Grid item xs={12} sm={6}>
           <InfoCards {...carsInfoCardProps} />
         </Grid>
@@ -204,9 +204,9 @@ const Home = () => {
         <Grid item xs={12}>
           <MostViewedCard {...mostViewedCars} />
         </Grid>
-      </Grid>
-      <Grid item xs={12} lg={10}>
-        <Advertisements />
+        <Grid item xs={12}>
+          <Advertisements />
+        </Grid>
       </Grid>
     </Grid>
   );

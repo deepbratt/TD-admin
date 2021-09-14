@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Paper,
   Table,
@@ -11,8 +10,8 @@ import {
   Divider,
   InputBase,
   TableBody,
-  TableFooter,
   TablePagination,
+  IconButton,
 } from "@material-ui/core";
 import {
   alpha,
@@ -31,6 +30,7 @@ import {
 import SearchIcon from "@material-ui/icons/Search";
 import { IUserTableRow } from "../../pages/adminUsers";
 import { Skeleton } from "@material-ui/lab";
+import { DeleteRounded, EditRounded } from "@material-ui/icons";
 
 const TableStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -84,15 +84,32 @@ const TableStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const Row: React.FC<IUserTableRow> = (props) => {
-  const { username, firstName, lastName, email, phone, role, _id } = props;
+interface IUserTableRowProps {
+  data: IUserTableRow;
+  handleUpdate: (_id: string) => void;
+  handleDelete: (_id: string) => void;
+}
+
+export const Row: React.FC<IUserTableRowProps> = ({
+  handleUpdate,
+  handleDelete,
+  data,
+}) => {
+  const { username, firstName, lastName, email, phone, role, _id } = data;
   return (
     <TableRow>
       <TableCell>{username}</TableCell>
-      <TableCell>{firstName + lastName}</TableCell>
+      <TableCell>{firstName + " " + lastName}</TableCell>
       <TableCell>{email ? email : phone}</TableCell>
       <TableCell>{role}</TableCell>
-      <TableCell align="center">{ACTION}</TableCell>
+      <TableCell align="center">
+        <IconButton onClick={() => handleUpdate(_id)}>
+          <EditRounded color="primary" />
+        </IconButton>
+        <IconButton onClick={() => handleDelete(_id)}>
+          <DeleteRounded style={{ color: "#C20000" }} />
+        </IconButton>
+      </TableCell>
     </TableRow>
   );
 };
@@ -102,8 +119,12 @@ interface IUserTableProps {
   loading: boolean;
   page: number;
   rowsPerPage: number;
+  keywords: string;
   handleChangePage: (event: unknown, newPage: number) => void;
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSearchInputChange: (e: any) => void;
+  handleUpdate: (_id: string) => void;
+  handleDelete: (_id: string) => void;
 }
 
 const AdminTable: React.FC<IUserTableProps> = ({
@@ -111,8 +132,12 @@ const AdminTable: React.FC<IUserTableProps> = ({
   loading,
   page,
   rowsPerPage,
+  keywords,
+  handleUpdate,
+  handleDelete,
   handleChangePage,
   handleChangeRowsPerPage,
+  handleSearchInputChange,
 }) => {
   const { toolbar, search, searchIcon, inputRoot, inputInput } = TableStyles();
 
@@ -126,6 +151,7 @@ const AdminTable: React.FC<IUserTableProps> = ({
           </div>
           <InputBase
             placeholder="Search…"
+            onKeyPress={handleSearchInputChange}
             classes={{
               root: inputRoot,
               input: inputInput,
@@ -169,14 +195,21 @@ const AdminTable: React.FC<IUserTableProps> = ({
               ))}
             </>
           ) : (
-            data && data.map((user: IUserTableRow) => <Row {...user} />)
+            data &&
+            data.map((user: IUserTableRow) => (
+              <Row
+                data={user}
+                handleUpdate={handleUpdate}
+                handleDelete={handleDelete}
+              />
+            ))
           )}
         </TableBody>
       </Table>
       {data && (
         <>
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25, 50, 100]}
+            rowsPerPageOptions={[10, 25, 50, 100]}
             component="div"
             count={data.length}
             rowsPerPage={rowsPerPage}
