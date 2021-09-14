@@ -21,5 +21,5 @@ export const API_ENDPOINTS = {
   CAR_MAKES: "/makes",
   MAKE_MODELS: "/models/?make_id=",
   MODEL_VERSIONS: "/versions?model_id=",
-  USER_PASSWORD:"/updateUserPassword"
+  UPDATE_PASSWORD: "/updateUserPassword",
 };

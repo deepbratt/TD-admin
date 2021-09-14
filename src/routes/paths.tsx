@@ -2,6 +2,7 @@ import { lazy } from "react";
 const Home = lazy(() => import("../pages/home"));
 const Login = lazy(() => import("../pages/login"));
 const AdminUsers = lazy(() => import("../pages/adminUsers"));
+const Settings = lazy(() => import("../pages/settings"));
 const Advertisements = lazy(() => import("../pages/advertisements"));
 const CarDetail = lazy(() => import("../pages/carDetail"));
 const AddEditCar = lazy(() => import("../pages/AddEditCar"));
@@ -14,14 +15,15 @@ export const paths = {
   dashboard: "/dashboard",
   admin: "/admin",
   login: "/login",
+  setting: "/settings",
   forgotPassword: "/forgot-password",
   adverstisements: "/advertisements",
   carDetail: "/car/:id",
   addCar: "/add/car/",
-  editCar:"/edit/car/",
+  editCar: "/edit/car/",
   clientUsers: "/users",
-  userDetail:"/user",
-  carMakes:"/car-makes",
+  userDetail: "/user",
+  carMakes: "/car-makes",
 };
 
 export const routes = {
@@ -29,13 +31,14 @@ export const routes = {
   dashboard: "/dashboard",
   admin: "/admin",
   login: "/login",
+  setting: "/settings/:id?",
   advertisements: "/advertisements",
   carDetail: "/car/:id",
   addCar: "/add/car/:userId?",
   editCar: "/edit/car/:id?",
-  clientUsers:"/users",
-  userDetail:"/user/:id?",
-  carMakes:"/car-makes",
+  clientUsers: "/users",
+  userDetail: "/user/:id?",
+  carMakes: "/car-makes",
 };
 
 export const privateRoutes = {
@@ -63,6 +66,11 @@ export const privateRoutes = {
     name: "Car Detail",
     path: routes.carDetail,
     component: CarDetail,
+  },
+  [paths.setting]: {
+    name: "User Settings",
+    path: routes.setting,
+    component: Settings,
   },
   [paths.addCar]: {
     name: "Add Car",

@@ -180,21 +180,11 @@ const AdminTable: React.FC<IUserTableProps> = ({
             <>
               {[...Array(rowsPerPage)].map((item, index) => (
                 <TableRow key={index}>
-                  <TableCell>
-                    <Skeleton variant="rect" width="100%" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton variant="rect" width="100%" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton variant="rect" width="100%" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton variant="rect" width="100%" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton variant="rect" width="100%" />
-                  </TableCell>
+                  {[...Array(6)].map((item, index) => (
+                    <TableCell key={index}>
+                      <Skeleton variant="rect" width="100%" />
+                    </TableCell>
+                  ))}
                 </TableRow>
               ))}
             </>

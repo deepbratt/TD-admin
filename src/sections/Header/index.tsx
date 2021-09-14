@@ -16,8 +16,12 @@ import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { paths } from "../../routes/paths";
 import { useHistory } from "react-router";
-import { LOGOUT } from "../../utils/constants/language/en/buttonLabels";
+import {
+  LOGOUT,
+  SETTINGS,
+} from "../../utils/constants/language/en/buttonLabels";
 import { logout } from "../../redux/reducers/authSlice";
+import { RootState } from "../../redux/store";
 
 const drawerWidth = 240;
 
@@ -92,6 +96,7 @@ const Header = () => {
   } = HeaderStyles();
   const history = useHistory();
   const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.auth.user);
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
@@ -123,7 +128,9 @@ const Header = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={() => history.push(paths.dashboard)}>Setting</MenuItem>
+      <MenuItem onClick={() => history.push(`${paths.setting}/${user._id}`)}>
+        {SETTINGS}
+      </MenuItem>
       <MenuItem
         onClick={() => {
           dispatch(logout());

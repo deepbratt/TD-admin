@@ -110,7 +110,7 @@ const Home = () => {
       .then((response) => {
         console.log("response", response);
         if (response && response.data && response.data.status === "success") {
-          setCarsSoldStats(response.data.result);
+          setCarsSoldStats(response.data.data.result);
         }
       })
       .catch((error) => {
@@ -123,7 +123,7 @@ const Home = () => {
       .then((response) => {
         console.log("response", response);
         if (response && response.data && response.data.status === "success") {
-          setCarSoldOnTezDealzStats(response.data.result);
+          setCarSoldOnTezDealzStats(response.data.data.result);
         }
       })
       .catch((error) => {

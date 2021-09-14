@@ -173,7 +173,7 @@ const useUserDetail = () => {
       return
     }
     setIsLoading(true)
-    updateData(`${API_ENDPOINTS.USERS}${API_ENDPOINTS.USER_PASSWORD}/${id}`, body)
+    updateData(`${API_ENDPOINTS.USERS}${API_ENDPOINTS.UPDATE_PASSWORD}/${id}`, body)
     .then((response) => {
       if (response && response.data && response.data.status === "success") {
         setToastMessage(response.data.message);
