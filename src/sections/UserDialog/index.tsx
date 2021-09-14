@@ -26,6 +26,7 @@ interface IUserProps {
   setOpen: Function;
   setUpdate: Function;
   update?: boolean;
+  disableRole?:boolean
   id: string;
 }
 
@@ -49,6 +50,7 @@ const UserDialog: React.FC<IUserProps> = ({
   setOpen,
   setUpdate,
   update = false,
+  disableRole= false,
   id,
 }) => {
   const {
@@ -142,6 +144,7 @@ const UserDialog: React.FC<IUserProps> = ({
                   value={values.role}
                   error={errors.role}
                   onChange={handleInputChange}
+                  disabled={disableRole}
                 >
                   {roles.map((option) => (
                     <MenuItem key={option.value} value={option.value}>

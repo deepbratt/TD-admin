@@ -1,4 +1,5 @@
 import { Grid } from "@material-ui/core";
+import { useParams } from "react-router";
 import CustomDivider from "../../components/CustomDivider";
 import Loader from "../../components/Loader";
 import Toast from "../../components/Toast";
@@ -7,6 +8,7 @@ import PageHeader from "../../sections/PageHeader";
 import PasswordSection from "../../sections/UserInformation/PasswordSection";
 import ProfileImage from "../../sections/UserInformation/ProfileImage";
 import UserInformation from "../../sections/UserInformation/UserInformation";
+import Advertisements from "../advertisements";
 import useUserDetail from "./useUserDetail";
 
 const UserDetail = () => {
@@ -25,7 +27,9 @@ const UserDetail = () => {
     updateUser,
     updatePassword,
   } = useUserDetail();
+  const { id } = useParams<{ id: string }>();
   return (
+    <>
     <SecondaryLayout>
       <Grid container>
         <PageHeader heading={"User Detail"} />
@@ -73,6 +77,8 @@ const UserDetail = () => {
         type={toastType}
       />
     </SecondaryLayout>
+    <Advertisements createdBy={id} />
+    </>
   );
 };
 

@@ -57,7 +57,7 @@ const CarDetail = () => {
           <Button
             startIcon={<Edit />}
             variant="contained"
-            onClick={() => history.push("/add-edit/car/" + id)}
+            onClick={() => history.push("/edit/car/" + id)}
             color="primary"
           >
             {EditBtnLabel}

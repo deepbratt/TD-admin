@@ -57,6 +57,7 @@ const TableRowComponent = ({ data }: any) => {
           </Typography>
         </div>
       </TableCell>
+      <TableCell>{row.firstName}{" "}{row.lastName}</TableCell>
       <TableCell>{row.email ? row.email : "Not Available"}</TableCell>
       <TableCell>{row.phone ? row.phone : "Not Available"}</TableCell>
       <TableCell>

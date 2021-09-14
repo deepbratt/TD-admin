@@ -16,7 +16,8 @@ export const paths = {
   forgotPassword: "/forgot-password",
   adverstisements: "/advertisements",
   carDetail: "/car/:id",
-  addEditCar: "/add-edit/car/",
+  addCar: "/add/car/",
+  editCar:"/edit/car/",
   clientUsers: "/users",
   userDetail:"/user",
 };
@@ -28,7 +29,8 @@ export const routes = {
   login: "/login",
   advertisements: "/advertisements",
   carDetail: "/car/:id",
-  addEditCar: "/add-edit/car/:id?",
+  addCar: "/add/car/:userId?",
+  editCar: "/edit/car/:id?",
   clientUsers:"/users",
   userDetail:"/user/:id?",
 };
@@ -59,9 +61,14 @@ export const privateRoutes = {
     path: routes.carDetail,
     component: CarDetail,
   },
-  [paths.addEditCar]: {
-    name: "Add Edit Car",
-    path: routes.addEditCar,
+  [paths.addCar]: {
+    name: "Add Car",
+    path: routes.addCar,
+    component: AddEditCar,
+  },
+  [paths.editCar]: {
+    name: "Edit Car",
+    path: routes.editCar,
     component: AddEditCar,
   },
   [paths.clientUsers]: {
