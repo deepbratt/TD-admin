@@ -1,4 +1,5 @@
 import {
+  Button,
   Grid,
   Table,
   TableBody,
@@ -7,7 +8,9 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
+import { Add } from "@material-ui/icons";
 import { Pagination } from "@material-ui/lab";
+import { makeStyles } from "@material-ui/styles";
 import CustomDivider from "../../components/CustomDivider";
 import HeaderSearch from "../../components/HeaderSearch";
 import Loader from "../../components/Loader";
@@ -16,6 +19,7 @@ import TableRowComponent from "../../components/TableRowComponent";
 import Toast from "../../components/Toast";
 import SecondaryLayout from "../../layout/SecondaryLayout";
 import PageHeader from "../../sections/PageHeader";
+import UserDialog from "../../sections/UserDialog";
 import useUsers from "./useUsers";
 
 const Users = () => {
@@ -32,7 +36,10 @@ const Users = () => {
     handleChange,
     filters,
     setFilters,
+    setOpenAddDialog,
+    openAddDialog
   } = useUsers();
+  const classes = styles();
   return (
     <SecondaryLayout>
       <PageHeader heading="Users">
@@ -42,6 +49,11 @@ const Users = () => {
           name="userType"
           onChange={handleChange}
           value={filters.userType}
+          InputProps={{
+            classes: {
+              input: classes.inputStyle,
+            },
+          }}
         />
         <SelectComponent
           menuItem={["All", "Active", "Inactive"]}
@@ -49,22 +61,36 @@ const Users = () => {
           name="userActive"
           onChange={handleChange}
           value={filters.userActive}
+          InputProps={{
+            classes: {
+              input: classes.inputStyle,
+            },
+          }}
         />
         <SelectComponent
           menuItem={["All", "Banned", "Unbanned"]}
-          label="Banned"
+          label="Ban"
           name="userBanned"
           onChange={handleChange}
           value={filters.userBanned}
+          InputProps={{
+            classes: {
+              input: classes.inputStyle,
+            },
+          }}
         />
         <HeaderSearch setKeywords={setKeywords} getResults={getUsers} />
+        <Button endIcon={<Add />} variant="contained" color="secondary" onClick={()=>setOpenAddDialog(true)}>
+          ADD User
+        </Button>
       </PageHeader>
       <CustomDivider />
       <TableContainer>
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>UserName</TableCell>
+              <TableCell>User Name</TableCell>
+              <TableCell>Full Name</TableCell>
               <TableCell>Email</TableCell>
               <TableCell>Phone</TableCell>
               <TableCell>Status</TableCell>
@@ -92,6 +118,7 @@ const Users = () => {
           />
         </Grid>
       </Grid>
+      <UserDialog open={openAddDialog} setOpen={setOpenAddDialog} disableRole/>
       <Loader open={isLoading} isBackdrop={true} />
       <Toast
         onClose={() => setToastOpen(false)}
@@ -104,3 +131,9 @@ const Users = () => {
 };
 
 export default Users;
+
+const styles = makeStyles({
+  inputStyle: {
+    padding: "5px",
+  },
+});

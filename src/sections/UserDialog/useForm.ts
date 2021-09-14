@@ -9,7 +9,7 @@ const initialValues: any = {
   lastName: "",
   username: "",
   data: "",
-  role: "",
+  role: "User",
   password: "",
   confirmPassword: "",
 };

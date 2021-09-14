@@ -16,6 +16,7 @@ interface IUserProps {
   open: boolean;
   setOpen: Function;
   update?: boolean;
+  disableRole?:boolean
 }
 
 const roles = [
@@ -37,6 +38,7 @@ const UserDialog: React.FC<IUserProps> = ({
   open,
   setOpen,
   update = false,
+  disableRole= false
 }) => {
   const { values, errors, handleInputChange, handleSubmit } = useForm(
     false,
@@ -90,7 +92,7 @@ const UserDialog: React.FC<IUserProps> = ({
                 onChange={handleInputChange}
               />
             </Grid>
-            <Grid item xs={12}>
+            {!disableRole && <Grid item xs={12}>
               <InputField
                 select
                 label="Role"
@@ -98,6 +100,7 @@ const UserDialog: React.FC<IUserProps> = ({
                 value={values.role}
                 error={errors.role}
                 onChange={handleInputChange}
+                disabled={disableRole}
               >
                 {roles.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
@@ -105,7 +108,7 @@ const UserDialog: React.FC<IUserProps> = ({
                   </MenuItem>
                 ))}
               </InputField>
-            </Grid>
+            </Grid>}
             <Grid item xs={12} sm={6}>
               <PasswordField
                 label="Password"

@@ -20,6 +20,7 @@ const useUsers = () => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [toastOpen, setToastOpen] = useState(false);
+  const [openAddDialog, setOpenAddDialog] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
   const [result, setResult] = useState([]);
@@ -42,7 +43,7 @@ const useUsers = () => {
 
   const getUsers = (pageValue = page) => {
     setIsLoading(true);
-    let endpoint = `${API_ENDPOINTS.USERS}?&role=User&limit=${dataLimit}&page=${pageValue}`;
+    let endpoint = `${API_ENDPOINTS.USERS}?role=User&limit=${dataLimit}&page=${pageValue}`;
     endpoint += keywords ? "&keyword=" + keywords : "";
     endpoint += filters.userActive==="All" ? "" : filters.userActive==="Active" ? "&active=" +true : "&active=" +false;
     endpoint += filters.userBanned==="All" ? "" : filters.userBanned==="Banned" ?  "&ban=" + true:  "&ban=" + false;
@@ -92,7 +93,9 @@ const useUsers = () => {
     getUsers,
     handleChange,
     filters,
-    setFilters
+    setFilters,
+    setOpenAddDialog,
+    openAddDialog
   };
 };
 export default useUsers;
