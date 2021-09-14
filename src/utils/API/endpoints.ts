@@ -5,6 +5,10 @@ export const API_ENDPOINTS = {
   ADS: "/ads",
   CARS_STATS: "/cars-stats",
   OWNERS_STATS: "/car-owners-stats",
+  USER_INACTIVE: "/inactive-user",
+  USER_BAN: "/ban-user",
+  USER_UNBAN: "/unban-user",
+  USER_ACTIVE: "/active-user",
   MARK_INACTIVE: "/mark-inactive",
   MARK_ACTIVE: "/mark-active",
   MARK_SOLD: "/mark-sold",
@@ -14,4 +18,5 @@ export const API_ENDPOINTS = {
   CAR_MAKES: "/makes",
   MAKE_MODELS: "/models/?make_id=",
   MODEL_VERSIONS: "/versions?model_id=",
+  USER_PASSWORD:"/updateUserPassword"
 };

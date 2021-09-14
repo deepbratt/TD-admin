@@ -3,8 +3,7 @@ import { theme } from "./globalFontSize";
 import createPalette from "@material-ui/core/styles/createPalette";
 
 const MUITheme = createTheme({
-  overrides: {
-  },
+  overrides: {},
   props:{
     MuiTextField:{
       variant:"outlined",
