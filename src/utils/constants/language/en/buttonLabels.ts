@@ -27,7 +27,9 @@ export const COMPARE: string = "Compare";
 export const SHORTLIST_ITEMS: string = "SHORTLIST ITEMS";
 export const PROFILE: string = "Profile";
 export const LOGOUT: string = "Logout";
-export const AD_USER: string = "Ad User";
+export const AD: string = "Ad";
+export const UPDATE: string = "Update";
+export const USER: string = "User";
 export const MANAGE_USER: string = "Manage Admin Panel Users";
 export const CANT_FIND_RESULT: string =
   "Sorry! No results found against your search criteria.";

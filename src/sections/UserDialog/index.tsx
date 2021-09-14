@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useForm } from "./useForm";
 import {
   Dialog,
   DialogActions,
@@ -12,9 +13,13 @@ import InputField from "../../components/InputField";
 import PasswordField from "../../components/InputField/PasswordField";
 import Loader from "../../components/Loader";
 import Toast from "../../components/Toast";
-
 import { fieldNames } from "../../utils/constants/formsConstants";
-import { useForm } from "./useForm";
+import {
+  UPDATE,
+  USER,
+  CLOSE,
+  AD,
+} from "../../utils/constants/language/en/buttonLabels";
 
 interface IUserProps {
   open: boolean;
@@ -82,7 +87,7 @@ const UserDialog: React.FC<IUserProps> = ({
       aria-labelledby="user-dialog-title"
     >
       <DialogTitle id="user-dialog-title">
-        {update ? "UPDATE " : "ADD "}USER
+        {update ? UPDATE : AD} {USER}
       </DialogTitle>
 
       <DialogContent dividers>
@@ -177,14 +182,14 @@ const UserDialog: React.FC<IUserProps> = ({
             !update ? handleSubmit(e) : handleUpdateSubmit(e, id)
           }
         >
-          {update ? "UPDATE " : "ADD "}USER
+          {update ? UPDATE : AD} {USER}
         </CustomButton>
         <CustomButton
           disabled={isLoading}
           variant="text"
           onClick={() => handleClose()}
         >
-          Close
+          {CLOSE}
         </CustomButton>
       </DialogActions>
       {responseMessage.status !== "" && (

@@ -6,7 +6,8 @@ import AdminTable from "../../sections/AdminTable";
 import { deleteData, getData } from "../../utils/API/APIs";
 import { API_ENDPOINTS } from "../../utils/API/endpoints";
 import {
-  AD_USER,
+  AD,
+  USER,
   MANAGE_USER,
 } from "../../utils/constants/language/en/buttonLabels";
 import Toast from "../../components/Toast";
@@ -151,7 +152,7 @@ const AdminUsers: React.FC = () => {
         </Grid>
         <Grid container item xs={12} sm={3} justifyContent="flex-end">
           <CustomButton color="secondary" onClick={() => setOpen(true)}>
-            {AD_USER}
+            {AD + " " + USER}
           </CustomButton>
           <UserDialog
             open={open}
