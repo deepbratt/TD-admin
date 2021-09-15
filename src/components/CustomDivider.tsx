@@ -12,7 +12,8 @@ const useStyles = makeStyles(()=>({
     defaultStyle : {
         backgroundColor:"grey",
         width: "100%",
-        marginTop: 5
+        marginTop: 5,
+        marginBottom:5
     }
 }))
 

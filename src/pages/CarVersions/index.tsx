@@ -1,6 +1,5 @@
 import { Button, Grid, IconButton, Typography } from "@material-ui/core";
-import { Add, Delete, Edit, OpenInNew } from "@material-ui/icons";
-import { useHistory } from "react-router";
+import { Add, Delete, Edit } from "@material-ui/icons";
 import ConfirmationDialog from "../../components/ConfirmationDialog";
 import CustomDivider from "../../components/CustomDivider";
 import InputDialog from "../../components/InputDialog";
@@ -31,7 +30,6 @@ const CarVersions = () => {
     setVersionId,
     editVersion
   } = useCarVersions();
-  const history = useHistory()
   return (
     <SecondaryLayout>
       <Grid container>
@@ -54,9 +52,6 @@ const CarVersions = () => {
               <Typography variant="body2">{version.name}</Typography>
             </div>
             <div>
-            <IconButton onClick={()=>history.push('/car-versions/'+version.make_id)} title="View Versions">
-                <OpenInNew color={"primary"} />
-              </IconButton>
               <IconButton onClick={()=>editVersion(version)}>
                 <Edit color={"secondary"} />
               </IconButton>

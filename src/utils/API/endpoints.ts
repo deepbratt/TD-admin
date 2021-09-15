@@ -21,11 +21,14 @@ export const API_ENDPOINTS = {
   CAR_MAKES: "/makes",
   MAKE_MODELS: "/models/?make_id=",
   MODEL:"/models",
-  ADD_VERSION:"/add-versions?model_id=",
-  REMOVE_VERSION:"/remove-versions?model_id=",
+  ADD_VERSION:"/add-versions",
+  UPDATE_VERSION:"/update-versions",
+  REMOVE_VERSION:"/remove-versions",
   MODEL_VERSIONS: "/versions?model_id=",
   VERSION: "/versions",
   USER_PASSWORD:"/updateUserPassword",
   OWNERS:"/owners-list",
   UPDATE_PASSWORD: "/updateUserPassword",
+  BODY_TYPES:"/body-types",
+  CAR_FEATURES:"/features"
 };

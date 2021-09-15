@@ -3,8 +3,8 @@ import { useParams } from "react-router";
 import { addData, deleteData, getData, updateData } from "../../utils/API/APIs";
 import { API_ENDPOINTS } from "../../utils/API/endpoints";
 
-const useCarVersions= () => {
-    const {id} = useParams<{id:string}>()
+const useCarVersions = () => {
+  const { id } = useParams<{ id: string }>();
   const [data, setData] = useState<any>();
   const [result, setResult] = useState([]);
   const [deleteDialog, setDeleteDialog] = useState(false);
@@ -14,7 +14,7 @@ const useCarVersions= () => {
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
   const [versionName, setVersionName] = useState("");
-  const [versionId, setVersionId] = useState("")
+  const [versionId, setVersionId] = useState("");
 
   // functions
   const getVersions = () => {
@@ -40,40 +40,49 @@ const useCarVersions= () => {
       .then(() => setIsLoading(false));
   };
 
-  const addEditData = async(formBody:any)=>{
-    let apiResponse : any
-    if(versionId){
-      apiResponse = await updateData(`${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.VERSION}/${versionId}`, formBody)
-    }else{
-      apiResponse = await addData(`${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.VERSION}`, formBody)
+  const addEditData = async (formBody: any) => {
+    let apiResponse: any;
+    if (versionId) {
+      apiResponse = await updateData(
+        `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.UPDATE_VERSION}/${versionId}`,
+        formBody
+      );
+    } else {
+      apiResponse = await addData(
+        `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.ADD_VERSION}`,
+        formBody
+      );
     }
-    return apiResponse
-  }
+    return apiResponse;
+  };
 
   const createVersion = () => {
     setIsLoading(true);
-    let body = { name: versionName, make_id: id };
+    let body = {
+      model_id: id,
+      name: versionName,
+    };
     addEditData(body)
       .then((response: any) => {
         console.log(response);
         if (response && response.data && response.data.status === "success") {
-            if(versionId){
-                let temp = result
-                 temp = temp.filter((item:any)=>{
-                   if(item._id===versionId){
-                     item.name = versionName
-                   }
-                   return item
-                  })
-                  setResult([...temp])
-              }else{
-                let temp:any = result
-                temp.push(response.data.data.result)
-                setResult(temp)
+          if (versionId) {
+            let temp = result;
+            temp = temp.filter((item: any) => {
+              if (item._id === versionId) {
+                item.name = versionName;
               }
+              return item;
+            });
+            setResult([...temp]);
+          } else {
+            let temp: any = result;
+            temp.push(response.data.data.result);
+            setResult(temp);
+          }
           setToastMessage(response.data.message);
           setToastType("success");
-          getVersions()
+          getVersions();
         } else {
           if (response.message) {
             setToastMessage(response.message);
@@ -85,36 +94,36 @@ const useCarVersions= () => {
         setToastOpen(true);
       })
       .then(() => setIsLoading(false));
-      cancelCreateVersion()
+    cancelCreateVersion();
   };
 
-  const editVersion=(version:any)=>{
+  const editVersion = (version: any) => {
     setVersionId(version._id);
     setVersionName(version.name);
     setAddDialog(true);
-  }
+  };
 
   const cancelCreateVersion = () => {
     setVersionName("");
-    setVersionId("")
+    setVersionId("");
     setAddDialog(false);
   };
 
   const deleteVersion = () => {
-      if(versionId===""){
-          setDeleteDialog(false)
-          return
-      }
-      setIsLoading(true)
+    if (versionId === "") {
+      setDeleteDialog(false);
+      return;
+    }
+    setIsLoading(true);
     deleteData(
-      `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.VERSION}${versionId}`
+      `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.REMOVE_VERSION}/${versionId}`
     )
       .then((response: any) => {
         console.log(response);
         if (response && response.data && response.data.status === "success") {
           setToastMessage(response.data.message);
           setToastType("success");
-          getVersions()
+          getVersions();
         } else {
           if (response.message) {
             setToastMessage(response.message);
@@ -126,8 +135,8 @@ const useCarVersions= () => {
         setToastOpen(true);
       })
       .then(() => setIsLoading(false));
-      setDeleteDialog(false)
-      setVersionId('')
+    setDeleteDialog(false);
+    setVersionId("");
   };
 
   //   useEffects
@@ -159,7 +168,7 @@ const useCarVersions= () => {
     deleteVersion,
     versionId,
     setVersionId,
-    editVersion
+    editVersion,
   };
 };
 
