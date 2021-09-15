@@ -11,6 +11,8 @@ const UserDetail = lazy(() => import("../pages/UserDetail"));
 const CarMakes = lazy(() => import("../pages/CarMakes"));
 const CarModels = lazy(() => import("../pages/CarModels"));
 const CarVersions = lazy(() => import("../pages/CarVersions"));
+const CarBodyTypes = lazy(() => import("../pages/CarBodyTypes"));
+const CarFeatures = lazy(() => import("../pages/CarFeatures"));
 
 export const paths = {
   home: "/",
@@ -28,6 +30,8 @@ export const paths = {
   carMakes:"/car-makes",
   carModel:"/car-models/:id",
   carVersions:"/car-versions/:id",
+  carBodyTypes:"/car-body-types/",
+  carFeatures:"/car-features/",
 };
 
 export const routes = {
@@ -45,6 +49,8 @@ export const routes = {
   carMakes:"/car-makes",
   carModels:"/car-models/:id",
   carVersions:"/car-versions/:id",
+  carBodyTypes:"/car-body-types/",
+  carFeatures:"/car-features/",
 };
 
 export const privateRoutes = {
@@ -112,6 +118,16 @@ export const privateRoutes = {
     name: "Car Versions",
     path: routes.carVersions,
     component: CarVersions,
+  },
+  [paths.carBodyTypes]: {
+    name: "Car Body Types",
+    path: routes.carBodyTypes,
+    component: CarBodyTypes,
+  },
+  [paths.carFeatures]: {
+    name: "Car Features",
+    path: routes.carFeatures,
+    component: CarFeatures,
   },
 };
 
