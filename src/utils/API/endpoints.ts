@@ -30,5 +30,9 @@ export const API_ENDPOINTS = {
   OWNERS:"/owners-list",
   UPDATE_PASSWORD: "/updateUserPassword",
   BODY_TYPES:"/body-types",
-  CAR_FEATURES:"/features"
+  CAR_FEATURES:"/features",
+  TICKETS:"/tickets",
+  TICKET_ClOSE:"/close",
+  TECH_ASSISTANCE:"/techAssistance",
+  AD_ASSISTANCE:"/advhAssistance",
 };
