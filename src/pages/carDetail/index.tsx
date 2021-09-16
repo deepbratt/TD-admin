@@ -47,7 +47,8 @@ const CarDetail = () => {
     setDeleteDialog,
     sellDialog,
     setSellDialog,
-    isSold
+    isSold,
+    carFeatures
   } = useCarDetails();
   const history = useHistory();
   return (
@@ -81,7 +82,7 @@ const CarDetail = () => {
             <Grid item xs={12}>
               <Typography variant="h4">{FEATURES}</Typography>
               <Grid container spacing={1} style={{ marginTop: 5 }}>
-                {result.features.map((feature: string, index: any) => (
+                {carFeatures.map((feature: any, index: any) => (
                   <Grid
                     item
                     xs={12}
@@ -93,9 +94,9 @@ const CarDetail = () => {
                     }}
                     key={"car-features-" + index}
                   >
-                    <img src={tyreIcon} alt="" width="15px" />
+                    <img src={feature.image} alt="" width="15px" />
                     <Typography variant="body2" style={{ marginLeft: 5 }}>
-                      {feature}
+                      {feature.name}
                     </Typography>
                   </Grid>
                 ))}

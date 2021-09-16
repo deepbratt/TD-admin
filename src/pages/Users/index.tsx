@@ -26,6 +26,7 @@ import useUsers from "./useUsers";
 const Users = () => {
   const {
     result,
+    setResult,
     isLoading,
     toastMessage,
     toastOpen,
@@ -101,7 +102,7 @@ const Users = () => {
           </TableHead>
           <TableBody>
             {result.map((row: any, index: number) => (
-              <TableRowComponent data={row} key={row._id + index} />
+              <TableRowComponent data={row} key={row._id + index} resultArray={result} setResultArray={setResult}/>
             ))}
           </TableBody>
         </Table>
@@ -121,7 +122,7 @@ const Users = () => {
           />
         </Grid>
       </Grid>
-      <UserDialog open={openAddDialog} setOpen={setOpenAddDialog} disableRole update={false} id="" setUpdate={()=>null} />
+      <UserDialog refresh={()=>getUsers(1)} open={openAddDialog} setOpen={setOpenAddDialog} disableRole update={false} id="" setUpdate={()=>null} />
       <Loader open={isLoading} isBackdrop={true} />
       <Toast
         onClose={() => setToastOpen(false)}

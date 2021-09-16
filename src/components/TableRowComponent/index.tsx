@@ -21,7 +21,13 @@ import Toast from "../Toast";
 import styles from "./styles";
 import useTableRowComponent from "./useTableRowComponent";
 
-const TableRowComponent = ({ data }: any) => {
+interface TableRowComponentProps {
+  data: any,
+  resultArray: Array<any>
+  setResultArray: React.Dispatch<React.SetStateAction<any[]>>
+}
+
+const TableRowComponent = ({ data, resultArray, setResultArray }: TableRowComponentProps) => {
   const {
     isActive,
     toggleActive,
@@ -35,7 +41,7 @@ const TableRowComponent = ({ data }: any) => {
     isLoading,
     deleteDialog,
     setDeleteDialog,
-  } = useTableRowComponent(data);
+  } = useTableRowComponent(data, resultArray, setResultArray);
   const row = data;
   const classes = styles();
   const history = useHistory()

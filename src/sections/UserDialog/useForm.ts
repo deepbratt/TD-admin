@@ -16,7 +16,8 @@ const initialValues: any = {
 export const useForm = (
   validateOnChange = false,
   setOpen: Function,
-  setUpdate: Function
+  setUpdate: Function,
+  refresh?: ()=>void
 ) => {
   const [values, setValues] = useState(initialValues);
   const [alertOpen, setAlertOpen] = useState(false);
@@ -99,6 +100,9 @@ export const useForm = (
               status: response.data.status,
               message: response.data.message,
             });
+            if(refresh){
+              refresh()
+            }
           } else {
             setAlertOpen(true);
             setResponseMessage({

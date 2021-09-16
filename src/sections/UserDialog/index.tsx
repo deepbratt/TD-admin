@@ -28,6 +28,7 @@ interface IUserProps {
   update?: boolean;
   disableRole?:boolean
   id: string;
+  refresh?: ()=>void
 }
 
 const roles = [
@@ -52,6 +53,7 @@ const UserDialog: React.FC<IUserProps> = ({
   update = false,
   disableRole= false,
   id,
+  refresh
 }) => {
   const {
     values,
@@ -65,7 +67,7 @@ const UserDialog: React.FC<IUserProps> = ({
     setAlertOpen,
     handleClose,
     getUserData,
-  } = useForm(false, setOpen, setUpdate);
+  } = useForm(false, setOpen, setUpdate, refresh);
 
   const handleAlertClose = (
     event: React.SyntheticEvent | React.MouseEvent,

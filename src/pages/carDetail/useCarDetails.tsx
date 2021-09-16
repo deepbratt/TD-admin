@@ -89,10 +89,57 @@ const useCarDetails = () => {
   const [detail, setDetail] = useState<Array<any>>([]);
   const [seller, setSeller] = useState<Array<any>>([]);
   const [specs, setSpecs] = useState<Array<any>>([]);
+  const [featuresArray, setFeaturesArray] = useState<Array<any>>([]);
+  const [bodyTypesArray, setBodyTypesArray] = useState<Array<any>>([]);
+  const [carFeatures, setCarFeatures] = useState<Array<any>>([]);
 
   // functions
+  const getFeaturesAndBodyTypes = () => {
+    getData(
+      `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.CAR_FEATURES}`
+    )
+      .then((response) => {
+        if (response && response.data && response.data.status === "success") {
+          let result = response.data.data.result;
+          // let featureName = result.map((el: any) => el.name);
+          setFeaturesArray(result);
+        } else {
+          let msg = response.response
+            ? response.response
+            : response.message
+            ? response.message
+            : "Network Error";
+          setToastMessage(msg);
+          setToastType("error");
+          setToastOpen(true);
+        }
+      })
+      .then(() => setIsLoading(false));
+    getData(
+      `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.BODY_TYPES}`
+    )
+      .then((response) => {
+        if (response && response.data && response.data.status === "success") {
+          let result = response.data.data.result;
+          let bodyTypesName = result.map((el: any) => el.bodyType);
+          setBodyTypesArray(bodyTypesName);
+        } else {
+          let msg = response.response
+            ? response.response
+            : response.message
+            ? response.message
+            : "Network Error";
+          setToastMessage(msg);
+          setToastType("error");
+          setToastOpen(true);
+        }
+      })
+      .then(() => setIsLoading(false));
+  };
+
   const getCarDetail = () => {
     setIsLoading(true);
+    getFeaturesAndBodyTypes()
     let endpoint = `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}/${id}`;
     getData(endpoint)
       .then((response: any) => {
@@ -224,10 +271,22 @@ const useCarDetails = () => {
     );
   };
 
+  const makeFeatureArray = () =>{
+    let temp : Array<any> = []
+    temp = featuresArray.filter((item:any)=> result.features.some((el:any)=>item.name===el))
+    setCarFeatures(temp)
+  }
+
   //   useEffects
   useEffect(() => {
     getCarDetail();
   }, []);
+
+  useEffect(()=>{
+    if(featuresArray.length > 0 && result){
+      makeFeatureArray()
+    }
+  },[featuresArray, result])
 
   //   return
   return {
@@ -252,7 +311,10 @@ const useCarDetails = () => {
     deleteDialog,
     setSellDialog,
     sellDialog,
-    isSold
+    isSold,
+    featuresArray,
+    bodyTypesArray,
+    carFeatures
   };
 };
 
