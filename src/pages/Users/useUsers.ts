@@ -23,7 +23,7 @@ const useUsers = () => {
   const [toastOpen, setToastOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
-  const [result, setResult] = useState([]);
+  const [result, setResult] = useState<Array<any>>([]);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
   const [keywords, setKeywords] = useState("");
@@ -81,6 +81,7 @@ const useUsers = () => {
   return {
     data,
     result,
+    setResult,
     page,
     isLoading,
     toastMessage,

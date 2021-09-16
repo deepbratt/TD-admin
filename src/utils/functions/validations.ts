@@ -4,7 +4,16 @@ import {
   isNameValid,
   isPasswordValid,
   isPhoneValid,
+  isRoleValid,
 } from "../regex";
+
+export const validateRole = (fieldValue: string) => {
+    return fieldValue.trim() === ""
+    ? messages.isRequired
+    : isRoleValid(fieldValue)
+    ? ""
+    : messages.notValid;
+}
 
 export const validateEmail = (fieldValue: string) => {
     return fieldValue.trim() === ""

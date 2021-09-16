@@ -26,3 +26,11 @@ export const isEmailValid = (email: string) => {
 export const isPasswordValid = (password: string) => {
   return regPass.test(password);
 };
+
+export const isRoleValid = (role: string) => {
+  let roles = ['user', "admin", "moderator"]
+  if(roles.indexOf(role.toLowerCase()) > -1){
+    return true
+  }
+  return false;
+};

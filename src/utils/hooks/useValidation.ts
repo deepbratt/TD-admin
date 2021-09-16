@@ -7,12 +7,17 @@ import {
   validatePhone,
   validateConfirmPassword,
   validateData,
+  validateRole,
 } from "../functions/validations";
 
 const useValidation = (values: any) => {
   const [errors, setErrors] = useState(values);
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
+
+    if(fieldNames.role in fieldValues){
+      temp.role = validateRole(fieldValues.role)
+    }
 
     if (fieldNames.email in fieldValues) {
       temp.email = validateEmail(fieldValues.email);
@@ -46,7 +51,6 @@ const useValidation = (values: any) => {
     setErrors({
       ...temp,
     });
-
     if (fieldValues === values)
       return Object.values(temp).every((x) => x === "");
   };

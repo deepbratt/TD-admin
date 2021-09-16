@@ -1,4 +1,4 @@
-import addEditCarData from "../../utils/constants/language/en/addEditCarData";
+import addEditCarData from "../../../utils/constants/language/en/addEditCarData";
 import {
   Checkbox,
   createStyles,
@@ -9,13 +9,16 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
-import SelectComponent from "../../components/SelectComponent";
+import SelectComponent from "../../../components/SelectComponent";
+import useCarAdditionalInformation from "./useCarAdditionalInformation";
 
 interface CarAdditionalInformationProps {
   formData: any;
   handleChange: (event: any) => void;
   requireError: any;
   setFormData: React.Dispatch<any>;
+  bodyTypesArray: Array<string>
+  featuresArray: Array<string>
 }
 
 const CarAdditionalInformation = ({
@@ -23,25 +26,14 @@ const CarAdditionalInformation = ({
   handleChange,
   requireError,
   setFormData,
+  featuresArray,
+  bodyTypesArray
 }: CarAdditionalInformationProps) => {
   const classes = useStyles();
-
+  const {handleChangeCheckBoxes} = useCarAdditionalInformation(formData, setFormData)
   // const onlyUnique = (value: string, index:number, self: Array<string>)=> {
   //   return self.indexOf(value) === index;
   // }
-
-  const handleChangeCheckBoxes = (e: any) => {
-    let temp = formData.features;
-    if (e.target.checked) {
-      temp.push(e.target.name);
-    } else {
-      temp = temp.filter((item: string) => item !== e.target.name);
-    }
-    // console.log(e.target.name)
-    setFormData({ name: "features", value: temp });
-    // setFormData({ name: arrayName, value: temp });
-    console.log(temp);
-  };
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} sm={12} md={6}>
@@ -106,7 +98,7 @@ const CarAdditionalInformation = ({
       </Grid>
       <Grid item xs={12} sm={12} md={6}>
         <SelectComponent
-          menuItem={addEditCarData.fields.bodyType.menu}
+          menuItem={bodyTypesArray}
           name={"bodyType"}
           className={classes.selectFields}
           value={formData.bodyType}
@@ -155,7 +147,7 @@ const CarAdditionalInformation = ({
             Features
           </Typography>
         </Grid>
-        {addEditCarData.features.map((feature: string, index: number) => (
+        {featuresArray.map((feature: string, index: number) => (
           <Grid item xs={12} sm={6} md={4} style={{ display: "flex" }} key={'cai-features'+index}>
             <FormControlLabel
               control={

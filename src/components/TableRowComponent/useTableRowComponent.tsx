@@ -2,7 +2,7 @@ import { useState } from "react";
 import { deleteData, updateData } from "../../utils/API/APIs";
 import { API_ENDPOINTS } from "../../utils/API/endpoints";
 
-const useTableRowComponent = (data: any) => {
+const useTableRowComponent = (data: any, resultArray: Array<any>, setResultArray: React.Dispatch<React.SetStateAction<any[]>>) => {
   const [isBanned, setIsBanned] = useState(data.banned);
   const [isActive, setIsActive] = useState(data.active);
   const [deleteDialog, setDeleteDialog] = useState(false);
@@ -62,6 +62,9 @@ const useTableRowComponent = (data: any) => {
         if (response && response.data && response.data.status === "success") {
           setToastMessage(response.data.message);
           setToastType("success");
+          let temp = resultArray
+          temp = temp.filter((x:any)=>x._id!==data._id)
+          setResultArray(temp)
         } else {
           console.log(response);
           setToastMessage(response.message);
