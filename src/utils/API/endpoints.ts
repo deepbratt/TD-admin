@@ -25,6 +25,7 @@ export const API_ENDPOINTS = {
   UPDATE_VERSION:"/update-versions",
   REMOVE_VERSION:"/remove-versions",
   MODEL_VERSIONS: "/versions?model_id=",
+  CAR_COLOR: "/colors",
   VERSION: "/versions",
   USER_PASSWORD:"/updateUserPassword",
   OWNERS:"/owners-list",
