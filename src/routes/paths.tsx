@@ -12,6 +12,7 @@ const CarMakes = lazy(() => import("../pages/CarMakes"));
 const CarModels = lazy(() => import("../pages/CarModels"));
 const CarVersions = lazy(() => import("../pages/CarVersions"));
 const CarBodyTypes = lazy(() => import("../pages/CarBodyTypes"));
+const CarColors = lazy(() => import("../pages/CarColors"));
 const CarFeatures = lazy(() => import("../pages/CarFeatures"));
 const Tickets = lazy(() => import("../pages/Tickets"));
 
@@ -28,6 +29,7 @@ export const paths = {
   editCar: "/edit/car/",
   clientUsers: "/users",
   userDetail:"/user",
+  carColor:"/car-color",
   carMakes:"/car-makes",
   carModel:"/car-models/:id",
   carVersions:"/car-versions/:id",
@@ -48,6 +50,7 @@ export const routes = {
   editCar: "/edit/car/:id?",
   clientUsers:"/users",
   userDetail:"/user/:id?",
+  carColor:"/car-color",
   carMakes:"/car-makes",
   carModels:"/car-models/:id",
   carVersions:"/car-versions/:id",
@@ -121,6 +124,11 @@ export const privateRoutes = {
     name: "Car Versions",
     path: routes.carVersions,
     component: CarVersions,
+  },
+  [paths.carColor]: {
+    name: "Car Colors",
+    path: routes.carColor,
+    component: CarColors,
   },
   [paths.carBodyTypes]: {
     name: "Car Body Types",

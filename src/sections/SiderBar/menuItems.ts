@@ -8,7 +8,7 @@ import GamepadRoundedIcon from "@material-ui/icons/GamepadRounded";
 import { paths } from "../../routes/paths";
 import { SvgIconTypeMap } from "@material-ui/core";
 import { OverridableComponent } from "@material-ui/core/OverridableComponent";
-import { Commute, ContactSupport } from "@material-ui/icons";
+import { Commute, ContactSupport, FormatColorFill } from "@material-ui/icons";
 
 export interface IMenuItem {
   icon: OverridableComponent<SvgIconTypeMap<{}, "svg">>;
@@ -28,5 +28,6 @@ export const MenuItems: IMenuItem[] = [
   { icon: DriveEtaRoundedIcon, link: paths.carMakes, text: "Car Makes" },
   { icon: GamepadRoundedIcon, link: paths.carFeatures, text: "Car Features" },
   { icon: Commute, link: paths.carBodyTypes, text: "Car Body Types" },
+  { icon: FormatColorFill, link: paths.carColor, text: "Car Colors" },
   { icon: ContactSupport, link: paths.customerSupport, text: "Tickets" },
 ];
