@@ -1,6 +1,8 @@
 import { lazy } from "react";
 const Home = lazy(() => import("../pages/home"));
 const Login = lazy(() => import("../pages/login"));
+const ForgotPassword = lazy(() => import("../pages/forgetPassword"));
+const ResetPassword = lazy(() => import("../pages/resetPassword"));
 const AdminUsers = lazy(() => import("../pages/adminUsers"));
 const Settings = lazy(() => import("../pages/settings"));
 const Advertisements = lazy(() => import("../pages/advertisements"));
@@ -22,18 +24,19 @@ export const paths = {
   login: "/login",
   setting: "/settings",
   forgotPassword: "/forgot-password",
+  resetPassword: "/reset-password",
   adverstisements: "/advertisements",
   carDetail: "/car/:id",
   addCar: "/add/car/",
   editCar: "/edit/car/",
   clientUsers: "/users",
-  userDetail:"/user",
-  carMakes:"/car-makes",
-  carModel:"/car-models/:id",
-  carVersions:"/car-versions/:id",
-  carBodyTypes:"/car-body-types/",
-  carFeatures:"/car-features/",
-  customerSupport:"/tickets/"
+  userDetail: "/user",
+  carMakes: "/car-makes",
+  carModel: "/car-models/:id",
+  carVersions: "/car-versions/:id",
+  carBodyTypes: "/car-body-types/",
+  carFeatures: "/car-features/",
+  customerSupport: "/tickets/",
 };
 
 export const routes = {
@@ -41,19 +44,21 @@ export const routes = {
   dashboard: "/dashboard",
   admin: "/admin",
   login: "/login",
+  forgotPassword: "/forgot-password/:token?",
+  resetPassword: "/reset-password",
   setting: "/settings/:id?",
   advertisements: "/advertisements",
   carDetail: "/car/:id",
   addCar: "/add/car/:userId?",
   editCar: "/edit/car/:id?",
-  clientUsers:"/users",
-  userDetail:"/user/:id?",
-  carMakes:"/car-makes",
-  carModels:"/car-models/:id",
-  carVersions:"/car-versions/:id",
-  carBodyTypes:"/car-body-types/",
-  carFeatures:"/car-features/",
-  customerSupport:"/tickets",
+  clientUsers: "/users",
+  userDetail: "/user/:id?",
+  carMakes: "/car-makes",
+  carModels: "/car-models/:id",
+  carVersions: "/car-versions/:id",
+  carBodyTypes: "/car-body-types/",
+  carFeatures: "/car-features/",
+  customerSupport: "/tickets",
 };
 
 export const privateRoutes = {
@@ -144,5 +149,15 @@ export const publicRoutes = {
     name: "Login",
     path: routes.login,
     component: Login,
+  },
+  [paths.forgotPassword]: {
+    name: "Forgot Password",
+    path: routes.forgotPassword,
+    component: ForgotPassword,
+  },
+  [paths.resetPassword]: {
+    name: "Reset Password",
+    path: routes.resetPassword,
+    component: ResetPassword,
   },
 };
