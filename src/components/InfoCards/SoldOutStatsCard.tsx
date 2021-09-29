@@ -7,7 +7,6 @@ import {
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { IStats } from "../../pages/home";
 
 const SoldOutStatsCardtyles = makeStyles((theme) => ({
   totalStyles: {
@@ -26,10 +25,23 @@ const SoldOutStatsCardtyles = makeStyles((theme) => ({
   },
 }));
 
+export interface IData {
+  total: {
+    totalCars: number;
+    totalSold: number;
+    percentage: number;
+  };
+  monthly: {
+    totalCars: number;
+    totalSoldThisMonth: number;
+    percentage: number;
+  };
+}
+
 interface ISoldOutStatsCardProps {
   header: string;
   icon: any;
-  data: IStats;
+  data: IData;
 }
 
 const SoldOutStatsCard: React.FC<ISoldOutStatsCardProps> = ({
@@ -54,7 +66,10 @@ const SoldOutStatsCard: React.FC<ISoldOutStatsCardProps> = ({
                 color="primary"
                 gutterBottom
               >
-                {data.total} %
+                {data.total.totalSold}
+              </Typography>
+              <Typography variant="caption" color="primary" gutterBottom>
+                {data.total.percentage} %
               </Typography>
             </Grid>
             <Grid item container xs={6} justifyContent="center">
@@ -73,17 +88,44 @@ const SoldOutStatsCard: React.FC<ISoldOutStatsCardProps> = ({
       <Grid container>
         <Grid className={bottomItems} item container xs={12}>
           <Grid item container xs={12} alignItems="center">
-            <Typography variant="body1" color="secondary" gutterBottom>
-              This Month -
-            </Typography>
-            <Typography
-              className={valuesMargin}
-              variant="body1"
-              color="primary"
-              gutterBottom
+            <Grid
+              item
+              container
+              xs={6}
+              justifyContent="center"
+              alignItems="center"
             >
-              {data.monthly} %
-            </Typography>
+              <Typography variant="body1" color="secondary" gutterBottom>
+                This Month -
+              </Typography>
+              <Typography
+                className={valuesMargin}
+                variant="body1"
+                color="primary"
+                gutterBottom
+              >
+                {data.monthly.percentage} %
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              container
+              xs={6}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Typography variant="body1" color="secondary" gutterBottom>
+                This Month -
+              </Typography>
+              <Typography
+                className={valuesMargin}
+                variant="body1"
+                color="primary"
+                gutterBottom
+              >
+                {data.monthly.totalSoldThisMonth}
+              </Typography>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
