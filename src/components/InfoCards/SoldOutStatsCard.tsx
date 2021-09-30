@@ -55,7 +55,7 @@ const SoldOutStatsCard: React.FC<ISoldOutStatsCardProps> = ({
     <Card>
       <CardContent className={contentRoot}>
         <Typography variant="h3" gutterBottom>
-          {header}
+          {`${header} (${data.total.percentage} %)`}
         </Typography>
         <Grid container>
           <Grid item container xs={12}>
@@ -67,9 +67,6 @@ const SoldOutStatsCard: React.FC<ISoldOutStatsCardProps> = ({
                 gutterBottom
               >
                 {data.total.totalSold}
-              </Typography>
-              <Typography variant="caption" color="primary" gutterBottom>
-                {data.total.percentage} %
               </Typography>
             </Grid>
             <Grid item container xs={6} justifyContent="center">
@@ -88,44 +85,17 @@ const SoldOutStatsCard: React.FC<ISoldOutStatsCardProps> = ({
       <Grid container>
         <Grid className={bottomItems} item container xs={12}>
           <Grid item container xs={12} alignItems="center">
-            <Grid
-              item
-              container
-              xs={6}
-              justifyContent="center"
-              alignItems="center"
+            <Typography variant="body1" color="secondary" gutterBottom>
+              This Month -
+            </Typography>
+            <Typography
+              className={valuesMargin}
+              variant="body1"
+              color="primary"
+              gutterBottom
             >
-              <Typography variant="body1" color="secondary" gutterBottom>
-                This Month -
-              </Typography>
-              <Typography
-                className={valuesMargin}
-                variant="body1"
-                color="primary"
-                gutterBottom
-              >
-                {data.monthly.percentage} %
-              </Typography>
-            </Grid>
-            <Grid
-              item
-              container
-              xs={6}
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Typography variant="body1" color="secondary" gutterBottom>
-                This Month -
-              </Typography>
-              <Typography
-                className={valuesMargin}
-                variant="body1"
-                color="primary"
-                gutterBottom
-              >
-                {data.monthly.totalSoldThisMonth}
-              </Typography>
-            </Grid>
+              {`${data.monthly.totalSoldThisMonth} (${data.monthly.percentage} %)`}
+            </Typography>
           </Grid>
         </Grid>
       </Grid>
