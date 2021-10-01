@@ -22,13 +22,27 @@ export interface IMostViewedStats {
   make: string;
 }
 export interface ISoldOutStats {
-  monthly: {
-    percentage: number;
-    totalCars: number;
-  };
   total: {
-    percentage: number;
     totalCars: number;
+    totalSold: number;
+    percentage: number;
+  };
+  monthly: {
+    totalCars: number;
+    totalSoldThisMonth: number;
+    percentage: number;
+  };
+}
+export interface ISoldOuOnPlatformStats {
+  total: {
+    totalCars: number;
+    totalSoldByPlatform: number;
+    percentage: number;
+  };
+  monthly: {
+    totalCars: number;
+    totalSoldByPlatformThisMonth: number;
+    percentage: number;
   };
 }
 
@@ -55,21 +69,25 @@ const Home = () => {
   const [carSoldStats, setCarsSoldStats] = useState<ISoldOutStats>({
     monthly: {
       totalCars: 0,
+      totalSoldThisMonth: 0,
       percentage: 100,
     },
     total: {
       totalCars: 0,
+      totalSold: 0,
       percentage: 100,
     },
   });
   const [carSoldOnTezDealzStats, setCarSoldOnTezDealzStats] =
-    useState<ISoldOutStats>({
+    useState<ISoldOuOnPlatformStats>({
       monthly: {
         totalCars: 0,
+        totalSoldByPlatformThisMonth: 0,
         percentage: 100,
       },
       total: {
         totalCars: 0,
+        totalSoldByPlatform: 0,
         percentage: 100,
       },
     });
@@ -167,8 +185,16 @@ const Home = () => {
     header: "Total No. of  Sold Out Car",
     icon: <AttachMoneyIcon style={{ fontSize: "50px" }} />,
     data: {
-      monthly: carSoldStats.monthly.percentage,
-      total: carSoldStats.total.percentage,
+      monthly: {
+        percentage: carSoldStats.monthly.percentage,
+        totalSoldThisMonth: carSoldStats.monthly.totalSoldThisMonth,
+        totalCars: carSoldStats.monthly.totalCars,
+      },
+      total: {
+        percentage: carSoldStats.total.percentage,
+        totalSold: carSoldStats.total.totalSold,
+        totalCars: carSoldStats.total.totalCars,
+      },
     },
   };
 
@@ -176,8 +202,17 @@ const Home = () => {
     header: "Total No. Of Sold Out Car On Tezdeals",
     icon: <MoneyIcon style={{ fontSize: "50px" }} />,
     data: {
-      monthly: carSoldOnTezDealzStats.monthly.percentage,
-      total: carSoldOnTezDealzStats.total.percentage,
+      monthly: {
+        percentage: carSoldOnTezDealzStats.monthly.percentage,
+        totalSoldThisMonth:
+          carSoldOnTezDealzStats.monthly.totalSoldByPlatformThisMonth,
+        totalCars: carSoldOnTezDealzStats.monthly.totalCars,
+      },
+      total: {
+        percentage: carSoldOnTezDealzStats.total.percentage,
+        totalSold: carSoldOnTezDealzStats.total.totalSoldByPlatform,
+        totalCars: carSoldOnTezDealzStats.total.totalCars,
+      },
     },
   };
 
