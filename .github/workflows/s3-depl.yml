@@ -27,3 +27,6 @@ jobs:
       - name: Deploy app build to Production S3 bucket
         if: github.ref == 'refs/heads/production'
         run: aws s3 sync ./build/ s3://admin.tezdealz.com --delete
+      - name: CDN Cache invalidation
+        if: github.ref == 'refs/heads/develop'
+        run:  aws cloudfront create-invalidation --distribution-id "E32UBBOC6SS1J3" --paths "/*"
