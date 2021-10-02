@@ -34,7 +34,7 @@ const CarFeaturess = () => {
   return (
     <SecondaryLayout>
       <Grid container>
-        <PageHeader heading="Car Body Types">
+        <PageHeader heading="Car Features">
           <Button
             endIcon={<Add />}
             variant="contained"
