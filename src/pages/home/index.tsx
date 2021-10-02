@@ -182,7 +182,7 @@ const Home = () => {
   };
 
   let carsSoldOutCardProps = {
-    header: "Total No. of  Sold Out Car",
+    header: "Total No. of Sold Car",
     icon: <AttachMoneyIcon style={{ fontSize: "50px" }} />,
     data: {
       monthly: {
@@ -199,7 +199,7 @@ const Home = () => {
   };
 
   let carsSoldOutOnTezDealzProps = {
-    header: "Total No. Of Sold Out Car On Tezdeals",
+    header: "Total No. Of Sold Car On Tezdeals",
     icon: <MoneyIcon style={{ fontSize: "50px" }} />,
     data: {
       monthly: {

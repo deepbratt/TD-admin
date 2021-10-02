@@ -12,7 +12,7 @@ export interface CodeVerficationProps {
   pin: any;
 }
 
-export const regex = /^[ A-Za-z0-9_@./#&+-]*$/
+export const regex = /^[ A-Za-z0-9_@./#&+-]*$/;
 
 export const pinStyle = {
   borderColor: Colors.navyBlue,
@@ -44,12 +44,19 @@ const CodeVerfication: React.FC<CodeVerficationProps> = ({ pin, setPin }) => {
 
   return (
     <Grid container justifyContent="center" direction="column">
-      <Grid item style={{ display: "flex", justifyContent: "center" }}>
+      <Grid
+        item
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: "column",
+        }}
+      >
         <PinInput
           length={4}
           onChange={(pin: string) => setPin(pin)}
           inputMode="numeric"
-          style={{ padding: "10px", marginBottom: "10px" }}
+          style={{ padding: "5px", marginBottom: "10px" }}
           inputStyle={err ? pinStyle : err}
           autoSelect={true}
           regexCriteria={regex}
