@@ -11,7 +11,7 @@ const Routes = () => {
 
   return (
     <Suspense fallback={<Loader open={true} isBackdrop={true} />}>
-      <Router>
+      <Router basename="/">
         <Switch>
           {_privateRoutes.map((route) => (
             <PrivateRoutes
