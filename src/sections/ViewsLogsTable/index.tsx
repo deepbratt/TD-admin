@@ -120,14 +120,14 @@ export const Row: React.FC<IViewsLogsTableRowProps> = ({
         {make + " " + model + " (" + modelYear + ")"}
       </TableCell>
       <TableCell>{new Date(clickedDate).toLocaleDateString("en-US")}</TableCell>
-      <TableCell align="center">
+      {/* <TableCell align="center">
         <IconButton onClick={() => handleUpdate(_id)}>
           <EditRounded color="primary" />
         </IconButton>
         <IconButton onClick={() => handleDelete(_id)}>
           <DeleteRounded style={{ color: "#C20000" }} />
         </IconButton>
-      </TableCell>
+      </TableCell> */}
     </TableRow>
   );
 };
@@ -186,7 +186,7 @@ const ViewsLogsTable: React.FC<IViewsLogsTableProps> = ({
             <TableCell>{BUYER_PHONE}</TableCell>
             <TableCell>{AD_CLICKED}</TableCell>
             <TableCell>{CLICKED_DATE}</TableCell>
-            <TableCell align="center">{ACTION}</TableCell>
+            {/* <TableCell align="center">{ACTION}</TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -194,7 +194,7 @@ const ViewsLogsTable: React.FC<IViewsLogsTableProps> = ({
             <>
               {[...Array(rowsPerPage)].map((item, index) => (
                 <TableRow key={index}>
-                  {[...Array(6)].map((item, index) => (
+                  {[...Array(5)].map((item, index) => (
                     <TableCell key={index}>
                       <Skeleton variant="rect" width="100%" />
                     </TableCell>
