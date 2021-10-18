@@ -1,5 +1,6 @@
 {
   "name": "tdw-adminui",
+  "homepage": "https://admin.tezdealz.com/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
