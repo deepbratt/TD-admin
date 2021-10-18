@@ -1,4 +1,6 @@
 import { lazy } from "react";
+import Appointments from "../pages/appointments";
+import AdsViewsLogs from "../pages/adsViewsLogs";
 const Home = lazy(() => import("../pages/home"));
 const Login = lazy(() => import("../pages/login"));
 const ForgotPassword = lazy(() => import("../pages/forgetPassword"));
@@ -27,7 +29,9 @@ export const paths = {
   forgotPassword: "/forgot-password",
   resetPassword: "/reset-password",
   adverstisements: "/advertisements",
-  carDetail: "/car/:id",
+  appointments: "/appointments",
+  adsViewsLogs: "/ads-views-logs",
+  carDetail: "/car",
   addCar: "/add/car/",
   editCar: "/edit/car/",
   clientUsers: "/users",
@@ -50,6 +54,8 @@ export const routes = {
   resetPassword: "/reset-password",
   setting: "/settings/:id?",
   advertisements: "/advertisements",
+  appointments: "/appointments",
+  adsViewsLogs: "/ads-views-logs",
   carDetail: "/car/:id",
   addCar: "/add/car/:userId?",
   editCar: "/edit/car/:id?",
@@ -84,6 +90,16 @@ export const privateRoutes = {
     name: "Advertisements",
     path: routes.advertisements,
     component: Advertisements,
+  },
+  [paths.appointments]: {
+    name: "Appointments",
+    path: routes.appointments,
+    component: Appointments,
+  },
+  [paths.adsViewsLogs]: {
+    name: "Ads Views Logs",
+    path: routes.adsViewsLogs,
+    component: AdsViewsLogs,
   },
   [paths.carDetail]: {
     name: "Car Detail",

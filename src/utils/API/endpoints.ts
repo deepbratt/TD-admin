@@ -38,4 +38,6 @@ export const API_ENDPOINTS = {
   AD_ASSISTANCE: "/advhAssistance",
   FORGOT_PASSWORD: "/forgot-password-admin",
   RESET_PASSWORD: "/reset-password-admin",
+  APPOINTMENTS: "/appointments",
+  ADS_VIEWS_LOGS: "/show-number"
 };
