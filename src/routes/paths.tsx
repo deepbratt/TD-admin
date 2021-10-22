@@ -55,7 +55,7 @@ export const routes = {
   setting: "/settings/:id?",
   advertisements: "/advertisements",
   appointments: "/appointments",
-  adsViewsLogs: "/ads-views-logs",
+  adsViewsLogs: "/ads-views-logs/:id?",
   carDetail: "/car/:id",
   addCar: "/add/car/:userId?",
   editCar: "/edit/car/:id?",

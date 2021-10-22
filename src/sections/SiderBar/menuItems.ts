@@ -4,7 +4,7 @@ import DomainRoundedIcon from "@material-ui/icons/DomainRounded";
 import SupervisorAccountRoundedIcon from "@material-ui/icons/SupervisorAccountRounded";
 import DriveEtaRoundedIcon from "@material-ui/icons/DriveEtaRounded";
 import GamepadRoundedIcon from "@material-ui/icons/GamepadRounded";
-import EventAvailableIcon from '@material-ui/icons/EventAvailable';
+// import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 import BookRoundedIcon from '@material-ui/icons/BookRounded';
 import { paths } from "../../routes/paths";
 import { SvgIconTypeMap } from "@material-ui/core";

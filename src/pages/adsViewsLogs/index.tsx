@@ -1,17 +1,14 @@
 import { useState, useEffect } from "react";
 import { Grid, Typography } from "@material-ui/core";
-import CustomButton from "../../components/CustomButton";
-import UserDialog from "../../sections/UserDialog";
-import AdminTable from "../../sections/AdminTable";
 import { deleteData, getData } from "../../utils/API/APIs";
 import { API_ENDPOINTS } from "../../utils/API/endpoints";
 import {
-  AD,
-  USER,
-  MANAGE_ADS_VIEWS_LOGS,
+  MANAGE_ALL_ADS_VIEWS_LOGS,
+  MANAGE_SELECTED_ADS_VIEWS_LOGS,
 } from "../../utils/constants/language/en/buttonLabels";
 import Toast from "../../components/Toast";
 import ViewsLogsTable from "../../sections/ViewsLogsTable";
+import { useParams } from "react-router";
 
 export interface IViewsLogsTableRow {
   _id: string;
@@ -35,11 +32,11 @@ export interface IViewsLogsTableRow {
 }
 
 const AdsViewsLogs: React.FC = () => {
-  const { ADS, CARS, ADS_VIEWS_LOGS } = API_ENDPOINTS;
+  const { id } = useParams<{ id: string }>();
+  const { ADS, CARS, ADS_VIEWS_LOGS, ADS_VIEWS_LOGS_OF_SINGLE_AD } =
+    API_ENDPOINTS;
   const [open, setOpen] = useState(false);
   const [viewsLogs, setViewsLogs] = useState<IViewsLogsTableRow[]>();
-  const [userID, setUserID] = useState("");
-  const [update, setUpdate] = useState(false);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -79,52 +76,19 @@ const AdsViewsLogs: React.FC = () => {
     setAlertOpen(false);
   };
 
-  const handleUpdate = async (id: string) => {
-    setUpdate(true);
-    setUserID(id);
-    setOpen(true);
-  };
-
-  const handleDelete = async (id: string) => {
-    await deleteData(ADS + CARS + ADS_VIEWS_LOGS + "/" + id)
-      .then((response) => {
-        setIsLoading(false);
-        console.log("response", response);
-        if (response && response.data && response.data.status === "success") {
-          setAlertOpen(true);
-          setResponseMessage({
-            status: "success",
-            message: "User Deleted Successfully!",
-          });
-          getAdsViewsLogs();
-        } else {
-          setAlertOpen(true);
-          setResponseMessage({
-            status: "Error",
-            message: response.message,
-          });
-        }
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        setAlertOpen(true);
-        setResponseMessage({
-          status: "Error",
-          message: error.message,
-        });
-        console.log("Error", error);
-      });
-  };
-
   const getAdsViewsLogs = async () => {
     setIsLoading(true);
-    let params = "?";
+    let params = ADS_VIEWS_LOGS + "?";
     params = params + "limit=" + rowsPerPage;
     params = params + "&page=" + page;
     if (keywords !== "") {
       params = params + "&keyword=" + keywords;
     }
-    await getData(ADS + CARS + ADS_VIEWS_LOGS + params)
+    if (id) {
+      params = "";
+      params = ADS_VIEWS_LOGS + ADS_VIEWS_LOGS_OF_SINGLE_AD + "/" + id;
+    }
+    await getData(ADS + CARS + params)
       .then((response) => {
         setIsLoading(false);
         console.log("response", response);
@@ -152,20 +116,10 @@ const AdsViewsLogs: React.FC = () => {
         alignItems="center"
       >
         <Grid item xs={12} sm={9}>
-          <Typography variant="h3">{MANAGE_ADS_VIEWS_LOGS}</Typography>
+          <Typography variant="h3">
+            {id ? MANAGE_SELECTED_ADS_VIEWS_LOGS : MANAGE_ALL_ADS_VIEWS_LOGS}
+          </Typography>
         </Grid>
-        {/* <Grid container item xs={12} sm={3} justifyContent="flex-end">
-          <CustomButton color="secondary" onClick={() => setOpen(true)}>
-            {AD + " " + USER}
-          </CustomButton>
-          <UserDialog
-            open={open}
-            setOpen={setOpen}
-            id={userID}
-            update={update}
-            setUpdate={setUpdate}
-          />
-        </Grid> */}
       </Grid>
       <Grid item container xs={12}>
         <ViewsLogsTable
@@ -177,8 +131,6 @@ const AdsViewsLogs: React.FC = () => {
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
           handleSearchInputChange={handleSearchInputChange}
-          handleUpdate={handleUpdate}
-          handleDelete={handleDelete}
         />
       </Grid>
       {responseMessage.status !== "" && (

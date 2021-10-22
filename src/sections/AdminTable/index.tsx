@@ -28,6 +28,7 @@ import {
   PHONE,
   NOT_AVAILABLE,
   ROLE,
+  CANT_FIND_RESULT
 } from "../../utils/constants/language/en/buttonLabels";
 import SearchIcon from "@material-ui/icons/Search";
 import { IUserTableRow } from "../../pages/adminUsers";
@@ -200,6 +201,15 @@ const AdminTable: React.FC<IUserTableProps> = ({
           )}
         </TableBody>
       </Table>
+      {data && !(data.length > 0) && (
+        <Typography
+          style={{ width: "100%", margin: "20px 0" }}
+          align="center"
+          variant="h2"
+        >
+          {CANT_FIND_RESULT}
+        </Typography>
+      )}
       {data && (
         <>
           <TablePagination

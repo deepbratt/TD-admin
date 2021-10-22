@@ -29,6 +29,7 @@ import {
   CLICKED_DATE,
   AD_CLICKED,
   BUYER_PHONE,
+  CANT_FIND_RESULT,
 } from "../../utils/constants/language/en/buttonLabels";
 import SearchIcon from "@material-ui/icons/Search";
 import { IViewsLogsTableRow } from "../../pages/adsViewsLogs";
@@ -36,6 +37,7 @@ import { Skeleton } from "@material-ui/lab";
 import { DeleteRounded, EditRounded } from "@material-ui/icons";
 import { useHistory } from "react-router";
 import { paths } from "../../routes/paths";
+import { Colors } from "../../theme/themeConstants";
 
 const TableStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -86,20 +88,22 @@ const TableStyles = makeStyles((theme: Theme) =>
       },
       color: theme.palette.common.white,
     },
+    links: {
+      cursor: "pointer",
+      color: theme.palette.primary.main,
+      "&:hover": {
+        textDecoration: "underline",
+      },
+    },
   })
 );
 
 interface IViewsLogsTableRowProps {
   data: IViewsLogsTableRow;
-  handleUpdate: (_id: string) => void;
-  handleDelete: (_id: string) => void;
 }
 
-export const Row: React.FC<IViewsLogsTableRowProps> = ({
-  handleUpdate,
-  handleDelete,
-  data,
-}) => {
+export const Row: React.FC<IViewsLogsTableRowProps> = ({ data }) => {
+  const { links } = TableStyles();
   const history = useHistory();
   const { buyer_details, car_details, clickedDate, _id } = data;
   const { firstName, lastName, phone } = buyer_details;
@@ -107,14 +111,14 @@ export const Row: React.FC<IViewsLogsTableRowProps> = ({
   return (
     <TableRow>
       <TableCell
-        style={{ cursor: "pointer" }}
+        classes={{ body: links }}
         onClick={() => history.push(paths.userDetail + "/" + buyer_details._id)}
       >
         {firstName + " " + lastName}
       </TableCell>
       <TableCell>{phone ? phone : NOT_AVAILABLE}</TableCell>
       <TableCell
-        style={{ cursor: "pointer" }}
+        classes={{ body: links }}
         onClick={() => history.push(paths.carDetail + "/" + car_details._id)}
       >
         {make + " " + model + " (" + modelYear + ")"}
@@ -141,8 +145,6 @@ interface IViewsLogsTableProps {
   handleChangePage: (event: unknown, newPage: number) => void;
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleSearchInputChange: (e: any) => void;
-  handleUpdate: (_id: string) => void;
-  handleDelete: (_id: string) => void;
 }
 
 const ViewsLogsTable: React.FC<IViewsLogsTableProps> = ({
@@ -151,8 +153,6 @@ const ViewsLogsTable: React.FC<IViewsLogsTableProps> = ({
   page,
   rowsPerPage,
   keywords,
-  handleUpdate,
-  handleDelete,
   handleChangePage,
   handleChangeRowsPerPage,
   handleSearchInputChange,
@@ -203,17 +203,19 @@ const ViewsLogsTable: React.FC<IViewsLogsTableProps> = ({
               ))}
             </>
           ) : (
-            data &&
-            data.map((user: IViewsLogsTableRow) => (
-              <Row
-                data={user}
-                handleUpdate={handleUpdate}
-                handleDelete={handleDelete}
-              />
-            ))
+            data && data.map((user: IViewsLogsTableRow) => <Row data={user} />)
           )}
         </TableBody>
       </Table>
+      {data && !(data.length > 0) && (
+        <Typography
+          style={{ width: "100%", margin: "20px 0" }}
+          align="center"
+          variant="h2"
+        >
+          {CANT_FIND_RESULT}
+        </Typography>
+      )}
       {data && (
         <>
           <TablePagination

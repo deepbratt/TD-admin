@@ -1,14 +1,9 @@
 import { Button, Grid, Typography } from "@material-ui/core";
 import CustomDivider from "../../components/CustomDivider";
 import SecondaryLayout from "../../layout/SecondaryLayout";
-import tyreIcon from "../../assets/icons/tyre 2.png";
-import {
-  EDIT as EditBtnLabel,
-} from "../../utils/constants/language/en/buttonLabels";
-import {
-  Edit,
-  LocationOnOutlined,
-} from "@material-ui/icons";
+import { EDIT as EditBtnLabel } from "../../utils/constants/language/en/buttonLabels";
+import { Edit, LocationOnOutlined } from "@material-ui/icons";
+import BookRoundedIcon from "@material-ui/icons/BookRounded";
 import CarSlider from "../../sections/CarSlider";
 import useCarDetails from "./useCarDetails";
 import { useHistory } from "react-router";
@@ -20,6 +15,7 @@ import {
   FEATURES,
   SELLER_INFO,
 } from "../../utils/constants/language/en/text";
+import { VIEW_LOGS } from "../../utils/constants/language/en/buttonLabels";
 import PageHeader from "../../sections/PageHeader";
 import KeyValueMap from "../../sections/CarDetailSection/keyValueMap";
 import CarSpecs from "../../sections/CarDetailSection/CarSpecs";
@@ -48,21 +44,35 @@ const CarDetail = () => {
     sellDialog,
     setSellDialog,
     isSold,
-    carFeatures
+    carFeatures,
   } = useCarDetails();
   const history = useHistory();
   return (
     <SecondaryLayout>
       <Grid container spacing={2}>
         <PageHeader heading={CAR_DETAILS}>
-          <Button
-            startIcon={<Edit />}
-            variant="contained"
-            onClick={() => history.push("/edit/car/" + id)}
-            color="primary"
-          >
-            {EditBtnLabel}
-          </Button>
+          <Grid item xs={8} container spacing={1} justifyContent="flex-end">
+            <Grid item>
+              <Button
+                startIcon={<Edit />}
+                variant="contained"
+                onClick={() => history.push("/edit/car/" + id)}
+                color="primary"
+              >
+                {EditBtnLabel}
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                startIcon={<BookRoundedIcon />}
+                variant="contained"
+                onClick={() => history.push("/ads-views-logs/" + id)}
+                color="primary"
+              >
+                {VIEW_LOGS}
+              </Button>
+            </Grid>
+          </Grid>
         </PageHeader>
         <CustomDivider />
         <Grid item xs={12} sm={6}>
@@ -136,7 +146,11 @@ const CarDetail = () => {
             >
               {specs.map(
                 (item: { icon: string; value: string }, index: number) => (
-                  <CarSpecs icon={item.icon} value={item.value} key={"car-specs-"+index} />
+                  <CarSpecs
+                    icon={item.icon}
+                    value={item.value}
+                    key={"car-specs-" + index}
+                  />
                 )
               )}
             </Grid>
