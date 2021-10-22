@@ -20,20 +20,24 @@ import {
   createStyles,
 } from "@material-ui/core/styles";
 import {
-  ADMIN_USER_LIST,
+  ADS_VIEWS_LOGS_LIST,
   ACTION,
-  USERNAME,
   FULL_NAME,
-  EMAIL,
   PHONE,
   NOT_AVAILABLE,
-  ROLE,
-  CANT_FIND_RESULT
+  CLICKED_BY,
+  CLICKED_DATE,
+  AD_CLICKED,
+  BUYER_PHONE,
+  CANT_FIND_RESULT,
 } from "../../utils/constants/language/en/buttonLabels";
 import SearchIcon from "@material-ui/icons/Search";
-import { IUserTableRow } from "../../pages/adminUsers";
+import { IViewsLogsTableRow } from "../../pages/adsViewsLogs";
 import { Skeleton } from "@material-ui/lab";
 import { DeleteRounded, EditRounded } from "@material-ui/icons";
+import { useHistory } from "react-router";
+import { paths } from "../../routes/paths";
+import { Colors } from "../../theme/themeConstants";
 
 const TableStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -84,42 +88,56 @@ const TableStyles = makeStyles((theme: Theme) =>
       },
       color: theme.palette.common.white,
     },
+    links: {
+      cursor: "pointer",
+      color: theme.palette.primary.main,
+      "&:hover": {
+        textDecoration: "underline",
+      },
+    },
   })
 );
 
-interface IUserTableRowProps {
-  data: IUserTableRow;
-  handleUpdate: (_id: string) => void;
-  handleDelete: (_id: string) => void;
+interface IViewsLogsTableRowProps {
+  data: IViewsLogsTableRow;
 }
 
-export const Row: React.FC<IUserTableRowProps> = ({
-  handleUpdate,
-  handleDelete,
-  data,
-}) => {
-  const { username, firstName, lastName, email, phone, role, _id } = data;
+export const Row: React.FC<IViewsLogsTableRowProps> = ({ data }) => {
+  const { links } = TableStyles();
+  const history = useHistory();
+  const { buyer_details, car_details, clickedDate, _id } = data;
+  const { firstName, lastName, phone } = buyer_details;
+  const { make, model, modelYear } = car_details;
   return (
     <TableRow>
-      <TableCell>{username}</TableCell>
-      <TableCell>{firstName + " " + lastName}</TableCell>
-      <TableCell>{email ? email : NOT_AVAILABLE}</TableCell>
+      <TableCell
+        classes={{ body: links }}
+        onClick={() => history.push(paths.userDetail + "/" + buyer_details._id)}
+      >
+        {firstName + " " + lastName}
+      </TableCell>
       <TableCell>{phone ? phone : NOT_AVAILABLE}</TableCell>
-      <TableCell>{role}</TableCell>
-      <TableCell align="center">
+      <TableCell
+        classes={{ body: links }}
+        onClick={() => history.push(paths.carDetail + "/" + car_details._id)}
+      >
+        {make + " " + model + " (" + modelYear + ")"}
+      </TableCell>
+      <TableCell>{new Date(clickedDate).toLocaleDateString("en-US")}</TableCell>
+      {/* <TableCell align="center">
         <IconButton onClick={() => handleUpdate(_id)}>
           <EditRounded color="primary" />
         </IconButton>
         <IconButton onClick={() => handleDelete(_id)}>
           <DeleteRounded style={{ color: "#C20000" }} />
         </IconButton>
-      </TableCell>
+      </TableCell> */}
     </TableRow>
   );
 };
 
-interface IUserTableProps {
-  data?: IUserTableRow[];
+interface IViewsLogsTableProps {
+  data?: IViewsLogsTableRow[];
   loading: boolean;
   page: number;
   rowsPerPage: number;
@@ -127,18 +145,14 @@ interface IUserTableProps {
   handleChangePage: (event: unknown, newPage: number) => void;
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleSearchInputChange: (e: any) => void;
-  handleUpdate: (_id: string) => void;
-  handleDelete: (_id: string) => void;
 }
 
-const AdminTable: React.FC<IUserTableProps> = ({
+const ViewsLogsTable: React.FC<IViewsLogsTableProps> = ({
   data,
   loading,
   page,
   rowsPerPage,
   keywords,
-  handleUpdate,
-  handleDelete,
   handleChangePage,
   handleChangeRowsPerPage,
   handleSearchInputChange,
@@ -148,7 +162,7 @@ const AdminTable: React.FC<IUserTableProps> = ({
   return (
     <TableContainer component={Paper}>
       <Toolbar className={toolbar}>
-        <Typography variant="h3">{ADMIN_USER_LIST}</Typography>
+        <Typography variant="h3">{ADS_VIEWS_LOGS_LIST}</Typography>
         <div className={search}>
           <div className={searchIcon}>
             <SearchIcon color="inherit" />
@@ -168,12 +182,11 @@ const AdminTable: React.FC<IUserTableProps> = ({
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>{USERNAME}</TableCell>
-            <TableCell>{FULL_NAME}</TableCell>
-            <TableCell>{EMAIL}</TableCell>
-            <TableCell>{PHONE}</TableCell>
-            <TableCell>{ROLE}</TableCell>
-            <TableCell align="center">{ACTION}</TableCell>
+            <TableCell>{CLICKED_BY}</TableCell>
+            <TableCell>{BUYER_PHONE}</TableCell>
+            <TableCell>{AD_CLICKED}</TableCell>
+            <TableCell>{CLICKED_DATE}</TableCell>
+            {/* <TableCell align="center">{ACTION}</TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -181,7 +194,7 @@ const AdminTable: React.FC<IUserTableProps> = ({
             <>
               {[...Array(rowsPerPage)].map((item, index) => (
                 <TableRow key={index}>
-                  {[...Array(6)].map((item, index) => (
+                  {[...Array(5)].map((item, index) => (
                     <TableCell key={index}>
                       <Skeleton variant="rect" width="100%" />
                     </TableCell>
@@ -190,14 +203,7 @@ const AdminTable: React.FC<IUserTableProps> = ({
               ))}
             </>
           ) : (
-            data &&
-            data.map((user: IUserTableRow) => (
-              <Row
-                data={user}
-                handleUpdate={handleUpdate}
-                handleDelete={handleDelete}
-              />
-            ))
+            data && data.map((user: IViewsLogsTableRow) => <Row data={user} />)
           )}
         </TableBody>
       </Table>
@@ -227,4 +233,4 @@ const AdminTable: React.FC<IUserTableProps> = ({
   );
 };
 
-export default AdminTable;
+export default ViewsLogsTable;

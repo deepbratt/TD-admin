@@ -32,13 +32,18 @@ export const PASSWORD: string = "Password";
 export const AD: string = "Add";
 export const UPDATE: string = "Update";
 export const USER: string = "User";
+export const VIEW_LOGS: string = "View Logs";
 export const MANAGE_USER: string = "Manage Admin Panel Users";
+export const MANAGE_ALL_ADS_VIEWS_LOGS: string = "Manage All Ads Views Logs";
+export const MANAGE_SELECTED_ADS_VIEWS_LOGS: string = "Manage Selected Ad Views Logs";
+export const MANAGE_APPOINTMENTS: string = "Manage Appointments";
 export const ADMIN_USER: string = "Admin Panel Users";
 export const CANT_FIND_RESULT: string =
   "Sorry! No results found against your search criteria.";
 
 // table cells
 export const ADMIN_USER_LIST: string = "Admin User List";
+export const ADS_VIEWS_LOGS_LIST: string = "Ads Views Logs";
 export const USER_IMAGE: string = "User Image";
 export const AD_ID: string = "Ad ID";
 export const MAKE_MODEL: string = "Make & Model";
@@ -58,3 +63,7 @@ export const UNBAN = "Unban";
 export const EDIT = "Edit";
 export const SOLD_HERE_DIALOG_OK = "Yes";
 export const SOLD_HERE_DIALOG_REJECT = "No";
+export const CLICKED_BY = "Clicked By";
+export const AD_CLICKED = "Ad Clicked";
+export const CLICKED_DATE = "Clicked Date";
+export const BUYER_PHONE = "Buyer Phone";

@@ -28,10 +28,10 @@ import {
   PHONE,
   NOT_AVAILABLE,
   ROLE,
-  CANT_FIND_RESULT
+  STATUS,
 } from "../../utils/constants/language/en/buttonLabels";
 import SearchIcon from "@material-ui/icons/Search";
-import { IUserTableRow } from "../../pages/adminUsers";
+import { IAppointmentsTableRow } from "../../pages/appointments";
 import { Skeleton } from "@material-ui/lab";
 import { DeleteRounded, EditRounded } from "@material-ui/icons";
 
@@ -87,25 +87,23 @@ const TableStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface IUserTableRowProps {
-  data: IUserTableRow;
+interface IAppointmentsTableRowProps {
+  data: IAppointmentsTableRow;
   handleUpdate: (_id: string) => void;
   handleDelete: (_id: string) => void;
 }
 
-export const Row: React.FC<IUserTableRowProps> = ({
+export const Row: React.FC<IAppointmentsTableRowProps> = ({
   handleUpdate,
   handleDelete,
   data,
 }) => {
-  const { username, firstName, lastName, email, phone, role, _id } = data;
+  const { firstName, lastName, phone, status, _id } = data;
   return (
     <TableRow>
-      <TableCell>{username}</TableCell>
       <TableCell>{firstName + " " + lastName}</TableCell>
-      <TableCell>{email ? email : NOT_AVAILABLE}</TableCell>
       <TableCell>{phone ? phone : NOT_AVAILABLE}</TableCell>
-      <TableCell>{role}</TableCell>
+      <TableCell>{status}</TableCell>
       <TableCell align="center">
         <IconButton onClick={() => handleUpdate(_id)}>
           <EditRounded color="primary" />
@@ -118,8 +116,8 @@ export const Row: React.FC<IUserTableRowProps> = ({
   );
 };
 
-interface IUserTableProps {
-  data?: IUserTableRow[];
+interface IAppointmentsTableProps {
+  data?: IAppointmentsTableRow[];
   loading: boolean;
   page: number;
   rowsPerPage: number;
@@ -131,7 +129,7 @@ interface IUserTableProps {
   handleDelete: (_id: string) => void;
 }
 
-const AdminTable: React.FC<IUserTableProps> = ({
+const AppointmentsTable: React.FC<IAppointmentsTableProps> = ({
   data,
   loading,
   page,
@@ -168,11 +166,9 @@ const AdminTable: React.FC<IUserTableProps> = ({
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>{USERNAME}</TableCell>
             <TableCell>{FULL_NAME}</TableCell>
-            <TableCell>{EMAIL}</TableCell>
             <TableCell>{PHONE}</TableCell>
-            <TableCell>{ROLE}</TableCell>
+            <TableCell>{STATUS}</TableCell>
             <TableCell align="center">{ACTION}</TableCell>
           </TableRow>
         </TableHead>
@@ -191,7 +187,7 @@ const AdminTable: React.FC<IUserTableProps> = ({
             </>
           ) : (
             data &&
-            data.map((user: IUserTableRow) => (
+            data.map((user: IAppointmentsTableRow) => (
               <Row
                 data={user}
                 handleUpdate={handleUpdate}
@@ -201,15 +197,6 @@ const AdminTable: React.FC<IUserTableProps> = ({
           )}
         </TableBody>
       </Table>
-      {data && !(data.length > 0) && (
-        <Typography
-          style={{ width: "100%", margin: "20px 0" }}
-          align="center"
-          variant="h2"
-        >
-          {CANT_FIND_RESULT}
-        </Typography>
-      )}
       {data && (
         <>
           <TablePagination
@@ -227,4 +214,4 @@ const AdminTable: React.FC<IUserTableProps> = ({
   );
 };
 
-export default AdminTable;
+export default AppointmentsTable;
