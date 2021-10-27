@@ -6,6 +6,7 @@ const CarSliderStyles = makeStyles(() => ({
   carousel: {
     // paddingTop: "70px",
     width: "100%",
+    maxWidth: "600px",
     "& .carousel .slider-wrapper.axis-horizontal .slider": {
       alignItems: "center",
     },
@@ -69,4 +70,4 @@ const CarSliderStyles = makeStyles(() => ({
   },
 }));
 
-export default CarSliderStyles
+export default CarSliderStyles;
