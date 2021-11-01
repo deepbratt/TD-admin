@@ -15,6 +15,7 @@ const UserDetail = () => {
   const {
     formData,
     handleChange,
+    handlePhoneInputChange,
     isLoading,
     setToastOpen,
     toastMessage,
@@ -30,54 +31,60 @@ const UserDetail = () => {
   const { id } = useParams<{ id: string }>();
   return (
     <>
-    <SecondaryLayout>
-      <Grid container>
-        <PageHeader heading={"User Detail"} />
-        <CustomDivider />
-        <Grid item xs={12} style={{ display: "flex" }} justifyContent="center">
-          <ProfileImage
-            formData={formData}
-            handleChange={handleChange}
-            handleReset={resetImage}
-            handleSubmit={updateImage}
-          />
-        </Grid>
-        <Grid item container spacing={1} xs={12}>
-          <Grid item xs={12}>
-            <PageHeader heading={"User Information"} />
-          </Grid>
-          <Grid item xs={12}>
-            <UserInformation
+      <SecondaryLayout>
+        <Grid container>
+          <PageHeader heading={"User Detail"} />
+          <CustomDivider />
+          <Grid
+            item
+            xs={12}
+            style={{ display: "flex" }}
+            justifyContent="center"
+          >
+            <ProfileImage
               formData={formData}
               handleChange={handleChange}
-              handleReset={resetUserInformation}
-              handleSubmit={updateUser}
+              handleReset={resetImage}
+              handleSubmit={updateImage}
             />
           </Grid>
-        </Grid>
-        <Grid item xs={12} container spacing={1}>
-          <Grid item xs={12}>
-            <PageHeader heading={"Password Settings"} />
+          <Grid item container spacing={1} xs={12}>
+            <Grid item xs={12}>
+              <PageHeader heading={"User Information"} />
+            </Grid>
+            <Grid item xs={12}>
+              <UserInformation
+                formData={formData}
+                handleChange={handleChange}
+                handlePhoneInputChange={handlePhoneInputChange}
+                handleReset={resetUserInformation}
+                handleSubmit={updateUser}
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <PasswordSection
-              formData={formData}
-              handleChange={handleChange}
-              handleReset={resetPasswordInformation}
-              handleSubmit={updatePassword}
-            />
+          <Grid item xs={12} container spacing={1}>
+            <Grid item xs={12}>
+              <PageHeader heading={"Password Settings"} />
+            </Grid>
+            <Grid item xs={12}>
+              <PasswordSection
+                formData={formData}
+                handleChange={handleChange}
+                handleReset={resetPasswordInformation}
+                handleSubmit={updatePassword}
+              />
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
-      <Loader open={isLoading} isBackdrop={true} />
-      <Toast
-        onClose={() => setToastOpen(false)}
-        open={toastOpen}
-        message={toastMessage}
-        type={toastType}
-      />
-    </SecondaryLayout>
-    <Advertisements createdBy={id} />
+        <Loader open={isLoading} isBackdrop={true} />
+        <Toast
+          onClose={() => setToastOpen(false)}
+          open={toastOpen}
+          message={toastMessage}
+          type={toastType}
+        />
+      </SecondaryLayout>
+      <Advertisements createdBy={id} />
     </>
   );
 };
