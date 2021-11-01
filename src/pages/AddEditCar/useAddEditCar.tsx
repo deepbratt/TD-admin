@@ -36,6 +36,7 @@ const initialFieldValues = {
   mileage: "",
   price: "",
   registrationNo: "",
+  associatedPhone:"",
   description: "",
   engineType: "",
   engineCapacity: "",
@@ -60,6 +61,7 @@ const initialRequireError = {
   price: false,
   registrationNo: false,
   description: false,
+  associatedPhone: false
 };
 
 // step 2 validation is on the go
@@ -237,6 +239,7 @@ const useAddEditCar = () => {
             setPhoneRequiredDialog(true);
             return;
           }
+          setFormData({name:"associatedPhone", value:result.phone.slice(3,result.phone.length)})
         }
       })
       .then(() => setIsLoading(false));
