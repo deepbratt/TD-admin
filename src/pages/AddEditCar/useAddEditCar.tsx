@@ -423,60 +423,59 @@ const useAddEditCar = () => {
     return true;
   };
 
-  const submitForm = () => {
-    console.log("submit following data: ");
+  const submitForm = () =>{
+    console.log('submit following data: ');
     console.log(formData);
     let fd = new FormData();
     if (userId) {
       fd.append("createdBy", userId);
     }
-    fd.append("country", "Pakistan");
-    fd.append("city", formData.city);
-    fd.append("province", formData.province);
-    fd.append("location.address", formData.location.address);
-    fd.append("location.coordinates.lat", formData.location.coordinate.lat);
-    fd.append("location.coordinates.long", formData.location.coordinate.long);
+    fd.append('country', 'Pakistan');
+    fd.append('city', formData.city);
+    fd.append('province', formData.province);
+    fd.append('location.address', formData.location.address);
+    fd.append('location.coordinates[0]', formData.location.coordinate.long);
+    fd.append('location.coordinates[1]', formData.location.coordinate.lat);
     let StringUrls = 0;
     for (let i = 0; i < formData.images.length; i++) {
-      if (typeof formData.images[i] === typeof "string") {
-        fd.append("image[" + StringUrls + "]", images[i]);
+      if (typeof formData.images[i] === typeof 'string') {
+        fd.append('image[' + StringUrls + ']', images[i]);
         StringUrls++;
       } else {
-        fd.append("image", images[i]);
+        fd.append('image', images[i]);
       }
     }
-    fd.append("model", formData.carModel);
-    fd.append("make", formData.carMake);
-    fd.append("version", formData.modelVersion);
-    fd.append("transmission", formData.transmission);
-    fd.append("assembly", formData.assembly);
-    fd.append("registrationCity", formData.registeredIn);
-    fd.append("bodyColor", formData.bodyColor);
-    fd.append("milage", formData.mileage);
-    fd.append("condition", formData.bodyCondition);
-    fd.append("description", formData.description);
-    fd.append("bodyType", formData.bodyType);
-    fd.append("engineType", formData.engineType);
-    fd.append("engineCapacity", formData.engineCapacity);
-    fd.append("regNumber", formData.registrationNo);
-    fd.append("sellerType", formData.sellerType);
+    fd.append('model', formData.carModel);
+    fd.append('make', formData.carMake);
+    fd.append('version', formData.modelVersion);
+    fd.append('transmission', formData.transmission);
+    fd.append('assembly', formData.assembly);
+    fd.append('registrationCity', formData.registeredIn);
+    fd.append('bodyColor', formData.bodyColor);
+    fd.append('milage', formData.mileage);
+    fd.append('condition', formData.bodyCondition);
+    fd.append('description', formData.description);
+    fd.append('bodyType', formData.bodyType);
+    fd.append('engineType', formData.engineType);
+    fd.append('engineCapacity', formData.engineCapacity);
+    fd.append('regNumber', formData.registrationNo);
+    fd.append('sellerType', formData.sellerType);
     // fd.append("date", new Date(formData.modelYear).toISOString());
-    fd.append("modelYear", formData.modelYear);
+    fd.append('modelYear', formData.modelYear);
     // fd.append("features", formData.features);
     for (let i = 0; i < formData.features.length; i++) {
-      fd.append("features", formData.features[i]);
+      fd.append('features', formData.features[i]);
     }
-    fd.append("price", formData.price);
+    fd.append('price', formData.price);
     console.table(Object.fromEntries(fd));
     setIsLoading(true);
     // let addEditCarApi = id ? updateFormData : addFormData
     // let carId = id ? "/"+id : ""
     addEditData(fd).then((response) => {
       setIsLoading(false);
-      if (response && response.data && response.data.status === "success") {
-        console.log("response", response);
+      if (response && response.data && response.data.status === 'success') {
         setToastMessage(response.data.message);
-        setToastType("success");
+        setToastType('success');
         setToastOpen(true);
         let fieldValues: any = initialFieldValues;
         Object.keys(fieldValues).forEach((key) => {
@@ -500,7 +499,7 @@ const useAddEditCar = () => {
         }
       }
     });
-  };
+  }
 
   const handleNext = () => {
     formRef.current.scrollIntoView({ behavior: "smooth" });
