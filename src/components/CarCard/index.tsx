@@ -22,16 +22,31 @@ import Toast from "../Toast";
 import Loader from "../Loader";
 import useCarCard from "./useCarCard";
 import { useHistory } from "react-router";
-import { ACTIVE, BAN, DELETE, INACTIVE, SOLD, UNBAN, UNSOLD } from "../../utils/constants/language/en/buttonLabels";
+import {
+  ACTIVE,
+  BAN,
+  DELETE,
+  INACTIVE,
+  SOLD,
+  UNBAN,
+  UNSOLD,
+} from "../../utils/constants/language/en/buttonLabels";
 import ConfirmationDialog from "../ConfirmationDialog";
 import addEditCarData from "../../utils/constants/language/en/addEditCarData";
 
 interface CarCardProps {
   data: any;
   layoutType: "list" | "grid";
+  reload: boolean;
+  setReload: (bool: boolean) => void;
 }
 
-const CarCard = ({ data, layoutType = "list" }: CarCardProps) => {
+const CarCard = ({
+  data,
+  layoutType = "list",
+  reload,
+  setReload,
+}: CarCardProps) => {
   const { root, grid, featuredBadge, location } = CardStyles();
   const {
     isActive,
@@ -45,14 +60,14 @@ const CarCard = ({ data, layoutType = "list" }: CarCardProps) => {
     toastMessage,
     isLoading,
     deleteDialog,
-    setDeleteDialog
-  } = useCarCard(data)
-  const history = useHistory()
+    setDeleteDialog,
+  } = useCarCard(data, reload, setReload);
+  const history = useHistory();
   return (
     <Card
       style={{ cursor: "pointer" }}
       className={layoutType === "list" ? root : grid}
-      onClick={()=>history.push('/car/'+data._id)}
+      onClick={() => history.push("/car/" + data._id)}
     >
       <Grid container style={{ border: "5px solid" + Colors.background }}>
         <Grid item xs={12} sm={layoutType !== "list" ? 12 : 3}>
@@ -244,8 +259,8 @@ const CarCard = ({ data, layoutType = "list" }: CarCardProps) => {
           <Button
             endIcon={<Delete color="error" />}
             onClick={(e) => {
-              e.stopPropagation()
-              setDeleteDialog(true)
+              e.stopPropagation();
+              setDeleteDialog(true);
             }}
             title="Delete"
             color="secondary"
@@ -263,14 +278,16 @@ const CarCard = ({ data, layoutType = "list" }: CarCardProps) => {
         onClose={() => setToastOpen(false)}
       />
       <ConfirmationDialog
-          open={deleteDialog}
-          title={addEditCarData.deleteDialogTitle}
-          message={addEditCarData.deleteDialogMessage}
-          rejectBtnLabel={addEditCarData.buttons.cancelDelete}
-          confirmBtnLabel={addEditCarData.buttons.confirmDelete}
-          handleConfirmation={deleteAd}
-          handleRejection={() => {setDeleteDialog(false)}}
-        />
+        open={deleteDialog}
+        title={addEditCarData.deleteDialogTitle}
+        message={addEditCarData.deleteDialogMessage}
+        rejectBtnLabel={addEditCarData.buttons.cancelDelete}
+        confirmBtnLabel={addEditCarData.buttons.confirmDelete}
+        handleConfirmation={deleteAd}
+        handleRejection={() => {
+          setDeleteDialog(false);
+        }}
+      />
       <Loader open={isLoading} isBackdrop={true} />
     </Card>
   );

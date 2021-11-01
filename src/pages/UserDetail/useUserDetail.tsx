@@ -36,7 +36,7 @@ const initialFieldValues = {
 const useUserDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [formData, setFormData] = useReducer(formReducer, initialFieldValues);
-  const [userAds, setUserAds] = useState<any>()
+  const [userAds, setUserAds] = useState<any>();
   const [isLoading, setIsLoading] = useState(false);
   const [toastOpen, setToastOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
@@ -67,6 +67,15 @@ const useUserDetail = () => {
           : event.target.value,
     });
     event.target.value = event.target.name === "image" && null;
+  };
+
+  const handlePhoneInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    if (value[0] !== "0" && value[0] !== "+" && value.length <= 10) {
+      let newData = formData;
+      newData.phone = value;
+      setFormData(newData);
+    }
   };
 
   const resetUserInformation = () => {
@@ -105,7 +114,7 @@ const useUserDetail = () => {
       changed = true;
     }
     if (formData.phone !== initialValues.phone && !formData.signedUpWithPhone) {
-      fd.append("phone", formData.phone);
+      fd.append("phone", "+92" + formData.phone);
       changed = true;
     }
     if (formData.email !== initialValues.email && !formData.signedUpWithEmail) {
@@ -128,7 +137,7 @@ const useUserDetail = () => {
         if (response && response.data && response.data.status === "success") {
           setToastMessage(response.data.message);
           setToastType("success");
-          getUser()
+          getUser();
         } else {
           if (response.message) {
             setToastMessage(response.message);
@@ -146,54 +155,64 @@ const useUserDetail = () => {
       .then(() => setIsLoading(false));
   };
 
-  const updatePassword = () =>{
-    let body = {password:"", passwordConfirm:""}
-    let error = false
-    let msg = ""
-    if(formData.newPassword === ""){
-      msg = "Password is required"
-      error = true
+  const updatePassword = () => {
+    let body = { password: "", passwordConfirm: "" };
+    let error = false;
+    let msg = "";
+    if (formData.newPassword === "") {
+      msg = "Password is required";
+      error = true;
     }
-    if(formData.confirmPassword === ""){
-      msg = msg !== "" ? "Password and confirm password fields are required" : "Confirm password field is required"
-      error = true
+    if (formData.confirmPassword === "") {
+      msg =
+        msg !== ""
+          ? "Password and confirm password fields are required"
+          : "Confirm password field is required";
+      error = true;
     }
-    if(error){
+    if (error) {
       setToastMessage(msg);
       setToastType("error");
       setToastOpen(true);
-      return
+      return;
     }
-    if(formData.newPassword === formData.confirmPassword){
-      body = {password: formData.newPassword, passwordConfirm: formData.confirmPassword}
-    }else{
+    if (formData.newPassword === formData.confirmPassword) {
+      body = {
+        password: formData.newPassword,
+        passwordConfirm: formData.confirmPassword,
+      };
+    } else {
       setToastMessage("Password and confirm password are not same");
       setToastType("error");
       setToastOpen(true);
-      return
+      return;
     }
-    setIsLoading(true)
-    updateData(`${API_ENDPOINTS.USERS}${API_ENDPOINTS.UPDATE_PASSWORD}/${id}`, body)
-    .then((response) => {
-      if (response && response.data && response.data.status === "success") {
-        setToastMessage(response.data.message);
-        setToastType("success");
-      } else {
-        if (response.message) {
-          setToastMessage(response.message);
-          setToastType("error");
-        } else if (response.response) {
-          setToastMessage(response.response);
-          setToastType("error");
+    setIsLoading(true);
+    updateData(
+      `${API_ENDPOINTS.USERS}${API_ENDPOINTS.UPDATE_PASSWORD}/${id}`,
+      body
+    )
+      .then((response) => {
+        if (response && response.data && response.data.status === "success") {
+          setToastMessage(response.data.message);
+          setToastType("success");
+          resetPasswordInformation();
         } else {
-          setToastMessage("Unknown Error");
-          setToastType("error");
+          if (response.message) {
+            setToastMessage(response.message);
+            setToastType("error");
+          } else if (response.response) {
+            setToastMessage(response.response);
+            setToastType("error");
+          } else {
+            setToastMessage("Unknown Error");
+            setToastType("error");
+          }
         }
-      }
-      setToastOpen(true);
-    })
-    .then(() => setIsLoading(false));
-  }
+        setToastOpen(true);
+      })
+      .then(() => setIsLoading(false));
+  };
 
   const getUser = () => {
     setIsLoading(true);
@@ -208,9 +227,13 @@ const useUserDetail = () => {
           setFormData({ name: "lastName", value: responseResult.lastName });
           setFormData({ name: "userName", value: responseResult.username });
           setFormData({ name: "joined", value: responseResult.createdAt });
-
           setFormData({ name: "email", value: responseResult.email });
-          setFormData({ name: "phone", value: responseResult.phone });
+          setFormData({
+            name: "phone",
+            value: responseResult.phone
+              ? responseResult.phone.slice(3)
+              : responseResult.phone,
+          });
           setFormData({
             name: "signedUpWithEmail",
             value: responseResult.signedUpWithEmail,
@@ -272,6 +295,7 @@ const useUserDetail = () => {
   return {
     formData,
     handleChange,
+    handlePhoneInputChange,
     isLoading,
     toastMessage,
     toastOpen,
@@ -282,7 +306,7 @@ const useUserDetail = () => {
     resetImage,
     updateImage,
     updateUser,
-    updatePassword
+    updatePassword,
   };
 };
 
