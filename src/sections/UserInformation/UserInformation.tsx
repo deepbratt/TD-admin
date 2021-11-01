@@ -1,13 +1,20 @@
-import { Button, Grid, TextField } from "@material-ui/core";
+import { Button, Grid, InputAdornment, TextField } from "@material-ui/core";
 import moment from "moment";
 interface UserInformationProps {
   formData: any;
   handleChange: (event: any) => void;
-  handleReset: () => void
-  handleSubmit: ()=>void
+  handlePhoneInputChange: (event: any) => void;
+  handleReset: () => void;
+  handleSubmit: () => void;
 }
 
-const UserInformation = ({ formData, handleChange, handleReset, handleSubmit }: UserInformationProps) => {
+const UserInformation = ({
+  formData,
+  handleChange,
+  handlePhoneInputChange,
+  handleReset,
+  handleSubmit,
+}: UserInformationProps) => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} md={6}>
@@ -42,12 +49,17 @@ const UserInformation = ({ formData, handleChange, handleReset, handleSubmit }: 
       <Grid item xs={12} md={6}>
         <TextField
           name="phone"
-          onChange={handleChange}
+          onChange={handlePhoneInputChange}
           value={formData.phone}
           label={"phone"}
           disabled={formData.signedUpWithPhone}
           fullWidth
           type="number"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">+92</InputAdornment>
+            ),
+          }}
         />
       </Grid>
       <Grid item xs={12} md={6}>
@@ -70,9 +82,22 @@ const UserInformation = ({ formData, handleChange, handleReset, handleSubmit }: 
           fullWidth
         />
       </Grid>
-      <Grid item xs={12} style={{display:"flex"}} justifyContent="flex-end">
-          <Button variant="contained" color="default" onClick={()=>handleReset()}>Cancel</Button>
-          <Button variant="contained" color="secondary" onClick={()=>handleSubmit()} style={{marginLeft:"10px"}}>Update</Button>
+      <Grid item xs={12} style={{ display: "flex" }} justifyContent="flex-end">
+        <Button
+          variant="contained"
+          color="default"
+          onClick={() => handleReset()}
+        >
+          Cancel
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => handleSubmit()}
+          style={{ marginLeft: "10px" }}
+        >
+          Update
+        </Button>
       </Grid>
     </Grid>
   );

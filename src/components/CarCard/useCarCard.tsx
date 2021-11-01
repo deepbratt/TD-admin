@@ -2,7 +2,11 @@ import { useState } from "react";
 import { deleteData, updateData } from "../../utils/API/APIs";
 import { API_ENDPOINTS } from "../../utils/API/endpoints";
 
-const useCarCard = (data: any) => {
+const useCarCard = (
+  data: any,
+  reload: boolean,
+  setReload: (bool: boolean) => void
+) => {
   const [isBanned, setIsBanned] = useState(data.banned);
   const [isActive, setIsActive] = useState(data.active);
   const [deleteDialog, setDeleteDialog] = useState(false);
@@ -62,6 +66,7 @@ const useCarCard = (data: any) => {
         if (response && response.data && response.data.status === "success") {
           setToastMessage(response.data.message);
           setToastType("success");
+          setReload(!reload);
         } else {
           console.log(response);
           setToastMessage(response.message);
