@@ -141,6 +141,7 @@ const addEditCarData = {
     needAssistanceReject:"No",
   },
   infoText: '(Max limit 5 MB per image)',
+  imageArrayLength: "Cannot add more than 20 images",
   requiredFieldText: 'This field is required',
   requiredImageText: 'Minimum 1 car picture is required',
   deleteDialogTitle: 'Delete!',
