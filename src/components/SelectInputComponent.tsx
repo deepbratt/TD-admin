@@ -43,7 +43,7 @@ const SelectInputComponent = ({
       className={className}
       options={dataArray}
       autoHighlight
-      getOptionLabel={(option: any) => option}
+      getOptionLabel={(option: any) => option.toString()}
       renderOption={(option) => (
         <React.Fragment>
           <span>{option}</span>

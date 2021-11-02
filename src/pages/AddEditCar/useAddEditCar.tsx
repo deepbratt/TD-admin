@@ -36,6 +36,7 @@ const initialFieldValues = {
   mileage: "",
   price: "",
   registrationNo: "",
+  associatedPhone: "",
   description: "",
   engineType: "",
   engineCapacity: "",
@@ -60,6 +61,7 @@ const initialRequireError = {
   price: false,
   registrationNo: false,
   description: false,
+  associatedPhone: false,
 };
 
 // step 2 validation is on the go
@@ -96,6 +98,7 @@ const useAddEditCar = () => {
   const [featuresArray, setFeaturesArray] = useState<Array<any>>([]);
   const [bodyTypesArray, setBodyTypesArray] = useState<Array<any>>([]);
   const [bodyColorArray, setBodyColorArray] = useState<Array<any>>([]);
+  const [userPhone, setUserPhone] = useState("0")
   const [requireError, setRequireError] = useState({
     ...initialRequireError,
     ...initialRequireError_2,
@@ -130,7 +133,7 @@ const useAddEditCar = () => {
     <UploadPhotosForm
       images={images}
       updateImagesState={updateImagesState}
-      key={images.length}
+      // key={images.length}
       requireError={requireError.images}
     />,
     <CarAdditionalInformation
@@ -150,10 +153,10 @@ const useAddEditCar = () => {
     )
       .then((response: any) => {
         if (response && response.data && response.data.status === "success") {
-          let result = response.data.data.result
-          let temp:any[] = []
-          result.forEach((element:any) => {
-            temp.push(element.name)
+          let result = response.data.data.result;
+          let temp: any[] = [];
+          result.forEach((element: any) => {
+            temp.push(element.name);
           });
           setBodyColorArray(temp);
         } else {
@@ -170,7 +173,7 @@ const useAddEditCar = () => {
   };
 
   const getFeaturesAndBodyTypes = () => {
-    getColors()
+    getColors();
     getData(
       `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.CAR_FEATURES}`
     )
@@ -199,7 +202,6 @@ const useAddEditCar = () => {
           let result = response.data.data.result;
           let bodyTypesName = result.map((el: any) => el.bodyType);
           setBodyTypesArray(bodyTypesName);
-          console.log(bodyTypesName);
         } else {
           let msg = response.response
             ? response.response
@@ -237,6 +239,11 @@ const useAddEditCar = () => {
             setPhoneRequiredDialog(true);
             return;
           }
+          setUserPhone(result.phone)
+          setFormData({
+            name: "associatedPhone",
+            value: result.phone.slice(3, result.phone.length),
+          });
         }
       })
       .then(() => setIsLoading(false));
@@ -253,6 +260,11 @@ const useAddEditCar = () => {
             setPhoneRequiredDialog(true);
             return;
           }
+          setUserPhone(result.createdBy.phone)
+          let phone = result.associatedPhone
+            ? result.associatedPhone.slice(3, result.createdBy.phone.length)
+            : result.createdBy.phone.slice(3, result.createdBy.phone.length);
+          setFormData({ name: "associatedPhone", value: phone });
           let FieldValues = formData;
           FieldValues = {
             city: result.city,
@@ -305,10 +317,13 @@ const useAddEditCar = () => {
     if (id) {
       getCarData();
     }
+  }, [getCarData, id]);
+
+  useEffect(() => {
     if (userId) {
       getUserData();
     }
-  }, [getCarData, id, userId]);
+  }, [userId]);
 
   const allFalse = (obj: any) => {
     for (var o in obj) {
@@ -434,8 +449,8 @@ const useAddEditCar = () => {
     fd.append("city", formData.city);
     fd.append("province", formData.province);
     fd.append("location.address", formData.location.address);
-    fd.append("location.coordinates.lat", formData.location.coordinate.lat);
-    fd.append("location.coordinates.long", formData.location.coordinate.long);
+    fd.append("location.coordinates[0]", formData.location.coordinate.long);
+    fd.append("location.coordinates[1]", formData.location.coordinate.lat);
     let StringUrls = 0;
     for (let i = 0; i < formData.images.length; i++) {
       if (typeof formData.images[i] === typeof "string") {
@@ -460,6 +475,9 @@ const useAddEditCar = () => {
     fd.append("engineCapacity", formData.engineCapacity);
     fd.append("regNumber", formData.registrationNo);
     fd.append("sellerType", formData.sellerType);
+    if(`+92${formData.associatedPhone}`!==userPhone){
+      fd.append("associatedPhone", `+92${formData.associatedPhone}`);
+    }
     // fd.append("date", new Date(formData.modelYear).toISOString());
     fd.append("modelYear", formData.modelYear);
     // fd.append("features", formData.features);
@@ -474,7 +492,6 @@ const useAddEditCar = () => {
     addEditData(fd).then((response) => {
       setIsLoading(false);
       if (response && response.data && response.data.status === "success") {
-        console.log("response", response);
         setToastMessage(response.data.message);
         setToastType("success");
         setToastOpen(true);
@@ -488,13 +505,13 @@ const useAddEditCar = () => {
         }
         setActiveStep(0);
       } else {
-        console.log("error", response);
+        console.log("error", response.response);
         if (!response.response) {
           setToastMessage("Network Error");
           setToastType("error");
           setToastOpen(true);
         } else {
-          setToastMessage(response.data.message);
+          setToastMessage(response.response.data.message);
           setToastType("error");
           setToastOpen(true);
         }

@@ -22,6 +22,8 @@ const Advertisements: React.FC<AdvertisementsProps> = (props) => {
     result,
     // page,
     // setPage,
+    reload,
+    setReload,
     isLoading,
     toastMessage,
     toastOpen,
@@ -38,19 +40,21 @@ const Advertisements: React.FC<AdvertisementsProps> = (props) => {
       <Grid container>
         <PageHeader heading={ADVERTISEMENTS}>
           <div>
-          <HeaderSearch
-            setKeywords={setKeywords}
-            getResults={() => getCars(1)}
-          />
-          {props.createdBy && <Button
-            endIcon={<Add />}
-            variant="contained"
-            color="secondary"
-            onClick={() => history.push("/add/car/" + props.createdBy)}
-            style={{padding:"2px 10px", marginLeft:"5px"}}
-          >
-            ADD CAR
-          </Button>}
+            <HeaderSearch
+              setKeywords={setKeywords}
+              getResults={() => getCars(1)}
+            />
+            {props.createdBy && (
+              <Button
+                endIcon={<Add />}
+                variant="contained"
+                color="secondary"
+                onClick={() => history.push("/add/car/" + props.createdBy)}
+                style={{ padding: "2px 10px", marginLeft: "5px" }}
+              >
+                ADD CAR
+              </Button>
+            )}
           </div>
         </PageHeader>
         <CustomDivider />
@@ -62,12 +66,15 @@ const Advertisements: React.FC<AdvertisementsProps> = (props) => {
             justifyContent="center"
             key={"car-card-ad-" + index}
           >
-            <CarCard data={item} layoutType="list" />
+            <CarCard
+              data={item}
+              layoutType="list"
+              reload={reload}
+              setReload={setReload}
+            />
           </Grid>
         ))}
-        {result.length < 1 && (
-          <NoResults/>
-        )}
+        {result.length < 1 && <NoResults />}
         <Grid
           item
           xs={12}

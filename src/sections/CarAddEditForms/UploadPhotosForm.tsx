@@ -25,21 +25,48 @@ const UploadPhotosForm = ({
 }: IUploadPhotosFormProps) => {
   const classes = useStyles();
   const [openInfoModel, setOpenInfoModel] = useState(false)
-  const [infoMessage, setInfoMessage] = useState("")
+  const [infoMessage, setInfoMessage] = useState<string | any>('');
   const [infoTitle, setInfoTitle] = useState("")
   const uploadImage = (e: any) => {
-    let oneMb = 1024*1024
-    let fileSize = e.target.files[0].size
-    if(fileSize > 5*oneMb){
-      setInfoTitle("Error!")
-      setInfoMessage(addEditCarData.infoText)
-      setOpenInfoModel(true)
-      e.target.value = null;
-      return
-    }
+    let oneMb = 1024 * 1024;
     let temp = [...images];
-    temp.unshift(e.target.files[0]);
-    updateImagesState(temp);
+    let imageFiles = e.target.files;
+    let sizeError = false;
+    let arrayLengthError = false;
+    for (let i = 0; i < imageFiles.length; i++) {
+      let imageSize = imageFiles[i].size;
+      if (imageSize > 5 * oneMb) {
+        sizeError = true;
+      } else {
+        if (temp.length > 19) {
+          arrayLengthError = true;
+          break;
+        }
+        temp.push(imageFiles[i]);
+      }
+    }
+    // setSrcImg(e.target.files[0]);
+    // setOpenCropModal(true);
+    setInfoTitle('Error!');
+    let errorText =
+      sizeError && arrayLengthError ? (
+        <div>
+          <span>{addEditCarData.imageArrayLength}</span>
+          <br />
+          <span>{addEditCarData.infoText}</span>
+        </div>
+      ) : sizeError ? (
+        addEditCarData.infoText
+      ) : arrayLengthError ? (
+        addEditCarData.imageArrayLength
+      ) : (
+        ''
+      );
+    setInfoMessage(errorText);
+    setOpenInfoModel(sizeError || arrayLengthError);
+    if (!arrayLengthError) {
+      updateImagesState(temp);
+    }
     e.target.value = null;
   };
 
@@ -93,6 +120,7 @@ const UploadPhotosForm = ({
             <input
               name="image"
               type="file"
+              multiple
               onChange={uploadImage}
               className={classes.hiddenInputFile}
             />

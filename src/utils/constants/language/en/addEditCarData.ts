@@ -87,6 +87,10 @@ const addEditCarData = {
       label: 'Price (Rs.)',
       defaultValue: 'Price (Rs.)'
     },
+    associatedPhone: {
+      label: 'Phone for this Ad',
+      defaultValue: 'Phone for this Ad'
+    },
     registrationNo: {
       label: 'Registration No.',
       defaultValue: 'Registration No.'
@@ -137,6 +141,7 @@ const addEditCarData = {
     needAssistanceReject:"No",
   },
   infoText: '(Max limit 5 MB per image)',
+  imageArrayLength: "Cannot add more than 20 images",
   requiredFieldText: 'This field is required',
   requiredImageText: 'Minimum 1 car picture is required',
   deleteDialogTitle: 'Delete!',

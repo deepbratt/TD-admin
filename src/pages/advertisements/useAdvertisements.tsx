@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { getData } from "../../utils/API/APIs";
 import { API_ENDPOINTS } from "../../utils/API/endpoints";
 
-const useAdvertisements = (createdBy?:string) => {
+const useAdvertisements = (createdBy?: string) => {
   const dataLimit = 10;
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [reload, setReload] = useState(false);
   const [toastOpen, setToastOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
@@ -47,7 +48,7 @@ const useAdvertisements = (createdBy?:string) => {
   //   useEffects
   useEffect(() => {
     getCars();
-  }, []);
+  }, [reload]);
 
   //   return
   return {
@@ -55,6 +56,8 @@ const useAdvertisements = (createdBy?:string) => {
     result,
     page,
     isLoading,
+    reload,
+    setReload,
     toastMessage,
     toastOpen,
     toastType,

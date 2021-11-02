@@ -2,7 +2,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 
 interface DialogComponentProps {
     title: string
-    message:string
+    message:string | any
     open: boolean
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
     actionBtnLabel?: string,

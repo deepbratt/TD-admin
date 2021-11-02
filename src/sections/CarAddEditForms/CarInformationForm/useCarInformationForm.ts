@@ -14,6 +14,10 @@ const useCarInformationForm = (formData: any, setFormData: React.Dispatch<any>) 
   const [toastType, setToastType] = useState('success');
   const [toastOpen, setToastOpen] = useState(false);
 
+  const handleTextChange = (event:any)=>{
+    setFormData({name:event.target.name, value:event.target.value})
+  }
+
   const fetchMakes = () => {
     setIsLoading(true);
     getData(
@@ -118,7 +122,8 @@ const useCarInformationForm = (formData: any, setFormData: React.Dispatch<any>) 
     isLoading,
     carMakesList,
     carModelsList,
-    carVersionsList
+    carVersionsList,
+    handleTextChange
   };
 };
 
