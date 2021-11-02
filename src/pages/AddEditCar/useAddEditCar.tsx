@@ -36,6 +36,7 @@ const initialFieldValues = {
   mileage: "",
   price: "",
   registrationNo: "",
+  associatedPhone: "",
   description: "",
   engineType: "",
   engineCapacity: "",
@@ -60,6 +61,7 @@ const initialRequireError = {
   price: false,
   registrationNo: false,
   description: false,
+  associatedPhone: false,
 };
 
 // step 2 validation is on the go
@@ -96,6 +98,7 @@ const useAddEditCar = () => {
   const [featuresArray, setFeaturesArray] = useState<Array<any>>([]);
   const [bodyTypesArray, setBodyTypesArray] = useState<Array<any>>([]);
   const [bodyColorArray, setBodyColorArray] = useState<Array<any>>([]);
+  const [userPhone, setUserPhone] = useState("0")
   const [requireError, setRequireError] = useState({
     ...initialRequireError,
     ...initialRequireError_2,
@@ -150,10 +153,10 @@ const useAddEditCar = () => {
     )
       .then((response: any) => {
         if (response && response.data && response.data.status === "success") {
-          let result = response.data.data.result
-          let temp:any[] = []
-          result.forEach((element:any) => {
-            temp.push(element.name)
+          let result = response.data.data.result;
+          let temp: any[] = [];
+          result.forEach((element: any) => {
+            temp.push(element.name);
           });
           setBodyColorArray(temp);
         } else {
@@ -170,7 +173,7 @@ const useAddEditCar = () => {
   };
 
   const getFeaturesAndBodyTypes = () => {
-    getColors()
+    getColors();
     getData(
       `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.CAR_FEATURES}`
     )
@@ -199,7 +202,6 @@ const useAddEditCar = () => {
           let result = response.data.data.result;
           let bodyTypesName = result.map((el: any) => el.bodyType);
           setBodyTypesArray(bodyTypesName);
-          console.log(bodyTypesName);
         } else {
           let msg = response.response
             ? response.response
@@ -237,6 +239,11 @@ const useAddEditCar = () => {
             setPhoneRequiredDialog(true);
             return;
           }
+          setUserPhone(result.phone)
+          setFormData({
+            name: "associatedPhone",
+            value: result.phone.slice(3, result.phone.length),
+          });
         }
       })
       .then(() => setIsLoading(false));
@@ -253,6 +260,11 @@ const useAddEditCar = () => {
             setPhoneRequiredDialog(true);
             return;
           }
+          setUserPhone(result.createdBy.phone)
+          let phone = result.associatedPhone
+            ? result.associatedPhone.slice(3, result.createdBy.phone.length)
+            : result.createdBy.phone.slice(3, result.createdBy.phone.length);
+          setFormData({ name: "associatedPhone", value: phone });
           let FieldValues = formData;
           FieldValues = {
             city: result.city,
@@ -305,10 +317,13 @@ const useAddEditCar = () => {
     if (id) {
       getCarData();
     }
+  }, [getCarData, id]);
+
+  useEffect(() => {
     if (userId) {
       getUserData();
     }
-  }, [getCarData, id, userId]);
+  }, [userId]);
 
   const allFalse = (obj: any) => {
     for (var o in obj) {
@@ -423,59 +438,62 @@ const useAddEditCar = () => {
     return true;
   };
 
-  const submitForm = () =>{
-    console.log('submit following data: ');
+  const submitForm = () => {
+    console.log("submit following data: ");
     console.log(formData);
     let fd = new FormData();
     if (userId) {
       fd.append("createdBy", userId);
     }
-    fd.append('country', 'Pakistan');
-    fd.append('city', formData.city);
-    fd.append('province', formData.province);
-    fd.append('location.address', formData.location.address);
-    fd.append('location.coordinates[0]', formData.location.coordinate.long);
-    fd.append('location.coordinates[1]', formData.location.coordinate.lat);
+    fd.append("country", "Pakistan");
+    fd.append("city", formData.city);
+    fd.append("province", formData.province);
+    fd.append("location.address", formData.location.address);
+    fd.append("location.coordinates[0]", formData.location.coordinate.long);
+    fd.append("location.coordinates[1]", formData.location.coordinate.lat);
     let StringUrls = 0;
     for (let i = 0; i < formData.images.length; i++) {
-      if (typeof formData.images[i] === typeof 'string') {
-        fd.append('image[' + StringUrls + ']', images[i]);
+      if (typeof formData.images[i] === typeof "string") {
+        fd.append("image[" + StringUrls + "]", images[i]);
         StringUrls++;
       } else {
-        fd.append('image', images[i]);
+        fd.append("image", images[i]);
       }
     }
-    fd.append('model', formData.carModel);
-    fd.append('make', formData.carMake);
-    fd.append('version', formData.modelVersion);
-    fd.append('transmission', formData.transmission);
-    fd.append('assembly', formData.assembly);
-    fd.append('registrationCity', formData.registeredIn);
-    fd.append('bodyColor', formData.bodyColor);
-    fd.append('milage', formData.mileage);
-    fd.append('condition', formData.bodyCondition);
-    fd.append('description', formData.description);
-    fd.append('bodyType', formData.bodyType);
-    fd.append('engineType', formData.engineType);
-    fd.append('engineCapacity', formData.engineCapacity);
-    fd.append('regNumber', formData.registrationNo);
-    fd.append('sellerType', formData.sellerType);
+    fd.append("model", formData.carModel);
+    fd.append("make", formData.carMake);
+    fd.append("version", formData.modelVersion);
+    fd.append("transmission", formData.transmission);
+    fd.append("assembly", formData.assembly);
+    fd.append("registrationCity", formData.registeredIn);
+    fd.append("bodyColor", formData.bodyColor);
+    fd.append("milage", formData.mileage);
+    fd.append("condition", formData.bodyCondition);
+    fd.append("description", formData.description);
+    fd.append("bodyType", formData.bodyType);
+    fd.append("engineType", formData.engineType);
+    fd.append("engineCapacity", formData.engineCapacity);
+    fd.append("regNumber", formData.registrationNo);
+    fd.append("sellerType", formData.sellerType);
+    if(`+92${formData.associatedPhone}`!==userPhone){
+      fd.append("associatedPhone", `+92${formData.associatedPhone}`);
+    }
     // fd.append("date", new Date(formData.modelYear).toISOString());
-    fd.append('modelYear', formData.modelYear);
+    fd.append("modelYear", formData.modelYear);
     // fd.append("features", formData.features);
     for (let i = 0; i < formData.features.length; i++) {
-      fd.append('features', formData.features[i]);
+      fd.append("features", formData.features[i]);
     }
-    fd.append('price', formData.price);
+    fd.append("price", formData.price);
     console.table(Object.fromEntries(fd));
     setIsLoading(true);
     // let addEditCarApi = id ? updateFormData : addFormData
     // let carId = id ? "/"+id : ""
     addEditData(fd).then((response) => {
       setIsLoading(false);
-      if (response && response.data && response.data.status === 'success') {
+      if (response && response.data && response.data.status === "success") {
         setToastMessage(response.data.message);
-        setToastType('success');
+        setToastType("success");
         setToastOpen(true);
         let fieldValues: any = initialFieldValues;
         Object.keys(fieldValues).forEach((key) => {
@@ -487,19 +505,19 @@ const useAddEditCar = () => {
         }
         setActiveStep(0);
       } else {
-        console.log("error", response);
+        console.log("error", response.response);
         if (!response.response) {
           setToastMessage("Network Error");
           setToastType("error");
           setToastOpen(true);
         } else {
-          setToastMessage(response.data.message);
+          setToastMessage(response.response.data.message);
           setToastType("error");
           setToastOpen(true);
         }
       }
     });
-  }
+  };
 
   const handleNext = () => {
     formRef.current.scrollIntoView({ behavior: "smooth" });

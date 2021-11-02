@@ -61,7 +61,7 @@ const ActionButtons = ({
     <>
       <a href={"tel:" + result.createdBy.phone}>
         <Button startIcon={<Phone />} fullWidth variant="contained">
-          {result.createdBy.phone}
+          {result.associatedPhone || result.createdBy.phone}
         </Button>
       </a>
       {result.createdBy.email && (

@@ -87,6 +87,10 @@ const addEditCarData = {
       label: 'Price (Rs.)',
       defaultValue: 'Price (Rs.)'
     },
+    associatedPhone: {
+      label: 'Phone for this Ad',
+      defaultValue: 'Phone for this Ad'
+    },
     registrationNo: {
       label: 'Registration No.',
       defaultValue: 'Registration No.'
