@@ -1,6 +1,7 @@
 import {
   createStyles,
   Grid,
+  InputAdornment,
   makeStyles,
   TextField,
   Theme,
@@ -245,11 +246,10 @@ return (
     <Grid item xs={12} sm={12} md={6}>
       <TextField
         name={'associatedPhone'}
-        type="tel"
+        type="number"
         className={classes.selectFields}
-        value={formData.associatedPhone}
+        value={parseInt(formData.associatedPhone)}
         label={addEditCarData.fields.associatedPhone.label}
-        prefix={"+92"}
         required
         error={requireError.associatedPhone}
         helperText={
@@ -257,6 +257,11 @@ return (
         }
         // onChange={handleChange}
         onChange={handleTextChange}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">+92</InputAdornment>
+          ),
+        }}
       />
     </Grid>
     <Grid item xs={12}>
