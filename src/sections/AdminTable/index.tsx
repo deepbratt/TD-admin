@@ -121,6 +121,7 @@ export const Row: React.FC<IUserTableRowProps> = ({
 interface IUserTableProps {
   data?: IUserTableRow[];
   loading: boolean;
+  count: number;
   page: number;
   rowsPerPage: number;
   keywords: string;
@@ -134,6 +135,7 @@ interface IUserTableProps {
 const AdminTable: React.FC<IUserTableProps> = ({
   data,
   loading,
+  count,
   page,
   rowsPerPage,
   keywords,
@@ -215,7 +217,7 @@ const AdminTable: React.FC<IUserTableProps> = ({
           <TablePagination
             rowsPerPageOptions={[10, 25, 50, 100]}
             component="div"
-            count={data.length}
+            count={count}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

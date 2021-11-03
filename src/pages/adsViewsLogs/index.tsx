@@ -19,7 +19,7 @@ export interface IViewsLogsTableRow {
     firstName: string;
     lastName: string;
     phone?: string;
-  };
+  } | null;
   car_details: {
     _id: string;
     make: string;
@@ -40,6 +40,7 @@ const AdsViewsLogs: React.FC = () => {
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [totalCount, setTotalCount] = useState(0);
   const [keywords, setKeywords] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
@@ -94,6 +95,7 @@ const AdsViewsLogs: React.FC = () => {
         console.log("response", response);
         if (response && response.data && response.data.status === "success") {
           setViewsLogs(response.data.data.result);
+          setTotalCount(response.data.totalCount);
         }
       })
       .catch((error) => {
@@ -125,6 +127,7 @@ const AdsViewsLogs: React.FC = () => {
         <ViewsLogsTable
           data={viewsLogs}
           loading={isLoading}
+          totalCount={totalCount}
           page={page}
           rowsPerPage={rowsPerPage}
           keywords={keywords}
