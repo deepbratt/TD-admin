@@ -106,17 +106,28 @@ export const Row: React.FC<IViewsLogsTableRowProps> = ({ data }) => {
   const { links } = TableStyles();
   const history = useHistory();
   const { buyer_details, car_details, clickedDate, _id } = data;
-  const { firstName, lastName, phone } = buyer_details;
   const { make, model, modelYear } = car_details;
   return (
     <TableRow>
-      <TableCell
-        classes={{ body: links }}
-        onClick={() => history.push(paths.userDetail + "/" + buyer_details._id)}
-      >
-        {firstName + " " + lastName}
+      {buyer_details !== null ? (
+        <TableCell
+          classes={{ body: links }}
+          onClick={() =>
+            history.push(paths.userDetail + "/" + buyer_details._id)
+          }
+        >
+          {buyer_details.firstName + " " + buyer_details.lastName}
+        </TableCell>
+      ) : (
+        <TableCell>{NOT_AVAILABLE}</TableCell>
+      )}
+
+      <TableCell>
+        {buyer_details !== null && buyer_details.phone
+          ? buyer_details.phone
+          : NOT_AVAILABLE}
       </TableCell>
-      <TableCell>{phone ? phone : NOT_AVAILABLE}</TableCell>
+
       <TableCell
         classes={{ body: links }}
         onClick={() => history.push(paths.carDetail + "/" + car_details._id)}
@@ -139,6 +150,7 @@ export const Row: React.FC<IViewsLogsTableRowProps> = ({ data }) => {
 interface IViewsLogsTableProps {
   data?: IViewsLogsTableRow[];
   loading: boolean;
+  totalCount: number;
   page: number;
   rowsPerPage: number;
   keywords: string;
@@ -150,6 +162,7 @@ interface IViewsLogsTableProps {
 const ViewsLogsTable: React.FC<IViewsLogsTableProps> = ({
   data,
   loading,
+  totalCount,
   page,
   rowsPerPage,
   keywords,
@@ -221,7 +234,7 @@ const ViewsLogsTable: React.FC<IViewsLogsTableProps> = ({
           <TablePagination
             rowsPerPageOptions={[10, 25, 50, 100]}
             component="div"
-            count={data.length}
+            count={totalCount}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
