@@ -39,6 +39,7 @@ const AdminUsers: React.FC = () => {
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [count, setCount] = useState(0);
   const [keywords, setKeywords] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
@@ -126,6 +127,7 @@ const AdminUsers: React.FC = () => {
         console.log("response", response);
         if (response && response.data && response.data.status === "success") {
           setUsers(response.data.data.result);
+          setCount(response.data.totalCount);
         }
       })
       .catch((error) => {
@@ -167,6 +169,7 @@ const AdminUsers: React.FC = () => {
         <AdminTable
           data={users}
           loading={isLoading}
+          count={count}
           page={page}
           rowsPerPage={rowsPerPage}
           keywords={keywords}
