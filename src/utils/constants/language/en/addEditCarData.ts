@@ -73,7 +73,7 @@ const addEditCarData = {
     bodyCondition: {
       label: 'Body Condition',
       defaultValue: 'Body Condition',
-      menu: ['Good', 'Excellent', 'Bad']
+      menu: ['Good', 'Excellent', 'Fair']
     },
     registeredIn: {
       label: 'Registered In',
@@ -134,6 +134,7 @@ const addEditCarData = {
     post: 'Post',
     back: 'Back',
     delete: 'Delete',
+    discard: "Discard",
     confirmDelete: 'Yes',
     cancelDelete: 'Cancel',
     addPhoto: 'Add Photos +',
