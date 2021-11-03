@@ -393,7 +393,7 @@ const useAddEditCar = () => {
     return result;
   };
 
-  const formValidated = () => {
+  const formValidated=(stepToValidate : number)=> {
     if (activeStep === 0) {
       if (!checkValidation(initialRequireError)) {
         return false;
@@ -519,9 +519,25 @@ const useAddEditCar = () => {
     });
   };
 
+  const handleStepChange = (step:number)=>{
+    formRef.current.scrollIntoView({ behavior: 'smooth' });
+    if(step > activeStep){
+      let error = false
+      for(let i = activeStep; i<step; i++){
+        if(!formValidated(i)){
+          setActiveStep(i)
+          error=true
+        }
+      }
+      if(error)
+      return
+    }
+    setActiveStep(step)
+  }
+
   const handleNext = () => {
     formRef.current.scrollIntoView({ behavior: "smooth" });
-    if (!formValidated()) {
+    if (!formValidated(activeStep)) {
       return;
     }
     if (activeStep === 2) {
@@ -540,6 +556,7 @@ const useAddEditCar = () => {
   };
 
   return {
+    handleStepChange,
     setActiveStep,
     activeStep,
     handleBack,
