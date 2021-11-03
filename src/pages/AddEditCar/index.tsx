@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from '@material-ui/core';
+import { Box, Button, Grid, Typography } from '@material-ui/core';
 import useAddEditCar from './useAddEditCar';
 import addEditCarData from '../../utils/constants/language/en/addEditCarData';
 import CustomStepper from '../../components/CustomStepper';
@@ -11,6 +11,7 @@ import SecondaryLayout from '../../layout/SecondaryLayout';
 const AddEditCar = () => {
   const {
     activeStep,
+    resetForm,
     handleStepChange,
     handleBack,
     handleNext,
@@ -80,16 +81,26 @@ const AddEditCar = () => {
             <Typography variant="h2">
               {addEditCarData.steps[activeStep]}
             </Typography>
-            {id ? (
+            <Box>
               <Button
-                color="primary"
-                variant="outlined"
-                style={{ marginRight: '16px' }}
-                onClick={() => setDeleteDialog(true)}
-              >
-                {addEditCarData.buttons.delete}
-              </Button>
-            ) : null}
+                  color="primary"
+                  variant="contained"
+                  style={{ marginRight: '16px' }}
+                  onClick={() => resetForm()}
+                >
+                  {addEditCarData.buttons.discard}
+                </Button>
+              {id ? (
+                <Button
+                  color="primary"
+                  variant="outlined"
+                  style={{ marginRight: '16px' }}
+                  onClick={() => setDeleteDialog(true)}
+                >
+                  {addEditCarData.buttons.delete}
+                </Button>
+              ) : null}
+            </Box>
           </Grid>
           <Grid item xs={12}>
             {ComponentContent[activeStep]}
