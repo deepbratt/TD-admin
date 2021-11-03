@@ -5,8 +5,9 @@ import CustomStepperIcon from "./CustomStepperIcon"
 interface CustomStepperProps {
     activeStep : number
     dataArray : Array<any>
+    handleStepChange:any
 }
-const CustomStepper =({activeStep, dataArray}: CustomStepperProps)=> {
+const CustomStepper =({activeStep, dataArray, handleStepChange}: CustomStepperProps)=> {
     const size = Sizes()
     return(
         <Stepper
@@ -17,7 +18,7 @@ const CustomStepper =({activeStep, dataArray}: CustomStepperProps)=> {
           }
         >
           {dataArray.map((label, index) => (
-            <Step key={label} style={{ width: "100%", padding:0 }}>
+            <Step key={label} style={{ width: "100%", padding:0, cursor:"pointer" }} onClick={()=>handleStepChange(index)} >
               {size.mobileLarge || size.mobile ? (
                 <StepLabel>{label}</StepLabel>
               ) : (
