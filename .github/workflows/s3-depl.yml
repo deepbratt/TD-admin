@@ -33,6 +33,9 @@ jobs:
       - name: Deploy app build to Production S3 bucket
         if: github.ref == 'refs/heads/r/2142.1-0'
         run: aws s3 sync ./build/ s3://prod-admin.carokta.com --delete
-      - name: CDN Cache invalidation
+      - name: Development CDN Cache invalidation
         if: github.ref == 'refs/heads/develop'
         run:  aws cloudfront create-invalidation --distribution-id "E1W481MNO4O4HD" --paths "/*"
+      - name: Production CDN Cache invalidation
+        if: github.ref == 'refs/heads/r/2142.1-0'
+        run:  aws cloudfront create-invalidation --distribution-id "E153Q852I8DRCX" --paths "/*"

@@ -242,7 +242,9 @@ const useAddEditCar = () => {
           setUserPhone(result.phone)
           setFormData({
             name: "associatedPhone",
-            value: result.phone.slice(3, result.phone.length),
+            value: result.phone.indexOf("+") > -1
+            ? result.phone.slice(3, result.phone.length)
+            : result.phone.slice(1, result.phone.length),
           });
         }
       })
@@ -394,7 +396,8 @@ const useAddEditCar = () => {
   };
 
   const formValidated=(stepToValidate : number)=> {
-    if (activeStep === 0) {
+    let stepValidation = stepToValidate
+    if (stepValidation === 0) {
       if (!checkValidation(initialRequireError)) {
         return false;
       } else {
@@ -421,7 +424,7 @@ const useAddEditCar = () => {
           setFormData({ name: "province", value: provinceInformation?.name });
         }
       }
-    } else if (activeStep === 1) {
+    } else if (stepValidation === 1) {
       let secondStepValidated = images.length > 0;
       console.log(images.length > 0 && images.length < 21);
       setRequireError((requiredError) => {
@@ -536,6 +539,7 @@ const useAddEditCar = () => {
         if(!formValidated(i)){
           setActiveStep(i)
           error=true
+          return
         }
       }
       if(error)
