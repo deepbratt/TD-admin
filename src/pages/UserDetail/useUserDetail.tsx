@@ -230,8 +230,10 @@ const useUserDetail = () => {
           setFormData({ name: "email", value: responseResult.email });
           setFormData({
             name: "phone",
-            value: responseResult.phone
+            value: responseResult.phone && responseResult.phone.indexOf("+") > -1
               ? responseResult.phone.slice(3)
+              : responseResult.phone.indexOf("0") === 0
+              ? responseResult.phone.slice(1)
               : responseResult.phone,
           });
           setFormData({
