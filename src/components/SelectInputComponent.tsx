@@ -5,6 +5,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 interface SelectInputProps {
   dataArray: Array<string>;
   required?: boolean;
+  disabled?: boolean;
   style?: any;
   className?: any;
   name: string;
@@ -12,13 +13,14 @@ interface SelectInputProps {
   label?: string;
   error?: boolean;
   helperText?: string;
-  handleChangeSelect: any
+  handleChangeSelect: any;
   // textInputProps : TextFieldProps
 }
 
 const SelectInputComponent = ({
   dataArray,
   required,
+  disabled,
   style,
   className,
   name,
@@ -26,16 +28,16 @@ const SelectInputComponent = ({
   label,
   error,
   helperText,
-  handleChangeSelect
+  handleChangeSelect,
 }: SelectInputProps) => {
   return (
     <Autocomplete
       value={value}
-    //   onInputChange={(e: any, valueChanged: any) =>
-    //     handleChangeSelect({name: name, value: valueChanged})
-    // {"city": "islamabad"}
-    //   }
-    //   inputValue={value ? value : ""}
+      //   onInputChange={(e: any, valueChanged: any) =>
+      //     handleChangeSelect({name: name, value: valueChanged})
+      // {"city": "islamabad"}
+      //   }
+      //   inputValue={value ? value : ""}
       onChange={(event: any, valueChanged: any) =>
         handleChangeSelect(name, valueChanged)
       }
@@ -43,7 +45,8 @@ const SelectInputComponent = ({
       className={className}
       options={dataArray}
       autoHighlight
-      getOptionLabel={(option: any) => option.toString()}
+      disabled={disabled}
+      getOptionLabel={(option: any) => option?.toString()}
       renderOption={(option) => (
         <React.Fragment>
           <span>{option}</span>
@@ -54,6 +57,7 @@ const SelectInputComponent = ({
           {...params}
           label={label}
           required={required}
+          disabled={disabled}
           name={name}
           value={value}
           error={error}
