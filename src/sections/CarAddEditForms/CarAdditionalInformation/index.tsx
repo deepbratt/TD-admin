@@ -9,7 +9,7 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
-import SelectComponent from "../../../components/SelectComponent";
+import SelectInputComponent from "../../../components/SelectInputComponent";
 import useCarAdditionalInformation from "./useCarAdditionalInformation";
 
 interface CarAdditionalInformationProps {
@@ -17,8 +17,9 @@ interface CarAdditionalInformationProps {
   handleChange: (event: any) => void;
   requireError: any;
   setFormData: React.Dispatch<any>;
-  bodyTypesArray: Array<string>
-  featuresArray: Array<string>
+  bodyTypesArray: Array<string>;
+  featuresArray: Array<string>;
+  handleChangeSelect: any;
 }
 
 const CarAdditionalInformation = ({
@@ -27,18 +28,22 @@ const CarAdditionalInformation = ({
   requireError,
   setFormData,
   featuresArray,
-  bodyTypesArray
+  bodyTypesArray,
+  handleChangeSelect,
 }: CarAdditionalInformationProps) => {
   const classes = useStyles();
-  const {handleChangeCheckBoxes} = useCarAdditionalInformation(formData, setFormData)
+  const { handleChangeCheckBoxes } = useCarAdditionalInformation(
+    formData,
+    setFormData
+  );
   // const onlyUnique = (value: string, index:number, self: Array<string>)=> {
   //   return self.indexOf(value) === index;
   // }
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} sm={12} md={6}>
-        <SelectComponent
-          menuItem={addEditCarData.fields.engineType.menu}
+        <SelectInputComponent
+          dataArray={addEditCarData.fields.engineType.menu.sort()}
           name={"engineType"}
           className={classes.selectFields}
           value={formData.engineType}
@@ -48,7 +53,7 @@ const CarAdditionalInformation = ({
           helperText={
             requireError.engineType ? addEditCarData.requiredFieldText : ""
           }
-          onChange={handleChange}
+          handleChangeSelect={handleChangeSelect}
         />
       </Grid>
       <Grid item xs={12} sm={12} md={6}>
@@ -67,8 +72,8 @@ const CarAdditionalInformation = ({
         />
       </Grid>
       <Grid item xs={12} sm={12} md={6}>
-        <SelectComponent
-          menuItem={addEditCarData.fields.transmission.menu}
+        <SelectInputComponent
+          dataArray={addEditCarData.fields.transmission.menu.sort()}
           name={"transmission"}
           className={classes.selectFields}
           value={formData.transmission}
@@ -78,12 +83,12 @@ const CarAdditionalInformation = ({
           helperText={
             requireError.transmission ? addEditCarData.requiredFieldText : ""
           }
-          onChange={handleChange}
+          handleChangeSelect={handleChangeSelect}
         />
       </Grid>
       <Grid item xs={12} sm={12} md={6}>
-        <SelectComponent
-          menuItem={addEditCarData.fields.assembly.menu}
+        <SelectInputComponent
+          dataArray={addEditCarData.fields.assembly.menu.sort()}
           name={"assembly"}
           className={classes.selectFields}
           value={formData.assembly}
@@ -93,12 +98,12 @@ const CarAdditionalInformation = ({
           helperText={
             requireError.assembly ? addEditCarData.requiredFieldText : ""
           }
-          onChange={handleChange}
+          handleChangeSelect={handleChangeSelect}
         />
       </Grid>
       <Grid item xs={12} sm={12} md={6}>
-        <SelectComponent
-          menuItem={bodyTypesArray}
+        <SelectInputComponent
+          dataArray={bodyTypesArray.sort()}
           name={"bodyType"}
           className={classes.selectFields}
           value={formData.bodyType}
@@ -108,12 +113,12 @@ const CarAdditionalInformation = ({
           helperText={
             requireError.bodyType ? addEditCarData.requiredFieldText : ""
           }
-          onChange={handleChange}
+          handleChangeSelect={handleChangeSelect}
         />
       </Grid>
       <Grid item xs={12} sm={12} md={6}>
-        <SelectComponent
-          menuItem={addEditCarData.fields.bodyCondition.menu}
+        <SelectInputComponent
+          dataArray={addEditCarData.fields.bodyCondition.menu}
           name={"bodyCondition"}
           className={classes.selectFields}
           value={formData.bodyCondition}
@@ -123,12 +128,12 @@ const CarAdditionalInformation = ({
           helperText={
             requireError.bodyCondition ? addEditCarData.requiredFieldText : ""
           }
-          onChange={handleChange}
+          handleChangeSelect={handleChangeSelect}
         />
       </Grid>
       <Grid item xs={12} sm={12} md={6}>
-        <SelectComponent
-          menuItem={addEditCarData.fields.sellerType.menu}
+        <SelectInputComponent
+          dataArray={addEditCarData.fields.sellerType.menu.sort()}
           name={"sellerType"}
           className={classes.selectFields}
           value={formData.sellerType}
@@ -138,7 +143,7 @@ const CarAdditionalInformation = ({
           helperText={
             requireError.sellerType ? addEditCarData.requiredFieldText : ""
           }
-          onChange={handleChange}
+          handleChangeSelect={handleChangeSelect}
         />
       </Grid>
       <Grid container item xs={12}>
@@ -148,7 +153,14 @@ const CarAdditionalInformation = ({
           </Typography>
         </Grid>
         {featuresArray.map((feature: string, index: number) => (
-          <Grid item xs={12} sm={6} md={4} style={{ display: "flex" }} key={'cai-features'+index}>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={4}
+            style={{ display: "flex" }}
+            key={"cai-features" + index}
+          >
             <FormControlLabel
               control={
                 <Checkbox

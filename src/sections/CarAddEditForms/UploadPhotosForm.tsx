@@ -1,5 +1,6 @@
 import {
   Button,
+  IconButton,
   createStyles,
   Grid,
   makeStyles,
@@ -10,6 +11,7 @@ import { useState } from "react";
 import UploadPicIcon from "../../assets/icons/uploadPicIcon.png";
 import InformationDialog from "../../components/InformationDialog";
 import addEditCarData from "../../utils/constants/language/en/addEditCarData";
+import CancelRounded from "@material-ui/icons/CancelRounded";
 
 interface IUploadPhotosFormProps {
   images: any;
@@ -24,9 +26,9 @@ const UploadPhotosForm = ({
   requireError,
 }: IUploadPhotosFormProps) => {
   const classes = useStyles();
-  const [openInfoModel, setOpenInfoModel] = useState(false)
-  const [infoMessage, setInfoMessage] = useState<string | any>('');
-  const [infoTitle, setInfoTitle] = useState("")
+  const [openInfoModel, setOpenInfoModel] = useState(false);
+  const [infoMessage, setInfoMessage] = useState<string | any>("");
+  const [infoTitle, setInfoTitle] = useState("");
   const uploadImage = (e: any) => {
     let oneMb = 1024 * 1024;
     let temp = [...images];
@@ -47,7 +49,7 @@ const UploadPhotosForm = ({
     }
     // setSrcImg(e.target.files[0]);
     // setOpenCropModal(true);
-    setInfoTitle('Error!');
+    setInfoTitle("Error!");
     let errorText =
       sizeError && arrayLengthError ? (
         <div>
@@ -60,7 +62,7 @@ const UploadPhotosForm = ({
       ) : arrayLengthError ? (
         addEditCarData.imageArrayLength
       ) : (
-        ''
+        ""
       );
     setInfoMessage(errorText);
     setOpenInfoModel(sizeError || arrayLengthError);
@@ -75,7 +77,7 @@ const UploadPhotosForm = ({
     temp.splice(index, 1);
     updateImagesState(temp);
   };
-  
+
   return (
     <Grid container>
       {requireError}
@@ -90,47 +92,70 @@ const UploadPhotosForm = ({
             ) : null}
           </>
         ) : (
-          <div>
+          <div className={classes.imagesRoot}>
             {images.map((image: any, index: number) =>
               typeof image === "string" ? (
-                <img
-                  src={image}
-                  alt="car"
-                  className={classes.imgStyle}
-                  onClick={() => removePhoto(index)}
-                  key={"img1"+index}
-                />
+                <div className={classes.imageRoot}>
+                  <IconButton
+                    size="small"
+                    className={classes.closeIcon}
+                    onClick={() => removePhoto(index)}
+                  >
+                    <CancelRounded fontSize="small" />
+                  </IconButton>
+                  <img
+                    src={image}
+                    alt="car"
+                    className={classes.imgStyle}
+                    key={"img1" + index}
+                  />
+                </div>
               ) : image && typeof image !== "string" ? (
-                <img
-                  src={URL.createObjectURL(image)}
-                  className={classes.imgStyle}
-                  alt="car"
-                  onClick={() => removePhoto(index)}
-                  key={"img1"+index}
-                />
+                <div className={classes.imageRoot}>
+                  <IconButton
+                    size="small"
+                    className={classes.closeIcon}
+                    onClick={() => removePhoto(index)}
+                  >
+                    <CancelRounded fontSize="small" />
+                  </IconButton>
+                  <img
+                    src={URL.createObjectURL(image)}
+                    className={classes.imgStyle}
+                    alt="car"
+                    key={"img1" + index}
+                  />
+                </div>
               ) : (
                 ""
               )
             )}
           </div>
         )}
-        {images.length < 20 && <div className={classes.buttonWrapper}>
-          <Button variant="contained" className={classes.imgUploadBtn}>
-            {addEditCarData.buttons.addPhoto}
-            <input
-              name="image"
-              type="file"
-              multiple
-              onChange={uploadImage}
-              className={classes.hiddenInputFile}
-            />
-          </Button>
-          <Typography variant="body1" className={classes.infoText}>
-            {addEditCarData.infoText}
-          </Typography>
-        </div>}
+        {images.length < 20 && (
+          <div className={classes.buttonWrapper}>
+            <Button variant="contained" className={classes.imgUploadBtn}>
+              {addEditCarData.buttons.addPhoto}
+              <input
+                name="image"
+                type="file"
+                multiple
+                onChange={uploadImage}
+                className={classes.hiddenInputFile}
+              />
+            </Button>
+            <Typography variant="body1" className={classes.infoText}>
+              {addEditCarData.infoText}
+            </Typography>
+          </div>
+        )}
       </Grid>
-      <InformationDialog message={infoMessage} title={infoTitle} open={openInfoModel} setOpen={()=>setOpenInfoModel(false)} />
+      <InformationDialog
+        message={infoMessage}
+        title={infoTitle}
+        open={openInfoModel}
+        setOpen={() => setOpenInfoModel(false)}
+      />
     </Grid>
   );
 };
@@ -171,10 +196,31 @@ const useStyles = makeStyles((theme: Theme) =>
       cursor: "pointer",
       opacity: 0,
     },
+    imagesRoot: {
+      display: "flex",
+      maxWidth: "800px",
+      flexWrap: "wrap",
+      margin: "15px 0",
+    },
+    imageRoot: {
+      width:"100%",
+      height:"250px",
+      maxWidth: "250px",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      overflow: "hidden",
+    },
+    closeIcon: {
+      position: "absolute",
+      right: "5%",
+      top: "5%",
+      color: "white",
+    },
     imgStyle: {
-      cursor: "pointer",
-      width: "200px",
-      marginLeft:"5px"
+      flexShrink: 0,
+      maxWidth: "100%",
+      maxHidth: "100%",
     },
   })
 );
