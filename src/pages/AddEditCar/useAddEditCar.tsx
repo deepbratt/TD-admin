@@ -98,7 +98,7 @@ const useAddEditCar = () => {
   const [featuresArray, setFeaturesArray] = useState<Array<any>>([]);
   const [bodyTypesArray, setBodyTypesArray] = useState<Array<any>>([]);
   const [bodyColorArray, setBodyColorArray] = useState<Array<any>>([]);
-  const [userPhone, setUserPhone] = useState("0")
+  const [userPhone, setUserPhone] = useState("0");
   const [requireError, setRequireError] = useState({
     ...initialRequireError,
     ...initialRequireError_2,
@@ -115,11 +115,33 @@ const useAddEditCar = () => {
           ? event.target.files[0]
           : event.target.value,
     });
+    if (event.target.value === "") {
+      setRequireError({
+        ...requireError,
+        [event.target.name]: true,
+      });
+    } else {
+      setRequireError({
+        ...requireError,
+        [event.target.name]: false,
+      });
+    }
     event.target.value = event.target.name === "image" && null;
   };
 
   const handleChangeSelect = (name: string, value: any) => {
     setFormData({ name: name, value: value });
+    if (value === "") {
+      setRequireError({
+        ...requireError,
+        [name]: true,
+      });
+    } else {
+      setRequireError({
+        ...requireError,
+        [name]: false,
+      });
+    }
   };
   const ComponentContent = [
     <CarInformationForm
@@ -143,6 +165,7 @@ const useAddEditCar = () => {
       setFormData={setFormData}
       bodyTypesArray={bodyTypesArray}
       featuresArray={featuresArray}
+      handleChangeSelect={handleChangeSelect}
     />,
   ];
 
@@ -239,7 +262,7 @@ const useAddEditCar = () => {
             setPhoneRequiredDialog(true);
             return;
           }
-          setUserPhone(result.phone)
+          setUserPhone(result.phone);
           setFormData({
             name: "associatedPhone",
             value: result.phone.indexOf("+") > -1
@@ -262,7 +285,7 @@ const useAddEditCar = () => {
             setPhoneRequiredDialog(true);
             return;
           }
-          setUserPhone(result.createdBy.phone)
+          setUserPhone(result.createdBy.phone);
           let phone = result.associatedPhone
             ? result.associatedPhone.slice(3, result.createdBy.phone.length)
             : result.createdBy.phone.slice(3, result.createdBy.phone.length);
@@ -478,7 +501,7 @@ const useAddEditCar = () => {
     fd.append("engineCapacity", formData.engineCapacity);
     fd.append("regNumber", formData.registrationNo);
     fd.append("sellerType", formData.sellerType);
-    if(`+92${formData.associatedPhone}`!==userPhone){
+    if (`+92${formData.associatedPhone}` !== userPhone) {
       fd.append("associatedPhone", `+92${formData.associatedPhone}`);
     }
     // fd.append("date", new Date(formData.modelYear).toISOString());
