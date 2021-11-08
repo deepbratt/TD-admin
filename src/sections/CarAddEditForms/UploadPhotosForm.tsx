@@ -203,6 +203,8 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: "15px 0",
     },
     imageRoot: {
+      margin: "5px",
+      position: 'relative',
       width:"100%",
       height:"250px",
       maxWidth: "250px",
@@ -210,6 +212,7 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "center",
       alignItems: "center",
       overflow: "hidden",
+      backgroundColor: theme.palette.common.black,
     },
     closeIcon: {
       position: "absolute",
