@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 interface IProp {
@@ -11,18 +12,22 @@ const Alert = (props: any) => (
 );
 
 const Toast = ({ open, message, type, onClose }: IProp) => {
+
   const closeToast = (e: React.SyntheticEvent<Element, Event>) => {
-    e.stopPropagation();
+    // e.stopPropagation();
     onClose();
   };
+
   return (
     <Snackbar
       anchorOrigin={{
         vertical: "bottom",
         horizontal: "left",
       }}
+      onClose={(e: React.SyntheticEvent<Element, Event>) => closeToast(e)}
       open={open}
-      autoHideDuration={5}
+      autoHideDuration={3000}
+      disableWindowBlurListener
     >
       <Alert
         onClose={(e: React.SyntheticEvent<Element, Event>) => closeToast(e)}

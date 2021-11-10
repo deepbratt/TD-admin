@@ -1,8 +1,11 @@
-import { useEffect, useState } from 'react';
-import { getData } from '../../../utils/API/APIs';
-import { API_ENDPOINTS } from '../../../utils/API/endpoints';
+import { useEffect, useState } from "react";
+import { getData } from "../../../utils/API/APIs";
+import { API_ENDPOINTS } from "../../../utils/API/endpoints";
 
-const useCarInformationForm = (formData: any, setFormData: React.Dispatch<any>) => {
+const useCarInformationForm = (
+  formData: any,
+  setFormData: React.Dispatch<any>
+) => {
   const [carMakes, setCarMakes] = useState<Array<any>>([]);
   const [carMakesList, setCarMakesList] = useState<Array<string>>([]);
   const [carModels, setCarModels] = useState<Array<any>>([]);
@@ -10,13 +13,20 @@ const useCarInformationForm = (formData: any, setFormData: React.Dispatch<any>) 
   const [carVersions, setCarVersions] = useState<Array<any>>([]);
   const [carVersionsList, setCarVersionsList] = useState<Array<string>>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
-  const [toastType, setToastType] = useState('success');
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastType, setToastType] = useState("success");
   const [toastOpen, setToastOpen] = useState(false);
 
-  const handleTextChange = (event:any)=>{
-    setFormData({name:event.target.name, value:event.target.value})
-  }
+  const handleTextChange = (event: any) => {
+    setFormData({ name: event.target.name, value: event.target.value });
+  };
+
+  const handlePhoneInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (value[0] !== "0" && value[0] !== "+" && value.length <= 10) {
+      setFormData({ name: name, value: value });
+    }
+  };
 
   const fetchMakes = () => {
     setIsLoading(true);
@@ -24,13 +34,13 @@ const useCarInformationForm = (formData: any, setFormData: React.Dispatch<any>) 
       API_ENDPOINTS.ADS + API_ENDPOINTS.CARS + API_ENDPOINTS.CAR_MAKES
     ).then((response) => {
       setIsLoading(false);
-      if (response && response.data && response.data.status === 'success') {
+      if (response && response.data && response.data.status === "success") {
         setCarMakes(response.data.data.result);
-        let makeList = response.data.data.result.map((make:any)=>make.name)
-        setCarMakesList(makeList)
+        let makeList = response.data.data.result.map((make: any) => make.name);
+        setCarMakesList(makeList);
       } else {
         setToastMessage(response.message);
-        setToastType('error');
+        setToastType("error");
         setToastOpen(true);
       }
     });
@@ -44,13 +54,15 @@ const useCarInformationForm = (formData: any, setFormData: React.Dispatch<any>) 
         makeId
     ).then((response) => {
       setIsLoading(false);
-      if (response && response.data && response.data.status === 'success') {
+      if (response && response.data && response.data.status === "success") {
         setCarModels(response.data.data.result);
-        let modelList = response.data.data.result.map((model:any)=>model.name)
-        setCarModelsList(modelList)
+        let modelList = response.data.data.result.map(
+          (model: any) => model.name
+        );
+        setCarModelsList(modelList);
       } else {
         setToastMessage(response.message);
-        setToastType('error');
+        setToastType("error");
         setToastOpen(true);
       }
     });
@@ -64,13 +76,15 @@ const useCarInformationForm = (formData: any, setFormData: React.Dispatch<any>) 
         modelId
     ).then((response) => {
       setIsLoading(false);
-      if (response && response.data && response.data.status === 'success') {
+      if (response && response.data && response.data.status === "success") {
         setCarVersions(response.data.data.result);
-        let versionList = response.data.data.result.map((versions:any)=>versions.name)
-        setCarVersionsList(versionList)
+        let versionList = response.data.data.result.map(
+          (versions: any) => versions.name
+        );
+        setCarVersionsList(versionList);
       } else {
         setToastMessage(response.message);
-        setToastType('error');
+        setToastType("error");
         setToastOpen(true);
       }
     });
@@ -100,17 +114,26 @@ const useCarInformationForm = (formData: any, setFormData: React.Dispatch<any>) 
     }
   }, [formData.carModel, carModels]);
 
-
   useEffect(() => {
     if (formData.modelVersion) {
       let version = carVersions.filter(
         (version) => version.name === formData.modelVersion
       );
       if (version.length > 0) {
-        setFormData({name: "engineCapacity", value: version[0].capacity ? version[0].capacity : ""})
-        setFormData({name: "engineType", value: version[0].fuel_type ? version[0].fuel_type : ""})
-        setFormData({name: "transmission", value: version[0].transmission_type ? version[0].transmission_type : ""})
-          
+        setFormData({
+          name: "engineCapacity",
+          value: version[0].capacity ? version[0].capacity : "",
+        });
+        setFormData({
+          name: "engineType",
+          value: version[0].fuel_type ? version[0].fuel_type : "",
+        });
+        setFormData({
+          name: "transmission",
+          value: version[0].transmission_type
+            ? version[0].transmission_type
+            : "",
+        });
       }
     }
   }, [formData.modelVersion]);
@@ -123,7 +146,8 @@ const useCarInformationForm = (formData: any, setFormData: React.Dispatch<any>) 
     carMakesList,
     carModelsList,
     carVersionsList,
-    handleTextChange
+    handleTextChange,
+    handlePhoneInputChange,
   };
 };
 
