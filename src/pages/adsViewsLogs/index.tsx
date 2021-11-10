@@ -26,7 +26,7 @@ export interface IViewsLogsTableRow {
     model: string;
     modelYear: string;
     id: string;
-  };
+  } | null;
   createdAt: string;
   updatedAt: string;
 }

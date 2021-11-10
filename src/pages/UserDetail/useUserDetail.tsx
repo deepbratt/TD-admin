@@ -228,14 +228,22 @@ const useUserDetail = () => {
           setFormData({ name: "userName", value: responseResult.username });
           setFormData({ name: "joined", value: responseResult.createdAt });
           setFormData({ name: "email", value: responseResult.email });
-          setFormData({
-            name: "phone",
-            value: responseResult.phone && responseResult.phone.indexOf("+") > -1
-              ? responseResult.phone.slice(3)
-              : responseResult.phone.indexOf("0") === 0
-              ? responseResult.phone.slice(1)
-              : responseResult.phone,
-          });
+          if (responseResult.phone) {
+            setFormData({
+              name: "phone",
+              value:
+                responseResult.phone && responseResult.phone.indexOf("+") > -1
+                  ? responseResult.phone.slice(3)
+                  : responseResult.phone.indexOf("0") === 0
+                  ? responseResult.phone.slice(1)
+                  : responseResult.phone,
+            });
+          } else {
+            setFormData({
+              name: "phone",
+              value: "",
+            });
+          }
           setFormData({
             name: "signedUpWithEmail",
             value: responseResult.signedUpWithEmail,

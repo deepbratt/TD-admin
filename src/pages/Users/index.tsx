@@ -38,7 +38,7 @@ const Users = () => {
     handleChange,
     filters,
     setOpenAddDialog,
-    openAddDialog
+    openAddDialog,
   } = useUsers();
   const classes = styles();
   return (
@@ -62,7 +62,7 @@ const Users = () => {
           name="userActive"
           onChange={handleChange}
           value={filters.userActive}
-          disabled={filters.userType==="Sellers"}
+          disabled={filters.userType === "Sellers"}
           InputProps={{
             classes: {
               input: classes.inputStyle,
@@ -74,7 +74,7 @@ const Users = () => {
           label="Ban"
           name="userBanned"
           onChange={handleChange}
-          disabled={filters.userType==="Sellers"}
+          disabled={filters.userType === "Sellers"}
           value={filters.userBanned}
           InputProps={{
             classes: {
@@ -82,8 +82,17 @@ const Users = () => {
             },
           }}
         />
-        <HeaderSearch setKeywords={setKeywords} getResults={getUsers} disabled={filters.userType==="Sellers"}/>
-        <Button endIcon={<Add />} variant="contained" color="secondary" onClick={()=>setOpenAddDialog(true)}>
+        <HeaderSearch
+          setKeywords={setKeywords}
+          getResults={getUsers}
+          disabled={filters.userType === "Sellers"}
+        />
+        <Button
+          endIcon={<Add />}
+          variant="contained"
+          color="secondary"
+          onClick={() => setOpenAddDialog(true)}
+        >
           ADD User
         </Button>
       </PageHeader>
@@ -102,12 +111,17 @@ const Users = () => {
           </TableHead>
           <TableBody>
             {result.map((row: any, index: number) => (
-              <TableRowComponent data={row} key={row._id + index} resultArray={result} setResultArray={setResult}/>
+              <TableRowComponent
+                data={row}
+                key={row._id + index}
+                resultArray={result}
+                setResultArray={setResult}
+              />
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      {result.length < 1 && <NoResults/>}
+      {result.length < 1 && <NoResults />}
       <Grid container>
         <Grid
           item
@@ -122,7 +136,15 @@ const Users = () => {
           />
         </Grid>
       </Grid>
-      <UserDialog refresh={()=>getUsers(1)} open={openAddDialog} setOpen={setOpenAddDialog} disableRole update={false} id="" setUpdate={()=>null} />
+      <UserDialog
+        refresh={() => getUsers(1)}
+        open={openAddDialog}
+        setOpen={setOpenAddDialog}
+        disableRole
+        update={false}
+        id=""
+        setUpdate={() => null}
+      />
       <Loader open={isLoading} isBackdrop={true} />
       <Toast
         onClose={() => setToastOpen(false)}
