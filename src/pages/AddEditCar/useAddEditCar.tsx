@@ -258,6 +258,7 @@ const useAddEditCar = () => {
       .then((response) => {
         if (response && response.data && response.data.status === "success") {
           let result = response.data.data.result;
+          console.log("result.phone", result.phone);
           if (!result.phone) {
             setPhoneRequiredDialog(true);
             return;
@@ -265,9 +266,12 @@ const useAddEditCar = () => {
           setUserPhone(result.phone);
           setFormData({
             name: "associatedPhone",
-            value: result.phone.indexOf("+") > -1
-            ? result.phone.slice(3, result.phone.length)
-            : result.phone.slice(1, result.phone.length),
+            value:
+              result.phone.indexOf("+") > -1
+                ? result.phone.slice(3)
+                : result.phone.indexOf("0") === 0
+                ? result.phone.slice(1)
+                : result.phone,
           });
         }
       })
@@ -286,9 +290,16 @@ const useAddEditCar = () => {
             return;
           }
           setUserPhone(result.createdBy.phone);
-          let phone = result.associatedPhone
-            ? result.associatedPhone.slice(3, result.createdBy.phone.length)
-            : result.createdBy.phone.slice(3, result.createdBy.phone.length);
+          let phone =
+            result.associatedPhone && result.associatedPhone.indexOf("+") > -1
+              ? result.associatedPhone.slice(3)
+              : result.associatedPhone.indexOf("0") === 0
+              ? result.phone.slice(1)
+              : result.createdBy.phone.indexOf("+") > -1
+              ? result.createdBy.phone.slice(3)
+              : result.createdBy.phone.indexOf("0") === 0
+              ? result.createdBy.phone.slice(1)
+              : result.createdBy.phone;
           setFormData({ name: "associatedPhone", value: phone });
           let FieldValues = formData;
           FieldValues = {
@@ -418,8 +429,8 @@ const useAddEditCar = () => {
     return result;
   };
 
-  const formValidated=(stepToValidate : number)=> {
-    let stepValidation = stepToValidate
+  const formValidated = (stepToValidate: number) => {
+    let stepValidation = stepToValidate;
     if (stepValidation === 0) {
       if (!checkValidation(initialRequireError)) {
         return false;
@@ -545,31 +556,30 @@ const useAddEditCar = () => {
     });
   };
 
-  const resetForm = () =>{
+  const resetForm = () => {
     let fieldValues: any = initialFieldValues;
-        Object.keys(fieldValues).forEach((key) => {
-          setFormData({ name: key, value: fieldValues[key] });
-        });
-        setImages([]);
-        history.push("/advertisements")
-  }
+    Object.keys(fieldValues).forEach((key) => {
+      setFormData({ name: key, value: fieldValues[key] });
+    });
+    setImages([]);
+    history.push("/advertisements");
+  };
 
-  const handleStepChange = (step:number)=>{
-    formRef.current.scrollIntoView({ behavior: 'smooth' });
-    if(step > activeStep){
-      let error = false
-      for(let i = activeStep; i<step; i++){
-        if(!formValidated(i)){
-          setActiveStep(i)
-          error=true
-          return
+  const handleStepChange = (step: number) => {
+    formRef.current.scrollIntoView({ behavior: "smooth" });
+    if (step > activeStep) {
+      let error = false;
+      for (let i = activeStep; i < step; i++) {
+        if (!formValidated(i)) {
+          setActiveStep(i);
+          error = true;
+          return;
         }
       }
-      if(error)
-      return
+      if (error) return;
     }
-    setActiveStep(step)
-  }
+    setActiveStep(step);
+  };
 
   const handleNext = () => {
     formRef.current.scrollIntoView({ behavior: "smooth" });

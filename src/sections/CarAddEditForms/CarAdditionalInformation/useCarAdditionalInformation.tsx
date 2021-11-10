@@ -2,11 +2,14 @@ import { useState } from "react";
 import { getData } from "../../../utils/API/APIs";
 import { API_ENDPOINTS } from "../../../utils/API/endpoints";
 
-const useCarAdditionalInformation = (formData: any, setFormData: React.Dispatch<any>) =>{
-    const [toastMessage, setToastMessage] = useState('');
-    const [toastType, setToastType] = useState('success');
-    const [toastOpen, setToastOpen] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+const useCarAdditionalInformation = (
+  formData: any,
+  setFormData: React.Dispatch<any>
+) => {
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastType, setToastType] = useState("success");
+  const [toastOpen, setToastOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChangeCheckBoxes = (e: any) => {
     let temp = formData.features;
@@ -21,8 +24,7 @@ const useCarAdditionalInformation = (formData: any, setFormData: React.Dispatch<
     console.log(temp);
   };
 
-  return {handleChangeCheckBoxes}
+  return { handleChangeCheckBoxes };
+};
 
-}
-
-export default useCarAdditionalInformation
+export default useCarAdditionalInformation;

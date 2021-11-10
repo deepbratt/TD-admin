@@ -25,6 +25,8 @@ import {
   FULL_NAME,
   PHONE,
   NOT_AVAILABLE,
+  USER_NOT_AVAILABLE,
+  AD_NOT_AVAILABLE,
   CLICKED_BY,
   CLICKED_DATE,
   AD_CLICKED,
@@ -106,7 +108,6 @@ export const Row: React.FC<IViewsLogsTableRowProps> = ({ data }) => {
   const { links } = TableStyles();
   const history = useHistory();
   const { buyer_details, car_details, clickedDate, _id } = data;
-  const { make, model, modelYear } = car_details;
   return (
     <TableRow>
       {buyer_details !== null ? (
@@ -119,7 +120,7 @@ export const Row: React.FC<IViewsLogsTableRowProps> = ({ data }) => {
           {buyer_details.firstName + " " + buyer_details.lastName}
         </TableCell>
       ) : (
-        <TableCell>{NOT_AVAILABLE}</TableCell>
+        <TableCell>{USER_NOT_AVAILABLE}</TableCell>
       )}
 
       <TableCell>
@@ -127,13 +128,21 @@ export const Row: React.FC<IViewsLogsTableRowProps> = ({ data }) => {
           ? buyer_details.phone
           : NOT_AVAILABLE}
       </TableCell>
-
-      <TableCell
-        classes={{ body: links }}
-        onClick={() => history.push(paths.carDetail + "/" + car_details._id)}
-      >
-        {make + " " + model + " (" + modelYear + ")"}
-      </TableCell>
+      {car_details !== null ? (
+        <TableCell
+          classes={{ body: links }}
+          onClick={() => history.push(paths.carDetail + "/" + car_details._id)}
+        >
+          {car_details.make +
+            " " +
+            car_details.model +
+            " (" +
+            car_details.modelYear +
+            ")"}
+        </TableCell>
+      ) : (
+        <TableCell>{AD_NOT_AVAILABLE}</TableCell>
+      )}
       <TableCell>{new Date(clickedDate).toLocaleDateString("en-US")}</TableCell>
       {/* <TableCell align="center">
         <IconButton onClick={() => handleUpdate(_id)}>

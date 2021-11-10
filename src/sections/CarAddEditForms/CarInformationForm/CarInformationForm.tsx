@@ -45,8 +45,13 @@ const CarInformationForm = ({
   bodyColorArray,
 }: CarInformationFormProps) => {
   const classes = useStyles();
-  const { carMakesList, carModelsList, carVersionsList, handleTextChange } =
-    useCarInformationForm(formData, setFormData);
+  const {
+    carMakesList,
+    carModelsList,
+    carVersionsList,
+    handleTextChange,
+    handlePhoneInputChange,
+  } = useCarInformationForm(formData, setFormData);
   const cities = City.getCitiesOfCountry("PK");
   const extractedCityNames = cities?.map((item) => item.name);
   let cityNames = [];
@@ -246,18 +251,17 @@ const CarInformationForm = ({
       </Grid>
       <Grid item xs={12} sm={12} md={6}>
         <TextField
-          name={"associatedPhone"}
+          name="associatedPhone"
+          onChange={handlePhoneInputChange}
+          value={formData.associatedPhone}
+          fullWidth
           type="number"
-          className={classes.selectFields}
-          value={parseInt(formData.associatedPhone)}
           label={addEditCarData.fields.associatedPhone.label}
           required
           error={requireError.associatedPhone}
           helperText={
             requireError.associatedPhone ? addEditCarData.requiredFieldText : ""
           }
-          // onChange={handleChange}
-          onChange={handleTextChange}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">+92</InputAdornment>
