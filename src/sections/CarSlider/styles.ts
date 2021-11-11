@@ -59,6 +59,10 @@ const CarSliderStyles = makeStyles(() => ({
     "& .carousel .thumbs-wrapper ul li": {
       borderRadius: "15px",
     },
+    "& .carousel .thumbs-wrapper .thumbs .thumb img": {
+      height:"75px !important",
+      width:"100% !important"
+    },
     "&  .carousel .control-prev.control-arrow:before": {
       color: "black",
       borderRight: "8px solid black",
@@ -67,6 +71,26 @@ const CarSliderStyles = makeStyles(() => ({
       color: "black",
       borderLeft: "8px solid black",
     },
+  },
+  sliderImageWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    cursor: 'pointer',
+    height: '600px',
+    position:"relative",
+    width:"100%",
+  },
+  blurBgImg:{
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    left: 0,
+    top: 0,
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    filter: 'blur(8px)'
   },
 }));
 

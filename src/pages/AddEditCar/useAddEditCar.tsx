@@ -16,6 +16,8 @@ import {
 import { API_ENDPOINTS } from "../../utils/API/endpoints";
 import Sizes from "../../utils/functions/Sizes";
 import { routes } from "../../routes/paths";
+import watermark from 'watermarkjs';
+
 const formReducer = (state: any, event: any) => {
   return {
     ...state,
@@ -290,16 +292,30 @@ const useAddEditCar = () => {
             return;
           }
           setUserPhone(result.createdBy.phone);
-          let phone =
-            result.associatedPhone && result.associatedPhone.indexOf("+") > -1
-              ? result.associatedPhone.slice(3)
-              : result.associatedPhone.indexOf("0") === 0
-              ? result.phone.slice(1)
-              : result.createdBy.phone.indexOf("+") > -1
-              ? result.createdBy.phone.slice(3)
-              : result.createdBy.phone.indexOf("0") === 0
-              ? result.createdBy.phone.slice(1)
-              : result.createdBy.phone;
+          let phone = result.createdBy.phone
+          if(result.associatedPhone){
+            if(result.associatedPhone.indexOf("+")>-1){
+              phone= result.associatedPhone.slice(3)
+            }else if(result.associatedPhone.indexOf("0") === 0){
+              phone = result.associatedPhone.slice(1)
+            }
+          }else if(result.createdBy.phone.indexOf("+") > -1){
+            phone = result.createdBy.phone.slice(3)
+          }else if(result.createdBy.phone.indexOf("0") === 0){
+            phone = result.createdBy.phone.slice(1)
+          }else{
+            phone = result.createdBy.phone
+          }
+          // let phone =
+          //   result.associatedPhone && result.associatedPhone.indexOf("+") > -1
+          //     ? result.associatedPhone.slice(3)
+          //     : result.associatedPhone.indexOf("0") === 0
+          //     ? result.associatedPhone.slice(1)
+          //     : result.createdBy.phone.indexOf("+") > -1
+          //     ? result.createdBy.phone.slice(3)
+          //     : result.createdBy.phone.indexOf("0") === 0
+          //     ? result.createdBy.phone.slice(1)
+          //     : result.createdBy.phone;
           setFormData({ name: "associatedPhone", value: phone });
           let FieldValues = formData;
           FieldValues = {
@@ -475,7 +491,32 @@ const useAddEditCar = () => {
     return true;
   };
 
-  const submitForm = () => {
+  const appendImages = async(fd:any)=>{
+    let StringUrls = 0;
+    for (let i = 0; i < formData.images.length; i++) {
+      if (typeof formData.images[i] === typeof 'string') {
+        fd.append('image[' + StringUrls + ']', images[i]);
+        StringUrls++;
+      } else {
+        let watermarkText = "carokta.com"
+        await watermark([images[i]])
+          .blob(
+            watermark.text.center(
+              watermarkText,
+              '35px roboto',
+              '#fff',
+              0.5
+            )
+          )
+          .then((img: any) => {
+            console.log(img);
+            fd.append('image', img);
+          });
+      }
+    }
+  }
+
+  const submitForm = async () => {
     console.log("submit following data: ");
     console.log(formData);
     let fd = new FormData();
@@ -488,15 +529,15 @@ const useAddEditCar = () => {
     fd.append("location.address", formData.location.address);
     fd.append("location.coordinates[0]", formData.location.coordinate.long);
     fd.append("location.coordinates[1]", formData.location.coordinate.lat);
-    let StringUrls = 0;
-    for (let i = 0; i < formData.images.length; i++) {
-      if (typeof formData.images[i] === typeof "string") {
-        fd.append("image[" + StringUrls + "]", images[i]);
-        StringUrls++;
-      } else {
-        fd.append("image", images[i]);
-      }
-    }
+    // let StringUrls = 0;
+    // for (let i = 0; i < formData.images.length; i++) {
+    //   if (typeof formData.images[i] === typeof "string") {
+    //     fd.append("image[" + StringUrls + "]", images[i]);
+    //     StringUrls++;
+    //   } else {
+    //     fd.append("image", images[i]);
+    //   }
+    // }
     fd.append("model", formData.carModel);
     fd.append("make", formData.carMake);
     fd.append("version", formData.modelVersion);
@@ -522,6 +563,7 @@ const useAddEditCar = () => {
       fd.append("features", formData.features[i]);
     }
     fd.append("price", formData.price);
+    await appendImages(fd)
     console.table(Object.fromEntries(fd));
     setIsLoading(true);
     // let addEditCarApi = id ? updateFormData : addFormData
@@ -542,16 +584,15 @@ const useAddEditCar = () => {
         }
         setActiveStep(0);
       } else {
-        console.log("error", response.response);
-        if (!response.response) {
-          setToastMessage("Network Error");
-          setToastType("error");
-          setToastOpen(true);
-        } else {
-          setToastMessage(response.response.data.message);
-          setToastType("error");
-          setToastOpen(true);
-        }
+        let msg = response && response.response && response.response.data && response.response.data.message
+          ? response.response.data.message
+          : response.response
+          ? response.response
+          : 'Network Error';
+        setToastMessage(msg);
+        setToastType('error');
+        setToastOpen(true);
+        console.log('error', response);
       }
     });
   };
