@@ -292,16 +292,30 @@ const useAddEditCar = () => {
             return;
           }
           setUserPhone(result.createdBy.phone);
-          let phone =
-            result.associatedPhone && result.associatedPhone.indexOf("+") > -1
-              ? result.associatedPhone.slice(3)
-              : result.associatedPhone.indexOf("0") === 0
-              ? result.phone.slice(1)
-              : result.createdBy.phone.indexOf("+") > -1
-              ? result.createdBy.phone.slice(3)
-              : result.createdBy.phone.indexOf("0") === 0
-              ? result.createdBy.phone.slice(1)
-              : result.createdBy.phone;
+          let phone = result.createdBy.phone
+          if(result.associatedPhone){
+            if(result.associatedPhone.indexOf("+")>-1){
+              phone= result.associatedPhone.slice(3)
+            }else if(result.associatedPhone.indexOf("0") === 0){
+              phone = result.associatedPhone.slice(1)
+            }
+          }else if(result.createdBy.phone.indexOf("+") > -1){
+            phone = result.createdBy.phone.slice(3)
+          }else if(result.createdBy.phone.indexOf("0") === 0){
+            phone = result.createdBy.phone.slice(1)
+          }else{
+            phone = result.createdBy.phone
+          }
+          // let phone =
+          //   result.associatedPhone && result.associatedPhone.indexOf("+") > -1
+          //     ? result.associatedPhone.slice(3)
+          //     : result.associatedPhone.indexOf("0") === 0
+          //     ? result.associatedPhone.slice(1)
+          //     : result.createdBy.phone.indexOf("+") > -1
+          //     ? result.createdBy.phone.slice(3)
+          //     : result.createdBy.phone.indexOf("0") === 0
+          //     ? result.createdBy.phone.slice(1)
+          //     : result.createdBy.phone;
           setFormData({ name: "associatedPhone", value: phone });
           let FieldValues = formData;
           FieldValues = {
