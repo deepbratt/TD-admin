@@ -1,6 +1,7 @@
 import { lazy } from "react";
-import Appointments from "../pages/appointments";
-import AdsViewsLogs from "../pages/adsViewsLogs";
+const Appointments = lazy(() => import("../pages/appointments"));
+const AdsViewsLogs = lazy(() => import("../pages/adsViewsLogs"));
+const BulkUpload = lazy(() => import("../pages/bulkUpload"));
 const Home = lazy(() => import("../pages/home"));
 const Login = lazy(() => import("../pages/login"));
 const ForgotPassword = lazy(() => import("../pages/forgetPassword"));
@@ -43,6 +44,7 @@ export const paths = {
   carFeatures: "/car-features/",
   customerSupport: "/tickets/",
   carColor:"/car-color",
+  bulkUpload:"/bulk-upload/"
 };
 
 export const routes = {
@@ -68,6 +70,7 @@ export const routes = {
   carFeatures: "/car-features/",
   customerSupport: "/tickets",
   carColor:"/car-color",
+  bulkUpload:"/bulk-upload/:id"
 };
 
 export const privateRoutes = {
@@ -165,6 +168,11 @@ export const privateRoutes = {
     name: "Customer Support",
     path: routes.customerSupport,
     component: Tickets,
+  },
+  [paths.bulkUpload]: {
+    name: "Bulk Upload",
+    path: routes.bulkUpload,
+    component: BulkUpload,
   },
 };
 

@@ -31,15 +31,21 @@ export const SETTINGS: string = "Setting";
 export const PASSWORD: string = "Password";
 export const AD: string = "Add";
 export const UPDATE: string = "Update";
+export const DOWNLOAD_TEMPLATE: string = "Download Template";
 export const USER: string = "User";
 export const VIEW_LOGS: string = "View Logs";
 export const MANAGE_USER: string = "Manage Admin Panel Users";
 export const MANAGE_ALL_ADS_VIEWS_LOGS: string = "Manage All Ads Views Logs";
-export const MANAGE_SELECTED_ADS_VIEWS_LOGS: string = "Manage Selected Ad Views Logs";
+export const MANAGE_BULK_UPLOAD: string = "Manage Bulk Upload";
+export const MANAGE_SELECTED_ADS_VIEWS_LOGS: string =
+  "Manage Selected Ad Views Logs";
 export const MANAGE_APPOINTMENTS: string = "Manage Appointments";
 export const ADMIN_USER: string = "Admin Panel Users";
 export const CANT_FIND_RESULT: string =
   "Sorry! No results found against your search criteria.";
+export const BULK_UPLOAD_ADS: string = "Bulk Upload Ads";
+export const BULK_UPLOADS_LIST: string = "Bulk Uploads List";
+
 
 // table cells
 export const ADMIN_USER_LIST: string = "Admin User List";
@@ -69,3 +75,11 @@ export const CLICKED_BY = "Clicked By";
 export const AD_CLICKED = "Ad Clicked";
 export const CLICKED_DATE = "Clicked Date";
 export const BUYER_PHONE = "Buyer Phone";
+export const USER_ID = "User Id";
+export const CREATED_DATE = "Created Date";
+export const CREATED_BY = "Created By";
+export const TOTAL_ADS_COUNT = "Total Ads Count";
+export const SUCCESS_ADS_COUNT = "Success Count";
+export const FAILED_ADS_COUNT = "Failed Count";
+export const CSV_FILE = "CSV File";
+export const ID = "Id";

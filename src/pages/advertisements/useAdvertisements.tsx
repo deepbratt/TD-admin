@@ -14,6 +14,7 @@ const useAdvertisements = (createdBy?: string) => {
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
   const [keywords, setKeywords] = useState("");
+  const [totalCount, setTotalCount] = useState(0);
 
   // functions
   const getCars = (pageValue = page) => {
@@ -30,6 +31,7 @@ const useAdvertisements = (createdBy?: string) => {
           setResult(response.data.data.result);
           setPage(pageValue);
           // console.log("response pages count= ", response.data.totalCount);
+          setTotalCount(response.data.totalCount)
           let totalPages = Math.ceil(response.data.totalCount / dataLimit);
           setPageCount(totalPages);
         } else {
@@ -67,6 +69,7 @@ const useAdvertisements = (createdBy?: string) => {
     keywords,
     setKeywords,
     getCars,
+    totalCount
   };
 };
 
