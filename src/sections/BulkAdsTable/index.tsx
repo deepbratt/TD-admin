@@ -1,3 +1,4 @@
+import { useHistory } from "react-router-dom";
 import {
   Paper,
   Table,
@@ -11,7 +12,7 @@ import {
   InputBase,
   TableBody,
   TablePagination,
-  IconButton,
+  Link,
 } from "@material-ui/core";
 import {
   alpha,
@@ -20,26 +21,22 @@ import {
   createStyles,
 } from "@material-ui/core/styles";
 import {
-  ADS_VIEWS_LOGS_LIST,
-  ACTION,
-  FULL_NAME,
-  PHONE,
-  NOT_AVAILABLE,
-  USER_NOT_AVAILABLE,
-  AD_NOT_AVAILABLE,
-  CLICKED_BY,
-  CLICKED_DATE,
-  AD_CLICKED,
-  BUYER_PHONE,
   CANT_FIND_RESULT,
+  BULK_UPLOADS_LIST,
+  ID,
+  USER_ID,
+  CREATED_BY,
+  CREATED_DATE,
+  TOTAL_ADS_COUNT,
+  SUCCESS_ADS_COUNT,
+  FAILED_ADS_COUNT,
+  CSV_FILE,
+  STATUS,
 } from "../../utils/constants/language/en/buttonLabels";
 import SearchIcon from "@material-ui/icons/Search";
-import { IViewsLogsTableRow } from "../../pages/adsViewsLogs";
+import { IBulkUploadHistoryTableRow } from "../../pages/bulkUpload";
 import { Skeleton } from "@material-ui/lab";
-import { DeleteRounded, EditRounded } from "@material-ui/icons";
-import { useHistory } from "react-router";
 import { paths } from "../../routes/paths";
-import { Colors } from "../../theme/themeConstants";
 
 const TableStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -90,76 +87,65 @@ const TableStyles = makeStyles((theme: Theme) =>
       },
       color: theme.palette.common.white,
     },
-    links: {
-      cursor: "pointer",
-      color: theme.palette.primary.main,
-      "&:hover": {
-        textDecoration: "underline",
-      },
-    },
   })
 );
 
-interface IViewsLogsTableRowProps {
-  data: IViewsLogsTableRow;
+interface IBulkUploadHistoryTableRowProps {
+  data: IBulkUploadHistoryTableRow;
 }
 
-export const Row: React.FC<IViewsLogsTableRowProps> = ({ data }) => {
-  const { links } = TableStyles();
+export const Row: React.FC<IBulkUploadHistoryTableRowProps> = ({ data }) => {
   const history = useHistory();
-  const { buyer_details, car_details, clickedDate, _id } = data;
+  const {
+    userId,
+    createdAt,
+    createdBy,
+    csvFile,
+    status,
+    totalAdsCount,
+    successAdsCount,
+    faliedAdsCount,
+    _id,
+  } = data;
+
+  const { firstName, lastName } = createdBy;
   return (
     <TableRow>
-      {buyer_details !== null ? (
-        <TableCell
-          classes={{ body: links }}
-          onClick={() =>
-            history.push(paths.userDetail + "/" + buyer_details._id)
-          }
-        >
-          {buyer_details.firstName + " " + buyer_details.lastName}
-        </TableCell>
-      ) : (
-        <TableCell>{USER_NOT_AVAILABLE}</TableCell>
-      )}
-
+      {/* <TableCell>{_id}</TableCell> */}
       <TableCell>
-        {buyer_details !== null && buyer_details.phone
-          ? buyer_details.phone
-          : NOT_AVAILABLE}
+        <Link
+          style={{ cursor: "pointer" }}
+          onClick={() => history.push(paths.userDetail + "/" + userId)}
+        >{`${userId}`}</Link>
       </TableCell>
-      {car_details !== null ? (
-        <TableCell
-          classes={{ body: links }}
-          onClick={() => history.push(paths.carDetail + "/" + car_details._id)}
-        >
-          {car_details.make +
-            " " +
-            car_details.model +
-            " (" +
-            car_details.modelYear +
-            ")"}
-        </TableCell>
-      ) : (
-        <TableCell>{AD_NOT_AVAILABLE}</TableCell>
-      )}
-      <TableCell>{new Date(clickedDate).toLocaleDateString("en-US", {year: 'numeric', month: 'long', day: 'numeric' })}</TableCell>
-      {/* <TableCell align="center">
-        <IconButton onClick={() => handleUpdate(_id)}>
-          <EditRounded color="primary" />
-        </IconButton>
-        <IconButton onClick={() => handleDelete(_id)}>
-          <DeleteRounded style={{ color: "#C20000" }} />
-        </IconButton>
-      </TableCell> */}
+      <TableCell>
+        <Link
+          style={{ cursor: "pointer" }}
+          onClick={() => history.push(paths.userDetail + "/" + createdBy._id)}
+        >{`${firstName} ${lastName}`}</Link>
+      </TableCell>
+      <TableCell>
+        <Link href={csvFile}>{csvFile.slice(0, 40)}...</Link>
+      </TableCell>
+      <TableCell>{totalAdsCount ? totalAdsCount : 0}</TableCell>
+      <TableCell>{successAdsCount ? successAdsCount : 0}</TableCell>
+      <TableCell>{faliedAdsCount ? faliedAdsCount : 0}</TableCell>
+      <TableCell>{status}</TableCell>
+      <TableCell>
+        {new Date(createdAt).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })}
+      </TableCell>
     </TableRow>
   );
 };
 
-interface IViewsLogsTableProps {
-  data?: IViewsLogsTableRow[];
+interface IBulkUploadHistoryTableProps {
+  data?: IBulkUploadHistoryTableRow[];
   loading: boolean;
-  totalCount: number;
+  count: number;
   page: number;
   rowsPerPage: number;
   keywords: string;
@@ -168,10 +154,10 @@ interface IViewsLogsTableProps {
   handleSearchInputChange: (e: any) => void;
 }
 
-const ViewsLogsTable: React.FC<IViewsLogsTableProps> = ({
+const BulkUploadHistoryTable: React.FC<IBulkUploadHistoryTableProps> = ({
   data,
   loading,
-  totalCount,
+  count,
   page,
   rowsPerPage,
   keywords,
@@ -184,8 +170,8 @@ const ViewsLogsTable: React.FC<IViewsLogsTableProps> = ({
   return (
     <TableContainer component={Paper}>
       <Toolbar className={toolbar}>
-        <Typography variant="h3">{ADS_VIEWS_LOGS_LIST}</Typography>
-        <div className={search}>
+        <Typography variant="h3">{BULK_UPLOADS_LIST}</Typography>
+        {/* <div className={search}>
           <div className={searchIcon}>
             <SearchIcon color="inherit" />
           </div>
@@ -198,17 +184,21 @@ const ViewsLogsTable: React.FC<IViewsLogsTableProps> = ({
             }}
             inputProps={{ "aria-label": "search" }}
           />
-        </div>
+        </div> */}
       </Toolbar>
       <Divider />
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>{CLICKED_BY}</TableCell>
-            <TableCell>{BUYER_PHONE}</TableCell>
-            <TableCell>{AD_CLICKED}</TableCell>
-            <TableCell>{CLICKED_DATE}</TableCell>
-            {/* <TableCell align="center">{ACTION}</TableCell> */}
+            {/* <TableCell>{ID}</TableCell> */}
+            <TableCell>{USER_ID}</TableCell>
+            <TableCell>{CREATED_BY}</TableCell>
+            <TableCell>{CSV_FILE}</TableCell>
+            <TableCell>{TOTAL_ADS_COUNT}</TableCell>
+            <TableCell>{SUCCESS_ADS_COUNT}</TableCell>
+            <TableCell>{FAILED_ADS_COUNT}</TableCell>
+            <TableCell>{STATUS}</TableCell>
+            <TableCell>{CREATED_DATE}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -216,7 +206,7 @@ const ViewsLogsTable: React.FC<IViewsLogsTableProps> = ({
             <>
               {[...Array(rowsPerPage)].map((item, index) => (
                 <TableRow key={index}>
-                  {[...Array(5)].map((item, index) => (
+                  {[...Array(8)].map((item, index) => (
                     <TableCell key={index}>
                       <Skeleton variant="rect" width="100%" />
                     </TableCell>
@@ -225,7 +215,8 @@ const ViewsLogsTable: React.FC<IViewsLogsTableProps> = ({
               ))}
             </>
           ) : (
-            data && data.map((user: IViewsLogsTableRow) => <Row data={user} />)
+            data &&
+            data.map((user: IBulkUploadHistoryTableRow) => <Row data={user} />)
           )}
         </TableBody>
       </Table>
@@ -243,7 +234,7 @@ const ViewsLogsTable: React.FC<IViewsLogsTableProps> = ({
           <TablePagination
             rowsPerPageOptions={[10, 25, 50, 100]}
             component="div"
-            count={totalCount}
+            count={count}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
@@ -255,4 +246,4 @@ const ViewsLogsTable: React.FC<IViewsLogsTableProps> = ({
   );
 };
 
-export default ViewsLogsTable;
+export default BulkUploadHistoryTable;
