@@ -24,7 +24,7 @@ export interface IBulkUploadHistoryTableRow {
     lastName: string;
     _id: string;
   };
-  csvFile: string;
+  csvFile: string | undefined;
   totalAdsCount: number | null;
   successAdsCount: number | null;
   faliedAdsCount: number | null;
@@ -55,6 +55,7 @@ const BulkUpload: React.FC = () => {
 
   const handleCapture = ({ target }: any) => {
     setSelectedFile(target.files[0]);
+    target.value = null;
   };
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -130,16 +131,21 @@ const BulkUpload: React.FC = () => {
             setAlertOpen(true);
             setSelectedFile(null);
           } else {
+            setAlertOpen(true);
             setResponseMessage({
               status: "Error",
-              message: response.message,
+              message: response.response.data.message,
             });
-            setAlertOpen(true);
           }
+          getAdsViewsLogs();
         })
         .catch((error) => {
           setIsLoading(false);
-          console.log("Error", error);
+          setAlertOpen(true);
+          setResponseMessage({
+            status: "Error",
+            message: error.message,
+          });
         });
     }
   };

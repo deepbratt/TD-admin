@@ -32,6 +32,7 @@ import {
   FAILED_ADS_COUNT,
   CSV_FILE,
   STATUS,
+  NOT_AVAILABLE,
 } from "../../utils/constants/language/en/buttonLabels";
 import SearchIcon from "@material-ui/icons/Search";
 import { IBulkUploadHistoryTableRow } from "../../pages/bulkUpload";
@@ -125,7 +126,11 @@ export const Row: React.FC<IBulkUploadHistoryTableRowProps> = ({ data }) => {
         >{`${firstName} ${lastName}`}</Link>
       </TableCell>
       <TableCell>
-        <Link href={csvFile}>{csvFile.slice(0, 40)}...</Link>
+        {csvFile ? (
+          <Link href={csvFile}>{csvFile.slice(0, 40)}...</Link>
+        ) : (
+          <>{NOT_AVAILABLE}</>
+        )}
       </TableCell>
       <TableCell>{totalAdsCount ? totalAdsCount : 0}</TableCell>
       <TableCell>{successAdsCount ? successAdsCount : 0}</TableCell>
