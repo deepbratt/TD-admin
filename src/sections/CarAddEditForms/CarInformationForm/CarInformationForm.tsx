@@ -7,7 +7,6 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
-import SelectComponent from "../../../components/SelectComponent";
 import { City } from "country-state-city";
 import addEditCarData from "../../../utils/constants/language/en/addEditCarData";
 import SelectInputComponent from "../../../components/SelectInputComponent";
@@ -255,12 +254,12 @@ const CarInformationForm = ({
           onChange={handlePhoneInputChange}
           value={formData.associatedPhone}
           fullWidth
-          type="number"
+          type="text"
           label={addEditCarData.fields.associatedPhone.label}
           required
           error={requireError.associatedPhone}
           helperText={
-            requireError.associatedPhone ? addEditCarData.requiredFieldText : ""
+            requireError.associatedPhone && formData.associatedPhone ? addEditCarData.invalidPhoneField : requireError.associatedPhone ? addEditCarData.requiredFieldText : ""
           }
           InputProps={{
             startAdornment: (
