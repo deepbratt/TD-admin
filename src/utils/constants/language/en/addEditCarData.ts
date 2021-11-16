@@ -144,6 +144,8 @@ const addEditCarData = {
   infoText: '(Max limit 5 MB per image)',
   imageArrayLength: "Cannot add more than 20 images",
   requiredFieldText: 'This field is required',
+  invalidFieldText: 'Input value is invalid',
+  invalidPhoneField: 'Invalid input. Valid formats (3XX-XXXX-XXX OR 3XXXXXXXXX) ',
   requiredImageText: 'Minimum 1 car picture is required',
   deleteDialogTitle: 'Delete!',
   deleteDialogMessage: 'Are you sure you want to delete this Car Ad?',

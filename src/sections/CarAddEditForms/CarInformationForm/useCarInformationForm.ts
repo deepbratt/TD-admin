@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { getData } from "../../../utils/API/APIs";
 import { API_ENDPOINTS } from "../../../utils/API/endpoints";
-
 const useCarInformationForm = (
   formData: any,
   setFormData: React.Dispatch<any>
@@ -23,7 +22,8 @@ const useCarInformationForm = (
 
   const handlePhoneInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (value[0] !== "0" && value[0] !== "+" && value.length <= 10) {
+    const withoutDashStr = value.replaceAll("-","")
+    if (value[0] !== "0" && value[0] !== "+" && /^[0-9-]*$/.test(value) && withoutDashStr.length <= 10 && value.indexOf("--") < 0) {
       setFormData({ name: name, value: value });
     }
   };
