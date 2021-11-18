@@ -12,6 +12,7 @@ import UploadPicIcon from "../../assets/icons/uploadPicIcon.png";
 import InformationDialog from "../../components/InformationDialog";
 import addEditCarData from "../../utils/constants/language/en/addEditCarData";
 import CancelRounded from "@material-ui/icons/CancelRounded";
+import { useTheme } from "@material-ui/core/styles";
 
 interface IUploadPhotosFormProps {
   images: any;
@@ -30,6 +31,7 @@ const UploadPhotosForm = ({
   setFormData,
 }: IUploadPhotosFormProps) => {
   const classes = useStyles();
+  const themes = useTheme()
   const [openInfoModel, setOpenInfoModel] = useState(false);
   const [infoMessage, setInfoMessage] = useState<string | any>("");
   const [infoTitle, setInfoTitle] = useState("");
@@ -128,7 +130,7 @@ const UploadPhotosForm = ({
                   style={{
                     border:
                       formData.selectedImage === image
-                        ? "5px solid red"
+                        ? `5px solid ${themes.palette.primary.main}`
                         : "0px",
                     cursor: "pointer",
                   }}
@@ -154,7 +156,7 @@ const UploadPhotosForm = ({
                   style={{
                     border:
                       formData.selectedImage === image
-                        ? "5px solid red"
+                        ? `5px solid ${themes.palette.primary.main}`
                         : "0px",
                     cursor: "pointer",
                   }}
