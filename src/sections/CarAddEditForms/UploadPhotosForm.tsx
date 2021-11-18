@@ -12,27 +12,37 @@ import UploadPicIcon from "../../assets/icons/uploadPicIcon.png";
 import InformationDialog from "../../components/InformationDialog";
 import addEditCarData from "../../utils/constants/language/en/addEditCarData";
 import CancelRounded from "@material-ui/icons/CancelRounded";
+import { useTheme } from "@material-ui/core/styles";
 
 interface IUploadPhotosFormProps {
   images: any;
   // setImages: React.Dispatch<React.SetStateAction<any[]>>,
   updateImagesState: (img: any) => void;
   requireError: any;
+  formData: any;
+  setFormData: any;
 }
 
 const UploadPhotosForm = ({
   images,
   updateImagesState,
   requireError,
+  formData,
+  setFormData,
 }: IUploadPhotosFormProps) => {
   const classes = useStyles();
+  const themes = useTheme()
   const [openInfoModel, setOpenInfoModel] = useState(false);
   const [infoMessage, setInfoMessage] = useState<string | any>("");
   const [infoTitle, setInfoTitle] = useState("");
+
   const uploadImage = (e: any) => {
     let oneMb = 1024 * 1024;
     let temp = [...images];
     let imageFiles = e.target.files;
+    if (temp.length < 1) {
+      setFormData({ name: "selectedImage", value: imageFiles[0] });
+    }
     let sizeError = false;
     let arrayLengthError = false;
     for (let i = 0; i < imageFiles.length; i++) {
@@ -72,16 +82,35 @@ const UploadPhotosForm = ({
     e.target.value = null;
   };
 
-  const removePhoto = (index: number) => {
+  const selectImage = (img: any) => {
+    setFormData({ name: "selectedImage", value: img });
+  };
+
+  const removePhoto = (
+    index: number,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
     let temp = [...images];
+    if (temp[index] === formData.selectedImage) {
+      setFormData({ name: "selectedImage", value: false });
+    }
     temp.splice(index, 1);
     updateImagesState(temp);
   };
 
   return (
     <Grid container>
-      {requireError}
+      {/* {requireError} */}
       <Grid item xs={12} className={classes.itemContainer}>
+        <Typography
+          variant="body1"
+          // color={
+          //   requireError && !formData.selectedImage ? "error" : "secondary"
+          // }
+        >
+          {addEditCarData.selectedImageText}
+        </Typography>
         {images.length < 1 ? (
           <>
             <img src={UploadPicIcon} alt="car" />
@@ -95,11 +124,21 @@ const UploadPhotosForm = ({
           <div className={classes.imagesRoot}>
             {images.map((image: any, index: number) =>
               typeof image === "string" ? (
-                <div className={classes.imageRoot}>
+                <div
+                  className={classes.imageRoot}
+                  onClick={() => selectImage(image)}
+                  style={{
+                    border:
+                      formData.selectedImage === image
+                        ? `5px solid ${themes.palette.primary.main}`
+                        : "0px",
+                    cursor: "pointer",
+                  }}
+                >
                   <IconButton
                     size="small"
                     className={classes.closeIcon}
-                    onClick={() => removePhoto(index)}
+                    onClick={(e) => removePhoto(index, e)}
                   >
                     <CancelRounded fontSize="small" />
                   </IconButton>
@@ -111,11 +150,21 @@ const UploadPhotosForm = ({
                   />
                 </div>
               ) : image && typeof image !== "string" ? (
-                <div className={classes.imageRoot}>
+                <div
+                  className={classes.imageRoot}
+                  onClick={() => selectImage(image)}
+                  style={{
+                    border:
+                      formData.selectedImage === image
+                        ? `5px solid ${themes.palette.primary.main}`
+                        : "0px",
+                    cursor: "pointer",
+                  }}
+                >
                   <IconButton
                     size="small"
                     className={classes.closeIcon}
-                    onClick={() => removePhoto(index)}
+                    onClick={(e) => removePhoto(index, e)}
                   >
                     <CancelRounded fontSize="small" />
                   </IconButton>
@@ -204,9 +253,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     imageRoot: {
       margin: "5px",
-      position: 'relative',
-      width:"100%",
-      height:"250px",
+      position: "relative",
+      width: "100%",
+      height: "250px",
       maxWidth: "250px",
       display: "flex",
       justifyContent: "center",

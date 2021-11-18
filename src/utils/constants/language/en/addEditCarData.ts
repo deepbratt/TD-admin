@@ -142,6 +142,7 @@ const addEditCarData = {
     needAssistanceReject:"No",
   },
   infoText: '(Max limit 5 MB per image)',
+  selectedImageText:"click on image to select the featured image",
   imageArrayLength: "Cannot add more than 20 images",
   requiredFieldText: 'This field is required',
   invalidFieldText: 'Input value is invalid',

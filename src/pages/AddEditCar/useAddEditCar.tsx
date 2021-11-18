@@ -47,6 +47,7 @@ const initialFieldValues = {
   assembly: "",
   sellerType: "",
   images: [],
+  selectedImage: "",
   features: [],
   province: "",
   location: { coordinates: { lat: "", long: "" }, address: "" },
@@ -159,6 +160,8 @@ const useAddEditCar = () => {
       images={images}
       updateImagesState={updateImagesState}
       // key={images.length}
+      formData={formData}
+      setFormData = {setFormData}
       requireError={requireError.images}
     />,
     <CarAdditionalInformation
@@ -341,8 +344,10 @@ const useAddEditCar = () => {
             features: result.features,
             province: result.province,
             sellerType: result.sellerType,
+            selectedImage: result.selectedImage ? result.selectedImage : result.image[0] ? result.image[0] : "",
             location: { coordinates: { lat: "", long: "" }, address: "" },
           };
+          console.log(result.image)
           Object.keys(FieldValues).forEach((key) => {
             setFormData({ name: key, value: FieldValues[key] });
           });
@@ -505,7 +510,6 @@ const useAddEditCar = () => {
       }
     } else if (stepValidation === 1) {
       let secondStepValidated = images.length > 0;
-      console.log(images.length > 0 && images.length < 21);
       setRequireError((requiredError) => {
         return { ...requiredError, images: !secondStepValidated };
       });
@@ -522,13 +526,26 @@ const useAddEditCar = () => {
 
   const appendImages = async (fd: any) => {
     let StringUrls = 0;
-    for (let i = 0; i < formData.images.length; i++) {
-      if (typeof formData.images[i] === typeof "string") {
-        fd.append("image[" + StringUrls + "]", images[i]);
+    const arrayOfImages = formData.images.filter((item:any)=> item !== formData.selectedImage)
+    if (typeof formData.selectedImage === typeof "string") {
+      fd.append("selectedImage", formData.selectedImage);
+    } else if(formData.selectedImage){
+      let watermarkText = "carokta.com";
+      await watermark([formData.selectedImage])
+        .blob(
+          watermark.text.center(watermarkText, "35px roboto", "#fff", 0.5)
+        )
+        .then((img: any) => {
+          fd.append("selectedImage", img);
+        });
+    }
+    for (let i = 0; i < arrayOfImages.length; i++) {
+      if (typeof arrayOfImages[i] === typeof "string") {
+        fd.append("image[" + StringUrls + "]", arrayOfImages[i]);
         StringUrls++;
-      } else {
+      } else if(arrayOfImages[i]){
         let watermarkText = "carokta.com";
-        await watermark([images[i]])
+        await watermark([arrayOfImages[i]])
           .blob(
             watermark.text.center(watermarkText, "35px roboto", "#fff", 0.5)
           )
