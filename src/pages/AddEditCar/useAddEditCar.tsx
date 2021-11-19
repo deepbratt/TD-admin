@@ -16,7 +16,6 @@ import {
 import { API_ENDPOINTS } from "../../utils/API/endpoints";
 import Sizes from "../../utils/functions/Sizes";
 import { routes } from "../../routes/paths";
-import watermark from "watermarkjs";
 import { isValidPhone } from "../../utils/functions/helperFunctions";
 
 const formReducer = (state: any, event: any) => {
@@ -161,7 +160,7 @@ const useAddEditCar = () => {
       updateImagesState={updateImagesState}
       // key={images.length}
       formData={formData}
-      setFormData = {setFormData}
+      setFormData={setFormData}
       requireError={requireError.images}
     />,
     <CarAdditionalInformation
@@ -344,10 +343,14 @@ const useAddEditCar = () => {
             features: result.features,
             province: result.province,
             sellerType: result.sellerType,
-            selectedImage: result.selectedImage ? result.selectedImage : result.image[0] ? result.image[0] : "",
+            selectedImage: result.selectedImage
+              ? result.selectedImage
+              : result.image[0]
+              ? result.image[0]
+              : "",
             location: { coordinates: { lat: "", long: "" }, address: "" },
           };
-          console.log(result.image)
+          console.log(result.image);
           Object.keys(FieldValues).forEach((key) => {
             setFormData({ name: key, value: FieldValues[key] });
           });
@@ -526,32 +529,16 @@ const useAddEditCar = () => {
 
   const appendImages = async (fd: any) => {
     let StringUrls = 0;
-    const arrayOfImages = formData.images.filter((item:any)=> item !== formData.selectedImage)
-    if (typeof formData.selectedImage === typeof "string") {
-      fd.append("selectedImage", formData.selectedImage);
-    } else if(formData.selectedImage){
-      let watermarkText = "carokta.com";
-      await watermark([formData.selectedImage])
-        .blob(
-          watermark.text.center(watermarkText, "35px roboto", "#fff", 0.5)
-        )
-        .then((img: any) => {
-          fd.append("selectedImage", img);
-        });
-    }
+    const arrayOfImages = formData.images.filter(
+      (item: any) => item !== formData.selectedImage
+    );
+    fd.append("selectedImage", formData.selectedImage);
     for (let i = 0; i < arrayOfImages.length; i++) {
       if (typeof arrayOfImages[i] === typeof "string") {
         fd.append("image[" + StringUrls + "]", arrayOfImages[i]);
         StringUrls++;
-      } else if(arrayOfImages[i]){
-        let watermarkText = "carokta.com";
-        await watermark([arrayOfImages[i]])
-          .blob(
-            watermark.text.center(watermarkText, "35px roboto", "#fff", 0.5)
-          )
-          .then((img: any) => {
-            fd.append("image", img);
-          });
+      } else if (arrayOfImages[i]) {
+        fd.append("image", arrayOfImages[i]);
       }
     }
   };
