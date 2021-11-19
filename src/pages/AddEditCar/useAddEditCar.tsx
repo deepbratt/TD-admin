@@ -532,7 +532,12 @@ const useAddEditCar = () => {
     const arrayOfImages = formData.images.filter(
       (item: any) => item !== formData.selectedImage
     );
-    fd.append("selectedImage", formData.selectedImage);
+    if(formData.selectedImage){
+      fd.append('selectedImage', formData.selectedImage);
+    }else{
+      fd.append('selectedImage', arrayOfImages[0]);
+      arrayOfImages.splice(0, 1);
+    }
     for (let i = 0; i < arrayOfImages.length; i++) {
       if (typeof arrayOfImages[i] === typeof "string") {
         fd.append("image[" + StringUrls + "]", arrayOfImages[i]);
