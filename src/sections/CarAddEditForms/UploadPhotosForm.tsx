@@ -13,6 +13,7 @@ import InformationDialog from "../../components/InformationDialog";
 import addEditCarData from "../../utils/constants/language/en/addEditCarData";
 import CancelRounded from "@material-ui/icons/CancelRounded";
 import { useTheme } from "@material-ui/core/styles";
+import watermark from "watermarkjs";
 
 interface IUploadPhotosFormProps {
   images: any;
@@ -36,7 +37,7 @@ const UploadPhotosForm = ({
   const [infoMessage, setInfoMessage] = useState<string | any>("");
   const [infoTitle, setInfoTitle] = useState("");
 
-  const uploadImage = (e: any) => {
+  const uploadImage = async(e: any) => {
     let oneMb = 1024 * 1024;
     let temp = [...images];
     let imageFiles = e.target.files;
@@ -54,7 +55,14 @@ const UploadPhotosForm = ({
           arrayLengthError = true;
           break;
         }
-        temp.push(imageFiles[i]);
+        let watermarkText = "carokta.com";
+        await watermark([imageFiles[i]])
+          .blob(
+            watermark.text.center(watermarkText, "35px roboto", "#fff", 0.5)
+          )
+          .then((img: any) => {
+            temp.push(img);
+          });
       }
     }
     // setSrcImg(e.target.files[0]);
