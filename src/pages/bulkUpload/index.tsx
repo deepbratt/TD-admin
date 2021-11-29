@@ -27,7 +27,8 @@ export interface IBulkUploadHistoryTableRow {
   csvFile: string | undefined;
   totalAdsCount: number | null;
   successAdsCount: number | null;
-  faliedAdsCount: number | null;
+  failedAdsCount: number | null;
+  failedAds: string;
   userId: string;
   status: string;
   updatedAt: string;
@@ -36,13 +37,12 @@ export interface IBulkUploadHistoryTableRow {
 const BulkUpload: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { ADS, CARS, BULK_ADS, BULK_ADS_STATS } = API_ENDPOINTS;
-  const [open, setOpen] = useState(false);
   const [bulkUploadHistory, setBulkUploadHistory] =
     useState<IBulkUploadHistoryTableRow[]>();
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [totalCount, setTotalCount] = useState(0);
+  const [totalCount, setTotalCount] = useState<number | null>(null);
   const [keywords, setKeywords] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
@@ -99,7 +99,6 @@ const BulkUpload: React.FC = () => {
     await getData(ADS + CARS + BULK_ADS_STATS + params)
       .then((response) => {
         setIsLoading(false);
-        console.log("response", response);
         if (response && response.data && response.data.status === "success") {
           setBulkUploadHistory(response.data.data.result);
           setTotalCount(response.data.totalCount);
@@ -122,7 +121,6 @@ const BulkUpload: React.FC = () => {
       await addFormData(ADS + CARS + BULK_ADS + params, formData)
         .then((response) => {
           setIsLoading(false);
-          console.log("response", response);
           if (response && response.data && response.data.status === "success") {
             setResponseMessage({
               status: "success",
@@ -152,7 +150,7 @@ const BulkUpload: React.FC = () => {
 
   useEffect(() => {
     getAdsViewsLogs();
-  }, [page, rowsPerPage, keywords, open]);
+  }, [page, rowsPerPage, keywords]);
 
   return (
     <Grid container justifyContent="center" spacing={2}>

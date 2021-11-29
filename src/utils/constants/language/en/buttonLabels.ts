@@ -83,3 +83,6 @@ export const SUCCESS_ADS_COUNT = "Success Count";
 export const FAILED_ADS_COUNT = "Failed Count";
 export const CSV_FILE = "CSV File";
 export const ID = "Id";
+export const AD_FAILED = "Ad Failed";
+export const REASON = "Reason";
+export const REG_NUMBER = "Reg No";

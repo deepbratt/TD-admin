@@ -38,7 +38,7 @@ const AdsViewsLogs: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [viewsLogs, setViewsLogs] = useState<IViewsLogsTableRow[]>();
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState(0);
   const [keywords, setKeywords] = useState("");
