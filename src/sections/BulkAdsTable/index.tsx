@@ -9,11 +9,14 @@ import {
   Toolbar,
   Typography,
   Divider,
-  InputBase,
+  // InputBase,
   TableBody,
   TablePagination,
   Link,
+  IconButton,
 } from "@material-ui/core";
+import InformationDialog from "../../components/InformationDialog";
+import HelpOutlineRoundedIcon from "@material-ui/icons/HelpOutlineRounded";
 import {
   alpha,
   makeStyles,
@@ -23,7 +26,7 @@ import {
 import {
   CANT_FIND_RESULT,
   BULK_UPLOADS_LIST,
-  ID,
+  // ID,
   USER_ID,
   CREATED_BY,
   CREATED_DATE,
@@ -33,11 +36,15 @@ import {
   CSV_FILE,
   STATUS,
   NOT_AVAILABLE,
+  CLOSE,
 } from "../../utils/constants/language/en/buttonLabels";
-import SearchIcon from "@material-ui/icons/Search";
+// import SearchIcon from "@material-ui/icons/Search";
 import { IBulkUploadHistoryTableRow } from "../../pages/bulkUpload";
 import { Skeleton } from "@material-ui/lab";
 import { paths } from "../../routes/paths";
+import { useState } from "react";
+import { API_ENDPOINTS } from "../../utils/API/endpoints";
+import { getData } from "../../utils/API/APIs";
 
 const TableStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -95,7 +102,14 @@ interface IBulkUploadHistoryTableRowProps {
   data: IBulkUploadHistoryTableRow;
 }
 
+interface IBulkUploadStats extends IBulkUploadHistoryTableRowProps {
+  failedReason: string;
+}
 export const Row: React.FC<IBulkUploadHistoryTableRowProps> = ({ data }) => {
+  const { ADS, CARS, BULK_ADS_STATS } = API_ENDPOINTS;
+  const [open, setOpen] = useState(false);
+    useState<IBulkUploadHistoryTableRowProps | null>(null);
+
   const history = useHistory();
   const {
     userId,
@@ -105,9 +119,16 @@ export const Row: React.FC<IBulkUploadHistoryTableRowProps> = ({ data }) => {
     status,
     totalAdsCount,
     successAdsCount,
-    faliedAdsCount,
-    _id,
+    failedAdsCount,
+    failedAds,
   } = data;
+
+  let informationDialogProps = {
+    open: open,
+    setOpen: setOpen,
+    title: "Ads Failed To Upload",
+    actionBtnLabel: CLOSE,
+  };
 
   const { firstName, lastName } = createdBy;
   return (
@@ -134,7 +155,25 @@ export const Row: React.FC<IBulkUploadHistoryTableRowProps> = ({ data }) => {
       </TableCell>
       <TableCell>{totalAdsCount ? totalAdsCount : 0}</TableCell>
       <TableCell>{successAdsCount ? successAdsCount : 0}</TableCell>
-      <TableCell>{faliedAdsCount ? faliedAdsCount : 0}</TableCell>
+      <TableCell>
+        {failedAds && failedAdsCount && failedAdsCount > 0 ? (
+          <>
+            {failedAdsCount}
+            <IconButton
+              size="small"
+              onClick={() => setOpen(true)}
+            >
+              <HelpOutlineRoundedIcon fontSize="small" />
+            </IconButton>
+            <InformationDialog
+              failedAds={JSON.parse(failedAds)}
+              {...informationDialogProps}
+            />
+          </>
+        ) : (
+          0
+        )}
+      </TableCell>
       <TableCell>{status}</TableCell>
       <TableCell>
         {new Date(createdAt).toLocaleDateString("en-US", {
@@ -150,7 +189,7 @@ export const Row: React.FC<IBulkUploadHistoryTableRowProps> = ({ data }) => {
 interface IBulkUploadHistoryTableProps {
   data?: IBulkUploadHistoryTableRow[];
   loading: boolean;
-  count: number;
+  count: number | null;
   page: number;
   rowsPerPage: number;
   keywords: string;
@@ -170,7 +209,10 @@ const BulkUploadHistoryTable: React.FC<IBulkUploadHistoryTableProps> = ({
   handleChangeRowsPerPage,
   handleSearchInputChange,
 }) => {
-  const { toolbar, search, searchIcon, inputRoot, inputInput } = TableStyles();
+  const {
+    toolbar,
+    // search, searchIcon, inputRoot, inputInput
+  } = TableStyles();
 
   return (
     <TableContainer component={Paper}>
@@ -225,7 +267,7 @@ const BulkUploadHistoryTable: React.FC<IBulkUploadHistoryTableProps> = ({
           )}
         </TableBody>
       </Table>
-      {data && !(data.length > 0) && (
+      {count && !(count > 0) && (
         <Typography
           style={{ width: "100%", margin: "20px 0" }}
           align="center"
@@ -239,7 +281,7 @@ const BulkUploadHistoryTable: React.FC<IBulkUploadHistoryTableProps> = ({
           <TablePagination
             rowsPerPageOptions={[10, 25, 50, 100]}
             component="div"
-            count={count}
+            count={count ? count : 0}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
