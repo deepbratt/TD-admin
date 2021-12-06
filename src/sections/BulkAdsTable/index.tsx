@@ -108,7 +108,7 @@ interface IBulkUploadStats extends IBulkUploadHistoryTableRowProps {
 export const Row: React.FC<IBulkUploadHistoryTableRowProps> = ({ data }) => {
   const { ADS, CARS, BULK_ADS_STATS } = API_ENDPOINTS;
   const [open, setOpen] = useState(false);
-    useState<IBulkUploadHistoryTableRowProps | null>(null);
+  useState<IBulkUploadHistoryTableRowProps | null>(null);
 
   const history = useHistory();
   const {
@@ -159,10 +159,7 @@ export const Row: React.FC<IBulkUploadHistoryTableRowProps> = ({ data }) => {
         {failedAds && failedAdsCount && failedAdsCount > 0 ? (
           <>
             {failedAdsCount}
-            <IconButton
-              size="small"
-              onClick={() => setOpen(true)}
-            >
+            <IconButton size="small" onClick={() => setOpen(true)}>
               <HelpOutlineRoundedIcon fontSize="small" />
             </IconButton>
             <InformationDialog
@@ -253,7 +250,7 @@ const BulkUploadHistoryTable: React.FC<IBulkUploadHistoryTableProps> = ({
             <>
               {[...Array(rowsPerPage)].map((item, index) => (
                 <TableRow key={index}>
-                  {[...Array(8)].map((item, index) => (
+                  {[...Array(7)].map((item, index) => (
                     <TableCell key={index}>
                       <Skeleton variant="rect" width="100%" />
                     </TableCell>
@@ -267,7 +264,7 @@ const BulkUploadHistoryTable: React.FC<IBulkUploadHistoryTableProps> = ({
           )}
         </TableBody>
       </Table>
-      {count && !(count > 0) && (
+      {!data && !loading && (
         <Typography
           style={{ width: "100%", margin: "20px 0" }}
           align="center"
