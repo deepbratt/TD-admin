@@ -19,7 +19,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
       - name: Build React App - Dev
         if: github.ref == 'refs/heads/develop'
-        run: npm install && npm run build-dev
+        run: npm install --legacy-peer-deps && npm run build-dev
         env:
          CI: false
       - name: Build React App - Prod
