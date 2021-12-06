@@ -108,13 +108,13 @@ interface IBulkUploadStats extends IBulkUploadHistoryTableRowProps {
 export const Row: React.FC<IBulkUploadHistoryTableRowProps> = ({ data }) => {
   const { ADS, CARS, BULK_ADS_STATS } = API_ENDPOINTS;
   const [open, setOpen] = useState(false);
-    useState<IBulkUploadHistoryTableRowProps | null>(null);
+  useState<IBulkUploadHistoryTableRowProps | null>(null);
 
   const history = useHistory();
   const {
     userId,
     createdAt,
-    createdBy,
+    // createdBy,
     csvFile,
     status,
     totalAdsCount,
@@ -130,7 +130,7 @@ export const Row: React.FC<IBulkUploadHistoryTableRowProps> = ({ data }) => {
     actionBtnLabel: CLOSE,
   };
 
-  const { firstName, lastName } = createdBy;
+  // const { firstName, lastName } = createdBy;
   return (
     <TableRow>
       {/* <TableCell>{_id}</TableCell> */}
@@ -140,12 +140,12 @@ export const Row: React.FC<IBulkUploadHistoryTableRowProps> = ({ data }) => {
           onClick={() => history.push(paths.userDetail + "/" + userId)}
         >{`${userId}`}</Link>
       </TableCell>
-      <TableCell>
+      {/* <TableCell>
         <Link
           style={{ cursor: "pointer" }}
           onClick={() => history.push(paths.userDetail + "/" + createdBy._id)}
         >{`${firstName} ${lastName}`}</Link>
-      </TableCell>
+      </TableCell> */}
       <TableCell>
         {csvFile ? (
           <Link href={csvFile}>{csvFile.slice(0, 40)}...</Link>
@@ -159,10 +159,7 @@ export const Row: React.FC<IBulkUploadHistoryTableRowProps> = ({ data }) => {
         {failedAds && failedAdsCount && failedAdsCount > 0 ? (
           <>
             {failedAdsCount}
-            <IconButton
-              size="small"
-              onClick={() => setOpen(true)}
-            >
+            <IconButton size="small" onClick={() => setOpen(true)}>
               <HelpOutlineRoundedIcon fontSize="small" />
             </IconButton>
             <InformationDialog
@@ -239,7 +236,7 @@ const BulkUploadHistoryTable: React.FC<IBulkUploadHistoryTableProps> = ({
           <TableRow>
             {/* <TableCell>{ID}</TableCell> */}
             <TableCell>{USER_ID}</TableCell>
-            <TableCell>{CREATED_BY}</TableCell>
+            {/* <TableCell>{CREATED_BY}</TableCell> */}
             <TableCell>{CSV_FILE}</TableCell>
             <TableCell>{TOTAL_ADS_COUNT}</TableCell>
             <TableCell>{SUCCESS_ADS_COUNT}</TableCell>
@@ -253,7 +250,7 @@ const BulkUploadHistoryTable: React.FC<IBulkUploadHistoryTableProps> = ({
             <>
               {[...Array(rowsPerPage)].map((item, index) => (
                 <TableRow key={index}>
-                  {[...Array(8)].map((item, index) => (
+                  {[...Array(7)].map((item, index) => (
                     <TableCell key={index}>
                       <Skeleton variant="rect" width="100%" />
                     </TableCell>
@@ -267,7 +264,7 @@ const BulkUploadHistoryTable: React.FC<IBulkUploadHistoryTableProps> = ({
           )}
         </TableBody>
       </Table>
-      {count && !(count > 0) && (
+      {!data && !loading && (
         <Typography
           style={{ width: "100%", margin: "20px 0" }}
           align="center"

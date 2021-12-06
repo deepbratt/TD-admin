@@ -19,11 +19,11 @@ import CustomButton from "../../components/CustomButton";
 export interface IBulkUploadHistoryTableRow {
   _id: string;
   createdAt: string;
-  createdBy: {
-    firstName: string;
-    lastName: string;
-    _id: string;
-  };
+  // createdBy: {
+  //   firstName: string;
+  //   lastName: string;
+  //   _id: string;
+  // };
   csvFile: string | undefined;
   totalAdsCount: number | null;
   successAdsCount: number | null;
