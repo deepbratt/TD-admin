@@ -16,7 +16,7 @@ import {
 import { API_ENDPOINTS } from "../../utils/API/endpoints";
 import Sizes from "../../utils/functions/Sizes";
 import { routes } from "../../routes/paths";
-import watermark from 'watermarkjs';
+import { isValidPhone } from "../../utils/functions/helperFunctions";
 
 const formReducer = (state: any, event: any) => {
   return {
@@ -46,6 +46,7 @@ const initialFieldValues = {
   assembly: "",
   sellerType: "",
   images: [],
+  selectedImage: "",
   features: [],
   province: "",
   location: { coordinates: { lat: "", long: "" }, address: "" },
@@ -158,6 +159,8 @@ const useAddEditCar = () => {
       images={images}
       updateImagesState={updateImagesState}
       // key={images.length}
+      formData={formData}
+      setFormData={setFormData}
       requireError={requireError.images}
     />,
     <CarAdditionalInformation
@@ -292,19 +295,19 @@ const useAddEditCar = () => {
             return;
           }
           setUserPhone(result.createdBy.phone);
-          let phone = result.createdBy.phone
-          if(result.associatedPhone){
-            if(result.associatedPhone.indexOf("+")>-1){
-              phone= result.associatedPhone.slice(3)
-            }else if(result.associatedPhone.indexOf("0") === 0){
-              phone = result.associatedPhone.slice(1)
+          let phone = result.createdBy.phone;
+          if (result.associatedPhone) {
+            if (result.associatedPhone.indexOf("+") > -1) {
+              phone = result.associatedPhone.slice(3);
+            } else if (result.associatedPhone.indexOf("0") === 0) {
+              phone = result.associatedPhone.slice(1);
             }
-          }else if(result.createdBy.phone.indexOf("+") > -1){
-            phone = result.createdBy.phone.slice(3)
-          }else if(result.createdBy.phone.indexOf("0") === 0){
-            phone = result.createdBy.phone.slice(1)
-          }else{
-            phone = result.createdBy.phone
+          } else if (result.createdBy.phone.indexOf("+") > -1) {
+            phone = result.createdBy.phone.slice(3);
+          } else if (result.createdBy.phone.indexOf("0") === 0) {
+            phone = result.createdBy.phone.slice(1);
+          } else {
+            phone = result.createdBy.phone;
           }
           // let phone =
           //   result.associatedPhone && result.associatedPhone.indexOf("+") > -1
@@ -340,8 +343,14 @@ const useAddEditCar = () => {
             features: result.features,
             province: result.province,
             sellerType: result.sellerType,
+            selectedImage: result.selectedImage
+              ? result.selectedImage
+              : result.image[0]
+              ? result.image[0]
+              : "",
             location: { coordinates: { lat: "", long: "" }, address: "" },
           };
+          console.log(result.image);
           Object.keys(FieldValues).forEach((key) => {
             setFormData({ name: key, value: FieldValues[key] });
           });
@@ -451,32 +460,59 @@ const useAddEditCar = () => {
       if (!checkValidation(initialRequireError)) {
         return false;
       } else {
-        let cityData = City.getCitiesOfCountry("PK");
-        let cityInformation = cityData?.filter(
-          (city) => city.name === formData.city
-        );
-        let provinceInformation: IState | undefined;
-        if (cityInformation) {
-          provinceInformation = State.getStateByCodeAndCountry(
-            cityInformation[0].stateCode,
-            "PK"
-          );
-          setFormData({
-            name: "location",
-            value: {
-              coordinate: {
-                lat: cityInformation[0].latitude,
-                long: cityInformation[0].longitude,
-              },
-              address: `${formData.city}, ${provinceInformation?.name}`,
-            },
-          });
-          setFormData({ name: "province", value: provinceInformation?.name });
+        if (!isValidPhone(formData.associatedPhone)) {
+          setRequireError((prevStats: any) => ({
+            ...prevStats,
+            associatedPhone: true,
+          }));
+          return false;
+        } else {
+          setRequireError((prevStats: any) => ({
+            ...prevStats,
+            associatedPhone: false,
+          }));
         }
+        if (
+          formData.associatedPhone.indexOf("-") > -1 &&
+          (formData.associatedPhone.match(/-/g) || []).length !== 2
+        ) {
+          setRequireError((prevStats: any) => ({
+            ...prevStats,
+            associatedPhone: true,
+          }));
+          return false;
+        } else {
+          setRequireError((prevStats: any) => ({
+            ...prevStats,
+            associatedPhone: false,
+          }));
+        }
+      }
+
+      let cityData = City.getCitiesOfCountry("PK");
+      let cityInformation = cityData?.filter(
+        (city) => city.name === formData.city
+      );
+      let provinceInformation: IState | undefined;
+      if (cityInformation) {
+        provinceInformation = State.getStateByCodeAndCountry(
+          cityInformation[0].stateCode,
+          "PK"
+        );
+        setFormData({
+          name: "location",
+          value: {
+            coordinate: {
+              lat: cityInformation[0].latitude,
+              long: cityInformation[0].longitude,
+            },
+            address: `${formData.city}, ${provinceInformation?.name}`,
+          },
+        });
+        setFormData({ name: "province", value: provinceInformation?.name });
       }
     } else if (stepValidation === 1) {
       let secondStepValidated = images.length > 0;
-      console.log(images.length > 0 && images.length < 21);
       setRequireError((requiredError) => {
         return { ...requiredError, images: !secondStepValidated };
       });
@@ -491,30 +527,26 @@ const useAddEditCar = () => {
     return true;
   };
 
-  const appendImages = async(fd:any)=>{
+  const appendImages = async (fd: any) => {
     let StringUrls = 0;
-    for (let i = 0; i < formData.images.length; i++) {
-      if (typeof formData.images[i] === typeof 'string') {
-        fd.append('image[' + StringUrls + ']', images[i]);
+    const arrayOfImages = formData.images.filter(
+      (item: any) => item !== formData.selectedImage
+    );
+    if(formData.selectedImage){
+      fd.append('selectedImage', formData.selectedImage);
+    }else{
+      fd.append('selectedImage', arrayOfImages[0]);
+      arrayOfImages.splice(0, 1);
+    }
+    for (let i = 0; i < arrayOfImages.length; i++) {
+      if (typeof arrayOfImages[i] === typeof "string") {
+        fd.append("image[" + StringUrls + "]", arrayOfImages[i]);
         StringUrls++;
-      } else {
-        let watermarkText = "carokta.com"
-        await watermark([images[i]])
-          .blob(
-            watermark.text.center(
-              watermarkText,
-              '35px roboto',
-              '#fff',
-              0.5
-            )
-          )
-          .then((img: any) => {
-            console.log(img);
-            fd.append('image', img);
-          });
+      } else if (arrayOfImages[i]) {
+        fd.append("image", arrayOfImages[i]);
       }
     }
-  }
+  };
 
   const submitForm = async () => {
     console.log("submit following data: ");
@@ -554,7 +586,10 @@ const useAddEditCar = () => {
     fd.append("regNumber", formData.registrationNo);
     fd.append("sellerType", formData.sellerType);
     if (`+92${formData.associatedPhone}` !== userPhone) {
-      fd.append("associatedPhone", `+92${formData.associatedPhone}`);
+      fd.append(
+        "associatedPhone",
+        `+92${formData.associatedPhone.replaceAll("-", "")}`
+      );
     }
     // fd.append("date", new Date(formData.modelYear).toISOString());
     fd.append("modelYear", formData.modelYear);
@@ -563,7 +598,7 @@ const useAddEditCar = () => {
       fd.append("features", formData.features[i]);
     }
     fd.append("price", formData.price);
-    await appendImages(fd)
+    await appendImages(fd);
     console.table(Object.fromEntries(fd));
     setIsLoading(true);
     // let addEditCarApi = id ? updateFormData : addFormData
@@ -584,15 +619,19 @@ const useAddEditCar = () => {
         }
         setActiveStep(0);
       } else {
-        let msg = response && response.response && response.response.data && response.response.data.message
-          ? response.response.data.message
-          : response.response
-          ? response.response
-          : 'Network Error';
+        let msg =
+          response &&
+          response.response &&
+          response.response.data &&
+          response.response.data.message
+            ? response.response.data.message
+            : response.response
+            ? response.response
+            : "Network Error";
         setToastMessage(msg);
-        setToastType('error');
+        setToastType("error");
         setToastOpen(true);
-        console.log('error', response);
+        console.log("error", response);
       }
     });
   };
