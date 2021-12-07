@@ -157,9 +157,9 @@ const useAddEditCar = () => {
     />,
     <UploadPhotosForm
       images={images}
-      updateImagesState={updateImagesState}
-      // key={images.length}
+      updateImagesState={updateImagesState}      
       formData={formData}
+      setIsLoading={setIsLoading}
       setFormData={setFormData}
       requireError={requireError.images}
     />,
