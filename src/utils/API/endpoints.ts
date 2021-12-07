@@ -2,6 +2,7 @@ export const API_ENDPOINTS = {
   USERS: "/users",
   LOGIN: "/admin-panel-login",
   CARS: "/cars",
+  CARS_IMAGES: '/cars/car-images',
   ADS: "/ads",
   CARS_SOLD_STATS: "/sold-cars-stats",
   CARS_SOLD_ON_PLATFORM_STATS: "/sold-cars-by-platform-stats",

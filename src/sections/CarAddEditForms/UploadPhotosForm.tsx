@@ -13,7 +13,8 @@ import InformationDialog from "../../components/InformationDialog";
 import addEditCarData from "../../utils/constants/language/en/addEditCarData";
 import CancelRounded from "@material-ui/icons/CancelRounded";
 import { useTheme } from "@material-ui/core/styles";
-import watermark from "watermarkjs";
+import { addFormData } from "../../utils/API/APIs";
+import { API_ENDPOINTS } from "../../utils/API/endpoints";
 
 interface IUploadPhotosFormProps {
   images: any;
@@ -21,6 +22,7 @@ interface IUploadPhotosFormProps {
   updateImagesState: (img: any) => void;
   requireError: any;
   formData: any;
+  setIsLoading: any;
   setFormData: any;
 }
 
@@ -29,6 +31,7 @@ const UploadPhotosForm = ({
   updateImagesState,
   requireError,
   formData,
+  setIsLoading,
   setFormData,
 }: IUploadPhotosFormProps) => {
   const classes = useStyles();
@@ -37,7 +40,7 @@ const UploadPhotosForm = ({
   const [infoMessage, setInfoMessage] = useState<string | any>("");
   const [infoTitle, setInfoTitle] = useState("");
 
-  const uploadImage = async (e: any) => {
+  const uploadImage = (e: any) => {
     let oneMb = 1024 * 1024;
     let temp = [...images];
     let imageFiles = e.target.files;
@@ -47,19 +50,13 @@ const UploadPhotosForm = ({
       let imageSize = imageFiles[i].size;
       if (imageSize > 5 * oneMb) {
         sizeError = true;
+        break;
       } else {
         if (temp.length > 19) {
           arrayLengthError = true;
           break;
         }
-        let watermarkText = "carokta.com";
-        await watermark([imageFiles[i]])
-          .blob(
-            watermark.text.center(watermarkText, "35px roboto", "#fff", 0.5)
-          )
-          .then((img: any) => {
-            temp.push(img);
-          });
+        temp.push(imageFiles[i]);
       }
     }
     // setSrcImg(e.target.files[0]);
@@ -81,23 +78,30 @@ const UploadPhotosForm = ({
       );
     setInfoMessage(errorText);
     setOpenInfoModel(sizeError || arrayLengthError);
-    if (!arrayLengthError) {
-      updateImagesState(temp);
+    if (!sizeError && !arrayLengthError) {
+      setIsLoading(true);
+      let imageUploadPromises: any[] = [];
+      for (let i = 0; i < imageFiles.length; i++) {
+        let fd: FormData = new FormData();
+        fd.append('image', imageFiles[i]);
+        imageUploadPromises.push(addFormData(`${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS_IMAGES}`, fd));
+      }
+      Promise.all(imageUploadPromises).then(responses => {
+        let imagesArray: any[] = [...images];
+        responses.forEach(response => {
+          if (temp.length < 1) {
+            setFormData({ name: 'selectedImage', value: imageFiles[0] });
+          }
+          response.data.data.array.map((image: any) => imagesArray.push(image));
+        })
+        updateImagesState(imagesArray);
+      }).then(() => setIsLoading(false));
     }
     e.target.value = null;
   };
 
   const selectImage = async (img: any) => {
-    if (img !== typeof "string") {
-      let watermarkText = "carokta.com";
-      await watermark([img])
-        .blob(watermark.text.center(watermarkText, "35px roboto", "#fff", 0.5))
-        .then((image: any) => {
-          setFormData({ name: "selectedImage", value: image });
-        });
-    } else {
-      setFormData({ name: "selectedImage", value: img });
-    }
+    setFormData({ name: "selectedImage", value: img });
   };
 
   const removePhoto = (
