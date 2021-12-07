@@ -16,7 +16,6 @@ import {
 import { API_ENDPOINTS } from "../../utils/API/endpoints";
 import Sizes from "../../utils/functions/Sizes";
 import { routes } from "../../routes/paths";
-import watermark from 'watermarkjs';
 
 const formReducer = (state: any, event: any) => {
   return {
@@ -493,25 +492,21 @@ const useAddEditCar = () => {
 
   const appendImages = async(fd:any)=>{
     let StringUrls = 0;
-    for (let i = 0; i < formData.images.length; i++) {
-      if (typeof formData.images[i] === typeof 'string') {
-        fd.append('image[' + StringUrls + ']', images[i]);
+    const arrayOfImages = formData.images.filter(
+      (item: any) => item !== formData.selectedImage
+    );
+    if(formData.selectedImage){
+      fd.append('selectedImage', formData.selectedImage);
+    }else{
+      fd.append('selectedImage', arrayOfImages[0]);
+      arrayOfImages.splice(0, 1);
+    }
+    for (let i = 0; i < arrayOfImages.length; i++) {
+      if (typeof arrayOfImages[i] === typeof "string") {
+        fd.append("image[" + StringUrls + "]", arrayOfImages[i]);
         StringUrls++;
-      } else {
-        let watermarkText = "carokta.com"
-        await watermark([images[i]])
-          .blob(
-            watermark.text.center(
-              watermarkText,
-              '35px roboto',
-              '#fff',
-              0.5
-            )
-          )
-          .then((img: any) => {
-            console.log(img);
-            fd.append('image', img);
-          });
+      } else if (arrayOfImages[i]) {
+        fd.append("image", arrayOfImages[i]);
       }
     }
   }
