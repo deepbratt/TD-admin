@@ -5,6 +5,7 @@ import { API_ENDPOINTS } from "../../utils/API/endpoints";
 const useAdvertisements = (createdBy?: string) => {
   const dataLimit = 10;
   const [data, setData] = useState();
+  const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [reload, setReload] = useState(false);
   const [toastOpen, setToastOpen] = useState(false);
@@ -29,7 +30,7 @@ const useAdvertisements = (createdBy?: string) => {
           setData(response.data);
           setResult(response.data.data.result);
           setPage(pageValue);
-          // console.log("response pages count= ", response.data.totalCount);
+          setTotalCount(response.data.totalCount)
           let totalPages = Math.ceil(response.data.totalCount / dataLimit);
           setPageCount(totalPages);
         } else {
@@ -67,6 +68,7 @@ const useAdvertisements = (createdBy?: string) => {
     keywords,
     setKeywords,
     getCars,
+    totalCount
   };
 };
 
