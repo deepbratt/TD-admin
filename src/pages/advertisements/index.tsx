@@ -33,12 +33,15 @@ const Advertisements: React.FC<AdvertisementsProps> = (props) => {
     getCars,
     // keywords,
     setKeywords,
+    totalCount,
   } = useAdvertisements(props.createdBy);
+  
   const history = useHistory();
+
   return (
     <SecondaryLayout>
       <Grid container>
-        <PageHeader heading={ADVERTISEMENTS}>
+        <PageHeader heading={ADVERTISEMENTS + ` (${totalCount})`}>
           <div>
             <HeaderSearch
               setKeywords={setKeywords}
