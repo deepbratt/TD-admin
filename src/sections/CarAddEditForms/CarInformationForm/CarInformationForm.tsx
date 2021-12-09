@@ -72,7 +72,9 @@ const CarInformationForm = ({
           dataArray={cityNames}
           name={"city"}
           className={classes.selectFields}
-          value={toTitleCase(formData.city)}
+          value={
+            formData.city !== null ? toTitleCase(formData.city) : formData.city
+          }
           label={addEditCarData.fields.selectCity.label}
           required
           error={requireError.city}
@@ -268,7 +270,11 @@ const CarInformationForm = ({
           required
           error={requireError.associatedPhone}
           helperText={
-            requireError.associatedPhone && formData.associatedPhone ? addEditCarData.invalidPhoneField : requireError.associatedPhone ? addEditCarData.requiredFieldText : ""
+            requireError.associatedPhone && formData.associatedPhone
+              ? addEditCarData.invalidPhoneField
+              : requireError.associatedPhone
+              ? addEditCarData.requiredFieldText
+              : ""
           }
           InputProps={{
             startAdornment: (
