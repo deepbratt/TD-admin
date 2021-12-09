@@ -157,7 +157,7 @@ const useAddEditCar = () => {
     />,
     <UploadPhotosForm
       images={images}
-      updateImagesState={updateImagesState}      
+      updateImagesState={updateImagesState}
       formData={formData}
       setIsLoading={setIsLoading}
       setFormData={setFormData}
@@ -454,65 +454,44 @@ const useAddEditCar = () => {
     return result;
   };
 
+  const toTitleCase = (str: string) => {
+    return str.replace(/\w\S*/g, function (txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  };
+
   const formValidated = (stepToValidate: number) => {
-    let stepValidation = stepToValidate;
-    if (stepValidation === 0) {
+    let stepValidatation = stepToValidate;
+    if (stepValidatation === 0) {
       if (!checkValidation(initialRequireError)) {
         return false;
       } else {
-        if (!isValidPhone(formData.associatedPhone)) {
-          setRequireError((prevStats: any) => ({
-            ...prevStats,
-            associatedPhone: true,
-          }));
-          return false;
-        } else {
-          setRequireError((prevStats: any) => ({
-            ...prevStats,
-            associatedPhone: false,
-          }));
-        }
-        if (
-          formData.associatedPhone.indexOf("-") > -1 &&
-          (formData.associatedPhone.match(/-/g) || []).length !== 2
-        ) {
-          setRequireError((prevStats: any) => ({
-            ...prevStats,
-            associatedPhone: true,
-          }));
-          return false;
-        } else {
-          setRequireError((prevStats: any) => ({
-            ...prevStats,
-            associatedPhone: false,
-          }));
-        }
-      }
-
-      let cityData = City.getCitiesOfCountry("PK");
-      let cityInformation = cityData?.filter(
-        (city) => city.name === formData.city
-      );
-      let provinceInformation: IState | undefined;
-      if (cityInformation) {
-        provinceInformation = State.getStateByCodeAndCountry(
-          cityInformation[0].stateCode,
-          "PK"
+        let cityData = City.getCitiesOfCountry("PK");
+        let cityInformation = cityData?.filter(
+          (city: any) => city.name === toTitleCase(formData.city)
         );
-        setFormData({
-          name: "location",
-          value: {
-            coordinate: {
-              lat: cityInformation[0].latitude,
-              long: cityInformation[0].longitude,
+        let provinceInformation: IState | undefined;
+        if (cityInformation) {
+          provinceInformation = State.getStateByCodeAndCountry(
+            cityInformation[0].stateCode,
+            "PK"
+          );
+          setFormData({
+            name: "location",
+            value: {
+              coordinate: {
+                lat: cityInformation[0].latitude,
+                long: cityInformation[0].longitude,
+              },
+              address: `${formData.city}, ${provinceInformation?.name}`,
             },
-            address: `${formData.city}, ${provinceInformation?.name}`,
-          },
-        });
-        setFormData({ name: "province", value: provinceInformation?.name });
+          });
+          setFormData({ name: "province", value: provinceInformation?.name });
+        }
       }
-    } else if (stepValidation === 1) {
+    } else if (stepValidatation === 1) {
       let secondStepValidated = images.length > 0;
+      // console.log(images.length > 0 && images.length < 21);
       setRequireError((requiredError) => {
         return { ...requiredError, images: !secondStepValidated };
       });
@@ -532,10 +511,10 @@ const useAddEditCar = () => {
     const arrayOfImages = formData.images.filter(
       (item: any) => item !== formData.selectedImage
     );
-    if(formData.selectedImage){
-      fd.append('selectedImage', formData.selectedImage);
-    }else{
-      fd.append('selectedImage', arrayOfImages[0]);
+    if (formData.selectedImage) {
+      fd.append("selectedImage", formData.selectedImage);
+    } else {
+      fd.append("selectedImage", arrayOfImages[0]);
       arrayOfImages.splice(0, 1);
     }
     for (let i = 0; i < arrayOfImages.length; i++) {

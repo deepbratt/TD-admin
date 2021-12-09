@@ -17,7 +17,7 @@ interface CarInformationFormProps {
   formData: {
     city: "";
     carModel: "";
-    carMake: "Honda" | "Daihatsu" | "Toyota" | "Nissan" | "Suzuki";
+    carMake: "";
     modelYear: "";
     bodyColor: "";
     registeredIn: "";
@@ -51,12 +51,20 @@ const CarInformationForm = ({
     handleTextChange,
     handlePhoneInputChange,
   } = useCarInformationForm(formData, setFormData);
+
   const cities = City.getCitiesOfCountry("PK");
   const extractedCityNames = cities?.map((item) => item.name);
   let cityNames = [];
   if (extractedCityNames) {
     cityNames.push(...extractedCityNames);
   }
+
+  const toTitleCase = (str: string) => {
+    return str.replace(/\w\S*/g, function (txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  };
+
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} sm={12} md={6}>
@@ -64,7 +72,7 @@ const CarInformationForm = ({
           dataArray={cityNames}
           name={"city"}
           className={classes.selectFields}
-          value={formData.city}
+          value={toTitleCase(formData.city)}
           label={addEditCarData.fields.selectCity.label}
           required
           error={requireError.city}
@@ -110,6 +118,7 @@ const CarInformationForm = ({
             carModelsList.length < 1 ? [formData.carModel] : carModelsList
           }
           name={"carModel"}
+          disabled={formData.carMake === ""}
           className={classes.selectFields}
           value={formData.carModel}
           label={addEditCarData.fields.carModel.label}
