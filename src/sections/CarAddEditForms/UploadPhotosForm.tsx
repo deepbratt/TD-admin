@@ -89,10 +89,10 @@ const UploadPhotosForm = ({
       Promise.all(imageUploadPromises).then(responses => {
         let imagesArray: any[] = [...images];
         responses.forEach(response => {
-          if (temp.length < 1) {
+          if (imagesArray.length < 1) {
             setFormData({ name: 'selectedImage', value: imageFiles[0] });
           }
-          response.data.data.array.map((image: any) => imagesArray.push(image));
+          response.data.data.result.images.map((image: any) => imagesArray.push(image));
         })
         updateImagesState(imagesArray);
       }).then(() => setIsLoading(false));
@@ -167,7 +167,59 @@ const UploadPhotosForm = ({
                     key={"img1" + index}
                   />
                 </div>
-              ) : image && typeof image !== "string" ? (
+              ) : image && typeof image === 'object' && Object.keys(image).length <= 2 ? (
+                <div
+                  className={classes.imageRoot}
+                  onClick={() => selectImage(image)}
+                  style={{
+                    border:
+                      formData.selectedImage === image
+                        ? `5px solid ${themes.palette.primary.main}`
+                        : '0px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <IconButton
+                    size="small"
+                    className={classes.closeIcon}
+                    onClick={(e) => removePhoto(index, e)}
+                  >
+                    <CancelRounded fontSize="small" />
+                  </IconButton>
+                  <img
+                    src={image.location}
+                    className={classes.imgStyle}
+                    alt="car"
+                    key={'img1' + index}
+                  />
+                </div>
+              ) : image && typeof image === 'object' && Object.keys(image).length > 2 ? (
+                <div
+                  className={classes.imageRoot}
+                  onClick={() => selectImage(image)}
+                  style={{
+                    border:
+                      formData.selectedImage === image
+                        ? `5px solid ${themes.palette.primary.main}`
+                        : '0px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <IconButton
+                    size="small"
+                    className={classes.closeIcon}
+                    onClick={(e) => removePhoto(index, e)}
+                  >
+                    <CancelRounded fontSize="small" />
+                  </IconButton>
+                  <img
+                    src={Object.values(image).join('')}
+                    className={classes.imgStyle}
+                    alt="car"
+                    key={'img1' + index}
+                  />
+                </div>
+              ) : image && typeof image !== 'string' && typeof image !== 'object' ? (
                 <div
                   className={classes.imageRoot}
                   onClick={() => selectImage(image)}

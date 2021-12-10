@@ -90,7 +90,12 @@ const CarCard = ({
                 minWidth: "100%",
                 minHeight: "175px",
               }}
-              src={data.image.length !== 0 ? data.image[0] : NoImg}
+              src={
+                data.selectedImage && typeof data.selectedImage === 'string' ? data.selectedImage 
+                : data.selectedImage && typeof data.selectedImage === 'object' && Object.keys(data.selectedImage).length > 2 ? Object.values(data.selectedImage).join('')
+                : data.selectedImage && typeof data.selectedImage === 'object' && Object.keys(data.selectedImage).length <= 2 ? data.selectedImage.location
+                : NoImg
+              }
               alt=""
             />
           </CardMedia>
