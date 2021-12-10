@@ -15,6 +15,7 @@ const AddEditCar = () => {
     handleStepChange,
     handleBack,
     handleNext,
+    handlePublish,
     ComponentContent,
     id,
     handleDeleteAd,
@@ -129,6 +130,16 @@ const AddEditCar = () => {
                 ? addEditCarData.buttons.post
                 : addEditCarData.buttons.next}
             </Button>
+            {activeStep === addEditCarData.steps.length - 1 && (
+              <Button
+                variant="contained"
+                color="secondary"
+                style={{ marginLeft: '16px' }}
+                onClick={handlePublish}
+              >
+                {addEditCarData.buttons.publish}
+              </Button>
+            )}
           </Grid>
         </Grid>
         <Toast

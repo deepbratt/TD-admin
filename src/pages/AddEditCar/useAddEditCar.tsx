@@ -8,10 +8,10 @@ import { IState } from "country-state-city/dist/lib/interface";
 import { useCallback } from "react";
 import { useRef } from "react";
 import {
-  addFormData,
+  addData,
   deleteData,
   getData,
-  updateFormData,
+  updateData,
 } from "../../utils/API/APIs";
 import { API_ENDPOINTS } from "../../utils/API/endpoints";
 import Sizes from "../../utils/functions/Sizes";
@@ -437,18 +437,18 @@ const useAddEditCar = () => {
     return allFalse(flagRequireError);
   };
 
-  const addEditData = async (formBody: any) => {
+  const addEditData = async (data: any) => {
     let result: any;
     if (id) {
       let carId = id ? "/" + id : "";
-      result = await updateFormData(
+      result = await updateData(
         `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${carId}`,
-        formBody
+        data
       );
     } else {
-      result = await addFormData(
+      result = await addData(
         `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}`,
-        formBody
+        data
       );
     }
     return result;
@@ -527,62 +527,39 @@ const useAddEditCar = () => {
     }
   };
 
-  const submitForm = async () => {
-    console.log("submit following data: ");
-    console.log(formData);
-    let fd = new FormData();
-    if (userId) {
-      fd.append("createdBy", userId);
+  const submitForm = async (isPublished: any) => {
+    let data = {
+      'country': 'Pakistan',
+      'city': formData.city,
+      'province': formData.province,
+      'location.address': formData.location.address,
+      'location.coordinates[0]': formData.location.coordinate.long,
+      'location.coordinates[1]': formData.location.coordinate.lat,
+      'model': formData.carModel,
+      'make': formData.carMake,
+      'version': formData.modelVersion,
+      'transmission': formData.transmission,
+      'assembly': formData.assembly,
+      'registrationCity': formData.registeredIn,
+      'bodyColor': formData.bodyColor,
+      'milage': formData.mileage,
+      'condition': formData.bodyCondition,
+      'description': formData.description,
+      'bodyType': formData.bodyType,
+      'engineType': formData.engineType,
+      'engineCapacity': formData.engineCapacity,
+      'regNumber': formData.registrationNo,
+      'sellerType': formData.sellerType,
+      'modelYear': formData.modelYear,
+      'features': formData.features,
+      'price': formData.price,
+      'isPublished': isPublished,
+      'selectedImage': formData.selectedImage ? formData.selectedImage: formData.images[0],
+      'image': formData.images,
+      "associatedPhone": `+92${formData.associatedPhone}` !== userPhone ? `+92${formData.associatedPhone.replaceAll("-", "")}` : userPhone
     }
-    fd.append("country", "Pakistan");
-    fd.append("city", formData.city);
-    fd.append("province", formData.province);
-    fd.append("location.address", formData.location.address);
-    fd.append("location.coordinates[0]", formData.location.coordinate.long);
-    fd.append("location.coordinates[1]", formData.location.coordinate.lat);
-    // let StringUrls = 0;
-    // for (let i = 0; i < formData.images.length; i++) {
-    //   if (typeof formData.images[i] === typeof "string") {
-    //     fd.append("image[" + StringUrls + "]", images[i]);
-    //     StringUrls++;
-    //   } else {
-    //     fd.append("image", images[i]);
-    //   }
-    // }
-    fd.append("model", formData.carModel);
-    fd.append("make", formData.carMake);
-    fd.append("version", formData.modelVersion);
-    fd.append("transmission", formData.transmission);
-    fd.append("assembly", formData.assembly);
-    fd.append("registrationCity", formData.registeredIn);
-    fd.append("bodyColor", formData.bodyColor);
-    fd.append("milage", formData.mileage);
-    fd.append("condition", formData.bodyCondition);
-    fd.append("description", formData.description);
-    fd.append("bodyType", formData.bodyType);
-    fd.append("engineType", formData.engineType);
-    fd.append("engineCapacity", formData.engineCapacity);
-    fd.append("regNumber", formData.registrationNo);
-    fd.append("sellerType", formData.sellerType);
-    if (`+92${formData.associatedPhone}` !== userPhone) {
-      fd.append(
-        "associatedPhone",
-        `+92${formData.associatedPhone.replaceAll("-", "")}`
-      );
-    }
-    // fd.append("date", new Date(formData.modelYear).toISOString());
-    fd.append("modelYear", formData.modelYear);
-    // fd.append("features", formData.features);
-    for (let i = 0; i < formData.features.length; i++) {
-      fd.append("features", formData.features[i]);
-    }
-    fd.append("price", formData.price);
-    await appendImages(fd);
-    console.table(Object.fromEntries(fd));
     setIsLoading(true);
-    // let addEditCarApi = id ? updateFormData : addFormData
-    // let carId = id ? "/"+id : ""
-    addEditData(fd).then((response) => {
+    addEditData(data).then((response) => {
       setIsLoading(false);
       if (response && response.data && response.data.status === "success") {
         setToastMessage(response.data.message);
@@ -610,7 +587,7 @@ const useAddEditCar = () => {
         setToastMessage(msg);
         setToastType("error");
         setToastOpen(true);
-        console.log("error", response);
+        // console.log("error", response);
       }
     });
   };
@@ -646,10 +623,21 @@ const useAddEditCar = () => {
       return;
     }
     if (activeStep === 2) {
-      submitForm();
+      submitForm(false);
       return;
     }
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handlePublish = () => {
+    formRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (!formValidated(activeStep)) {
+      return;
+    }
+    if (activeStep === 2) {
+      submitForm(true);
+      return;
+    }
   };
 
   const handleBack = () => {
@@ -667,6 +655,7 @@ const useAddEditCar = () => {
     activeStep,
     handleBack,
     handleNext,
+    handlePublish,
     formData,
     handleChange,
     images,
