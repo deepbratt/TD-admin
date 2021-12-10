@@ -32,7 +32,7 @@ const CarSlider = ({ dataArray }: CarSliderProps) => {
             showIndicators={false}
             showThumbs={true}
           >
-            {dataArray.map((item: string, index: number) => (
+            {dataArray.map((item: any, index: number) => (
               <div className={classes.sliderImageWrapper}>
                 <div style={{backgroundImage:`url(${item})`}} className={classes.blurBgImg}></div>
               <img
@@ -41,8 +41,8 @@ const CarSlider = ({ dataArray }: CarSliderProps) => {
                   position: 'relative',
                   borderRadius: '5px',
                 }}
-                src={item}
-                onLoad={(e:any)=>onImageLoad(item, e.target)}
+                src={item.location}
+                onLoad={(e:any)=>onImageLoad(item.location, e.target)}
                 alt=""
               />
               </div>
