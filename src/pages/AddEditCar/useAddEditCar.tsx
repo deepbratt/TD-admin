@@ -554,7 +554,7 @@ const useAddEditCar = () => {
       'features': formData.features,
       'price': formData.price,
       'isPublished': isPublished,
-      'selectedImage': formData.selectedImage ? formData.selectedImage: formData.images[0],
+      'selectedImage': formData.selectedImage,
       'image': formData.images,
       "associatedPhone": `+92${formData.associatedPhone}` !== userPhone ? `+92${formData.associatedPhone.replaceAll("-", "")}` : userPhone
     }
