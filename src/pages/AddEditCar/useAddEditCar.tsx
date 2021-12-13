@@ -529,6 +529,7 @@ const useAddEditCar = () => {
 
   const submitForm = async (isPublished: any) => {
     let data = {
+      "createdBy": userId,
       'country': 'Pakistan',
       'city': formData.city,
       'province': formData.province,
