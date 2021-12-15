@@ -24,7 +24,7 @@ jobs:
          CI: false
       - name: Build React App - Prod
         if: github.ref == 'refs/heads/r/2143.1-0'
-        run: npm install && npm run build-prod
+        run: npm install --legacy-peer-deps && npm run build-prod
         env:
          CI: false
       - name: Deploy app build to Development S3 bucket
