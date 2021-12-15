@@ -30,6 +30,9 @@ import {
   SOLD,
   UNBAN,
   UNSOLD,
+  NOT_PUBLISHED,
+  NOT_ACTIVE,
+  PUBLISH,
 } from "../../utils/constants/language/en/buttonLabels";
 import ConfirmationDialog from "../ConfirmationDialog";
 import addEditCarData from "../../utils/constants/language/en/addEditCarData";
@@ -47,7 +50,8 @@ const CarCard = ({
   reload,
   setReload,
 }: CarCardProps) => {
-  const { root, grid, featuredBadge, location } = CardStyles();
+  const { root, grid, location, featuredBadgeContainer, featuredBadge } =
+    CardStyles();
   const {
     isActive,
     toggleActive,
@@ -61,6 +65,7 @@ const CarCard = ({
     isLoading,
     deleteDialog,
     setDeleteDialog,
+    publishAd,
   } = useCarCard(data, reload, setReload);
   const history = useHistory();
   return (
@@ -91,12 +96,35 @@ const CarCard = ({
                 minHeight: "175px",
               }}
               src={
-                data.selectedImage && data.selectedImage.location ? data.selectedImage.location 
-                : data.image && data.image.length > 0 && data.image[0].location ? data.image[0].location 
-                : NoImg
+                data.selectedImage && data.selectedImage.location
+                  ? data.selectedImage.location
+                  : data.image &&
+                    data.image.length > 0 &&
+                    data.image[0].location
+                  ? data.image[0].location
+                  : NoImg
               }
               alt=""
             />
+            <div className={featuredBadgeContainer}>
+              <>
+                {data.isSold && (
+                  <span className={featuredBadge}>
+                    <Typography variant="body2">{SOLD}</Typography>
+                  </span>
+                )}
+                {data.isPublished === false && (
+                  <span className={featuredBadge}>
+                    <Typography variant="body2">{NOT_PUBLISHED}</Typography>
+                  </span>
+                )}
+                {!data.active && (
+                  <span className={featuredBadge}>
+                    <Typography variant="body2">{NOT_ACTIVE}</Typography>
+                  </span>
+                )}
+              </>
+            </div>
           </CardMedia>
         </Grid>
         <Grid item container xs={12} sm={layoutType !== "list" ? 12 : 7}>
@@ -108,11 +136,6 @@ const CarCard = ({
               direction="column"
               justifyContent="space-between"
             >
-              {data.isSold ? (
-                <span className={featuredBadge}>
-                  <Typography variant="body2">{SOLD}</Typography>
-                </span>
-              ) : null}
               <Grid item container justifyContent="space-between" xs={12}>
                 <Grid item>
                   <Typography variant="h5">
@@ -259,6 +282,21 @@ const CarCard = ({
           >
             {isBanned ? UNBAN : BAN}
           </Button>
+
+          {data.isPublished === false && (
+            <Button
+              endIcon={<PlaylistAddCheck color="primary" />}
+              onClick={(e) => {
+                e.stopPropagation();
+                publishAd(e);
+              }}
+              color="secondary"
+              variant="contained"
+              fullWidth
+            >
+              {PUBLISH}
+            </Button>
+          )}
 
           <Button
             endIcon={<Delete color="error" />}
