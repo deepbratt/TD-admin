@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - develop
-      - r/2142.1-0
+      - r/2143.1-0
 
 jobs:
   build:
@@ -23,7 +23,7 @@ jobs:
         env:
          CI: false
       - name: Build React App - Prod
-        if: github.ref == 'refs/heads/r/2142.1-0'
+        if: github.ref == 'refs/heads/r/2143.1-0'
         run: npm install && npm run build-prod
         env:
          CI: false
@@ -31,11 +31,11 @@ jobs:
         if: github.ref == 'refs/heads/develop'
         run: aws s3 sync ./build/ s3://admin.carokta.com --delete
       - name: Deploy app build to Production S3 bucket
-        if: github.ref == 'refs/heads/r/2142.1-0'
+        if: github.ref == 'refs/heads/r/2143.1-0'
         run: aws s3 sync ./build/ s3://prod-admin.carokta.com --delete
       - name: Development CDN Cache invalidation
         if: github.ref == 'refs/heads/develop'
         run:  aws cloudfront create-invalidation --distribution-id "E1W481MNO4O4HD" --paths "/*"
       - name: Production CDN Cache invalidation
-        if: github.ref == 'refs/heads/r/2142.1-0'
+        if: github.ref == 'refs/heads/r/2143.1-0'
         run:  aws cloudfront create-invalidation --distribution-id "E153Q852I8DRCX" --paths "/*"
