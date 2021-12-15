@@ -5,10 +5,11 @@ import { API_ENDPOINTS } from "../../utils/API/endpoints";
 const useCarCard = (
   data: any,
   reload: boolean,
-  setReload: (bool: boolean) => void
+  setReload: (bool: boolean) => void,
 ) => {
   const [isBanned, setIsBanned] = useState(data.banned);
   const [isActive, setIsActive] = useState(data.active);
+  const [isPublished, setIsPublished] = useState(data.isPublished);
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [toastOpen, setToastOpen] = useState(false);
@@ -26,6 +27,7 @@ const useCarCard = (
         setIsBanned(!isBanned);
         setToastMessage(response.data.message);
         setToastType("success");
+        setReload(!reload);
       } else {
         console.log(response);
         setToastMessage(response.message);
@@ -49,10 +51,30 @@ const useCarCard = (
         setIsActive(!isActive);
         setToastMessage(response.data.message);
         setToastType("success");
+        setReload(!reload);
       } else {
         console.log(response);
         setToastMessage(response.message);
         setToastType("error");
+      }
+      setToastOpen(true);
+      setIsLoading(false);
+    });
+  };
+
+  const publishAd = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    setIsLoading(true);
+    updateData(
+      `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.PUBLISH_AD}${data._id}`
+    ).then((response: any) => {
+      if (response && response.data && response.data.status === 'success') {
+        setToastMessage(response.data.message);
+        setIsPublished(!isPublished);
+        setToastType('success');
+        setReload(!reload);
+      } else {
+        setToastMessage(response.message);
+        setToastType('error');
       }
       setToastOpen(true);
       setIsLoading(false);
@@ -92,6 +114,7 @@ const useCarCard = (
     isLoading,
     deleteDialog,
     setDeleteDialog,
+    publishAd
   };
 };
 

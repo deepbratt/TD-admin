@@ -1,7 +1,7 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Theme } from "@material-ui/core";
 import { Colors } from "../../theme/themeConstants";
 
-const CardStyles = makeStyles(() => ({
+const CardStyles = makeStyles((theme: Theme) => ({
   root: {
     display: "flex",
     boxShadow: "none",
@@ -21,19 +21,25 @@ const CardStyles = makeStyles(() => ({
     marginTop: '20px',
     backgroundColor: Colors.background
   },
+  featuredBadgeContainer: {
+    display: "flex",
+    justifyContent:"flex-start",
+    position: 'absolute',
+    left: '7px',
+    top: '7px',
+    zIndex: 109
+  },
   featuredBadge: {
-    position: "absolute",
-    left: "7px",
-    top: "7px",
-    padding: "3px 5px",
-    backgroundColor: "red",
-    borderRadius: "2px",
-    "& > *": {
-      fontSize: "10px",
-      textTransform: "uppercase",
-      color: "white",
-      lineHeight: "12px",
-    },
+    margin: '0 2px',
+    padding: '3px 5px',
+    backgroundColor: 'red',
+    borderRadius: '2px',
+    '& > *': {
+      fontSize: '10px',
+      textTransform: 'uppercase',
+      color: theme.palette.common.white,
+      lineHeight: '12px'
+    }
   },
 
   detailRoot: {

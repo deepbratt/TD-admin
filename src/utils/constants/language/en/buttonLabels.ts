@@ -86,3 +86,6 @@ export const ID = "Id";
 export const AD_FAILED = "Ad Failed";
 export const REASON = "Reason";
 export const REG_NUMBER = "Reg No";
+export const NOT_PUBLISHED: string = 'Not Published';
+export const PUBLISH: string = 'Publish';
+export const NOT_ACTIVE: string = 'Not Active';

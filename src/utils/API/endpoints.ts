@@ -43,5 +43,6 @@ export const API_ENDPOINTS = {
   ADS_VIEWS_LOGS: "/show-number",
   ADS_VIEWS_LOGS_OF_SINGLE_AD: "/logs",
   BULK_ADS: "/bulk-ads",
+  PUBLISH_AD: "/publish-ad/",
   BULK_ADS_STATS: "/bulk-uploads-stats",
 };
