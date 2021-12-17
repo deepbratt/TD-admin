@@ -40,7 +40,7 @@ const UploadPhotosForm = ({
   const [infoMessage, setInfoMessage] = useState<string | any>("");
   const [infoTitle, setInfoTitle] = useState("");
 
-  const uploadImage = (e: any) => {
+  const uploadImage = async(e: any) => {
     let oneMb = 1024 * 1024;
     let temp = [...images];
     let imageFiles = e.target.files;
@@ -84,7 +84,7 @@ const UploadPhotosForm = ({
       for (let i = 0; i < imageFiles.length; i++) {
         let fd: FormData = new FormData();
         fd.append('image', imageFiles[i]);
-        imageUploadPromises.push(addFormData(`${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS_IMAGES}`, fd));
+        imageUploadPromises.push(await addFormData(`${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS_IMAGES}`, fd));
       }
       Promise.all(imageUploadPromises).then(responses => {
         let imagesArray: any[] = [...images];
