@@ -36,7 +36,6 @@ const initialFieldValues = {
 const useUserDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [formData, setFormData] = useReducer(formReducer, initialFieldValues);
-  const [userAds, setUserAds] = useState<any>();
   const [isLoading, setIsLoading] = useState(false);
   const [toastOpen, setToastOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
