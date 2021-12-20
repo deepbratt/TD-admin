@@ -218,10 +218,8 @@ const useUserDetail = () => {
     setIsLoading(true);
     getData(`${API_ENDPOINTS.USERS}/${id}`)
       .then((response) => {
-        console.log("user response: ", response);
         if (response && response.data && response.data.status === "success") {
           let responseResult = response.data.data.result;
-          console.log(responseResult);
           setFormData({ name: "image", value: responseResult.image });
           setFormData({ name: "firstName", value: responseResult.firstName });
           setFormData({ name: "lastName", value: responseResult.lastName });
