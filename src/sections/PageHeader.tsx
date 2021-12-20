@@ -13,12 +13,10 @@ const PageHeader = ({
     <Grid container>
       <Grid
         item
+        container
         xs={12}
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
+        justifyContent= "space-between"
+        alignItems="center"
       >
         <Typography variant="h3">{heading}</Typography>
         {children}

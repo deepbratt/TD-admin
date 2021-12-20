@@ -1,5 +1,4 @@
 import { Grid } from "@material-ui/core";
-import Header from "../sections/Header";
 import SideBarPersist from "../sections/SiderBar/SideBarPersist";
 import { Colors } from "../theme/themeConstants";
 
