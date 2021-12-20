@@ -24,22 +24,16 @@ const useAdvertisements = (createdBy?: string) => {
     endpoint += createdBy ? "&createdBy=" + createdBy : "";
     getData(endpoint)
       .then((response: any) => {
-        console.log(response);
         window.scrollTo(0, 0);
         if (response && response.data && response.data.status === "success") {
           setData(response.data);
           setResult(response.data.data.result);
           setPage(pageValue);
-          // console.log("response pages count= ", response.data.totalCount);
           setTotalCount(response.data.totalCount)
           let totalPages = Math.ceil(response.data.totalCount / dataLimit);
           setPageCount(totalPages);
         } else {
-          if (response.message) {
-            setToastMessage(response.message);
-          } else {
-            setToastMessage(response.response);
-          }
+          setToastMessage(response.data.message);       
           setToastOpen(true);
           setToastType("error");
         }
