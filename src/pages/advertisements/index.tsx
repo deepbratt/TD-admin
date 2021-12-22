@@ -78,6 +78,7 @@ const Advertisements: React.FC<AdvertisementsProps> = (props) => {
         {result.map((item: any, index: number) => (
           <Grid
             item
+            container
             xs={12}
             style={{ display: "flex" }}
             justifyContent="center"
@@ -91,19 +92,22 @@ const Advertisements: React.FC<AdvertisementsProps> = (props) => {
             />
           </Grid>
         ))}
-        {result.length < 1 && <NoResults />}
-        <Grid
-          item
-          xs={12}
-          style={{ display: "flex", marginTop: 5 }}
-          justifyContent="flex-end"
-        >
-          <Pagination
-            count={pageCount}
-            onChange={(event, value) => getCars(value)}
-            color="secondary"
-          />
-        </Grid>
+        {result.length < 1 && !isLoading && <NoResults />}
+        {result.length > 0 && (
+          <Grid
+            item
+            container
+            xs={12}
+            style={{ display: "flex", marginTop: 5 }}
+            justifyContent="flex-end"
+          >
+            <Pagination
+              count={pageCount}
+              onChange={(event, value) => getCars(value)}
+              color="secondary"
+            />
+          </Grid>
+        )}
       </Grid>
       <Loader open={isLoading} isBackdrop={true} />
       <Toast
