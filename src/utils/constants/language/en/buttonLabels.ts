@@ -89,3 +89,7 @@ export const REG_NUMBER = "Reg No";
 export const NOT_PUBLISHED: string = 'Not Published';
 export const PUBLISH: string = 'Publish';
 export const NOT_ACTIVE: string = 'Not Active';
+export const USER_INFORMATION: string = 'User Information';
+export const USER_DETAILS: string = 'User Details';
+export const PASSWORD_SETTINGS: string = 'Password Settings';
+export const ABOUT: string = 'About';

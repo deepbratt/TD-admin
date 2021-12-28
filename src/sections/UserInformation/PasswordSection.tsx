@@ -9,7 +9,7 @@ interface UserInformationProps {
 const PasswordSection = ({ formData, handleChange, handleReset, handleSubmit }: UserInformationProps) => {
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12}>
         <TextField
           name="newPassword"
           onChange={handleChange}
@@ -20,7 +20,7 @@ const PasswordSection = ({ formData, handleChange, handleReset, handleSubmit }: 
           fullWidth
         />
       </Grid>
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12}>
         <TextField
           name="confirmPassword"
           onChange={handleChange}
@@ -31,9 +31,28 @@ const PasswordSection = ({ formData, handleChange, handleReset, handleSubmit }: 
           fullWidth
         />
       </Grid>
-      <Grid item container xs={12} justifyContent="flex-end" alignItems="flex-start">
-          <Button variant="contained" color="default" onClick={()=>handleReset()}>Cancel</Button>
-          <Button variant="contained" color="secondary" onClick={()=>handleSubmit()} style={{marginLeft:"10px"}}>Update</Button>
+      <Grid
+        item
+        container
+        xs={12}
+        justifyContent="flex-end"
+        alignItems="flex-start"
+      >
+        <Button
+          variant="contained"
+          color="default"
+          onClick={() => handleReset()}
+        >
+          Cancel
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => handleSubmit()}
+          style={{ marginLeft: "10px" }}
+        >
+          Update
+        </Button>
       </Grid>
     </Grid>
   );
