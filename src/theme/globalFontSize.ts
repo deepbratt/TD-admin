@@ -5,8 +5,8 @@ export const theme = createMuiTheme();
 // * HEADER HEADING
 theme.typography.h1 = {
   fontWeight: 700,
-  fontSize: "56px",
-  lineHeight: "62px",
+  fontSize: "38px",
+  lineHeight: "46px",
 };
 theme.typography.h2 = {
   fontWeight: 700,
