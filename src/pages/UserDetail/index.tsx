@@ -96,11 +96,13 @@ const UserDetail = () => {
               variant="standard"
               aria-label="user details page sections tab"
             >
-              {[USER_INFORMATION, PASSWORD_SETTINGS, ABOUT].map(
-                (tabLabel: string, index: number) => (
-                  <Tab key={uuidv4()} label={tabLabel} {...tabsProps(index)} />
-                )
-              )}
+              {[
+                USER_INFORMATION,
+                PASSWORD_SETTINGS,
+                //  ABOUT uncomment to add about section
+              ].map((tabLabel: string, index: number) => (
+                <Tab key={uuidv4()} label={tabLabel} {...tabsProps(index)} />
+              ))}
             </Tabs>
           </Grid>
           <TabPanel value={tabValue} index={0}>
