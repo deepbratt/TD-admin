@@ -21,6 +21,8 @@ import {
   PASSWORD_SETTINGS,
   ABOUT,
 } from "../../utils/constants/language/en/buttonLabels";
+import AboutSection from "../../sections/UserInformation/AboutSection";
+import BannerSection from "../../sections/UserInformation/BannerSection";
 
 // Tabs PROPS
 function tabsProps(index: number) {
@@ -73,12 +75,16 @@ const UserDetail = () => {
     toastMessage,
     toastType,
     toastOpen,
+    resetUserAboutInformation,
+    resetBannerImage,
     resetPasswordInformation,
     resetUserInformation,
     resetImage,
     updateImage,
     updateUser,
     updatePassword,
+    updateAboutInfo,
+    updateBannerImage,
   } = useUserDetail();
   const { id } = useParams<{ id: string }>();
   return (
@@ -96,18 +102,24 @@ const UserDetail = () => {
               variant="standard"
               aria-label="user details page sections tab"
             >
-              {[
-                USER_INFORMATION,
-                PASSWORD_SETTINGS,
-                //  ABOUT uncomment to add about section
-              ].map((tabLabel: string, index: number) => (
-                <Tab key={uuidv4()} label={tabLabel} {...tabsProps(index)} />
-              ))}
+              {[USER_INFORMATION, PASSWORD_SETTINGS, ABOUT].map(
+                (tabLabel: string, index: number) => (
+                  <Tab key={uuidv4()} label={tabLabel} {...tabsProps(index)} />
+                )
+              )}
             </Tabs>
           </Grid>
           <TabPanel value={tabValue} index={0}>
             <Grid container justifyContent="center">
-              <Grid style={{ margin: "30px 0" }} container item xs={12} lg={8}>
+              <Grid style={{ margin: "30px 0" }} container item xs={12}>
+                <Grid item xs={12} container justifyContent="center">
+                  <BannerSection
+                    formData={formData}
+                    handleChange={handleChange}
+                    handleReset={resetBannerImage}
+                    handleSubmit={updateBannerImage}
+                  />
+                </Grid>
                 <Grid item xs={12} container justifyContent="center">
                   <ProfileImage
                     formData={formData}
@@ -149,6 +161,27 @@ const UserDetail = () => {
                     handleChange={handleChange}
                     handleReset={resetPasswordInformation}
                     handleSubmit={updatePassword}
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+          </TabPanel>
+          <TabPanel value={tabValue} index={2}>
+            <Grid
+              style={{ margin: "30px 0" }}
+              container
+              justifyContent="center"
+            >
+              <Grid container item xs={12} lg={8}>
+                <Grid item xs={12}>
+                  <PageHeader heading={ABOUT} />
+                </Grid>
+                <Grid item container justifyContent="center" xs={12}>
+                  <AboutSection
+                    formData={formData}
+                    handleChange={handleChange}
+                    handleReset={resetUserAboutInformation}
+                    handleSubmit={updateAboutInfo}
                   />
                 </Grid>
               </Grid>
