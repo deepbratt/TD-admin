@@ -69,6 +69,7 @@ const UserDetail = () => {
   const {
     formData,
     handleChange,
+    handleImageChange,
     handlePhoneInputChange,
     isLoading,
     setToastOpen,
@@ -115,7 +116,7 @@ const UserDetail = () => {
                 <Grid item xs={12} container justifyContent="center">
                   <BannerSection
                     formData={formData}
-                    handleChange={handleChange}
+                    handleChange={handleImageChange}
                     handleReset={resetBannerImage}
                     handleSubmit={updateBannerImage}
                   />
@@ -123,7 +124,7 @@ const UserDetail = () => {
                 <Grid item xs={12} container justifyContent="center">
                   <ProfileImage
                     formData={formData}
-                    handleChange={handleChange}
+                    handleChange={handleImageChange}
                     handleReset={resetImage}
                     handleSubmit={updateImage}
                   />

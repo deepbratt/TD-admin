@@ -63,12 +63,16 @@ const useUserDetail = () => {
   const handleChange = (event: any) => {
     setFormData({
       name: event.target.name,
-      value:
-        event.target.name === "image" || "bannerImage"
-          ? event.target.files[0]
-          : event.target.value,
+      value: event.target.value,
     });
-    event.target.value = (event.target.name === "image" || "bannerImage") && null;
+  };
+
+  const handleImageChange = (event: any) => {
+    setFormData({
+      name: event.target.name,
+      value: event.target.files[0],
+    });
+    event.target.value = null;
   };
 
   const handlePhoneInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,18 +84,17 @@ const useUserDetail = () => {
     }
   };
 
-  
   const resetUserInformation = () => {
     setFormData({ name: "firstName", value: initialValues.firstName });
     setFormData({ name: "lastName", value: initialValues.lastName });
     setFormData({ name: "phone", value: initialValues.phone });
     setFormData({ name: "email", value: initialValues.email });
   };
-  
+
   const resetImage = () => {
     setFormData({ name: "image", value: initialValues.image });
   };
-  
+
   const resetUserAboutInformation = () => {
     setFormData({ name: "about", value: initialValues.about });
     setFormData({ name: "description", value: initialValues.description });
@@ -264,14 +267,20 @@ const useUserDetail = () => {
           setFormData({ name: "userName", value: responseResult.username });
           setFormData({ name: "joined", value: responseResult.createdAt });
           setFormData({ name: "email", value: responseResult.email });
-          if(responseResult.about){
+          if (responseResult.about) {
             setFormData({ name: "about", value: responseResult.about });
           }
-          if(responseResult.description){
-            setFormData({ name: "description", value: responseResult.description });
+          if (responseResult.description) {
+            setFormData({
+              name: "description",
+              value: responseResult.description,
+            });
           }
-          if(responseResult.bannerImage){
-            setFormData({ name: "bannerImage", value: responseResult.bannerImage });
+          if (responseResult.bannerImage) {
+            setFormData({
+              name: "bannerImage",
+              value: responseResult.bannerImage,
+            });
           }
           if (responseResult.phone) {
             setFormData({
@@ -313,7 +322,7 @@ const useUserDetail = () => {
             value: responseResult.username,
           });
           setInitialValues({
-            name:"about",
+            name: "about",
             value: responseResult.about,
           });
           setInitialValues({
@@ -357,6 +366,7 @@ const useUserDetail = () => {
   return {
     formData,
     handleChange,
+    handleImageChange,
     handlePhoneInputChange,
     isLoading,
     toastMessage,
