@@ -53,6 +53,9 @@ const useUserDetail = () => {
     joined: "",
     signedUpWithEmail: false,
     signedUpWithPhone: true,
+    about: "",
+    description: "",
+    bannerImage: "",
     id: "",
   });
 
@@ -60,12 +63,16 @@ const useUserDetail = () => {
   const handleChange = (event: any) => {
     setFormData({
       name: event.target.name,
-      value:
-        event.target.name === "image"
-          ? event.target.files[0]
-          : event.target.value,
+      value: event.target.value,
     });
-    event.target.value = event.target.name === "image" && null;
+  };
+
+  const handleImageChange = (event: any) => {
+    setFormData({
+      name: event.target.name,
+      value: event.target.files[0],
+    });
+    event.target.value = null;
   };
 
   const handlePhoneInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,6 +95,14 @@ const useUserDetail = () => {
     setFormData({ name: "image", value: initialValues.image });
   };
 
+  const resetUserAboutInformation = () => {
+    setFormData({ name: "about", value: initialValues.about });
+    setFormData({ name: "description", value: initialValues.description });
+  };
+
+  const resetBannerImage = () => {
+    setFormData({ name: "bannerImage", value: initialValues.bannerImage });
+  };
   const resetPasswordInformation = () => {
     setFormData({ name: "newPassword", value: "" });
     setFormData({ name: "confirmPassword", value: "" });
@@ -98,6 +113,13 @@ const useUserDetail = () => {
     setIsLoading(true);
     let fd = new FormData();
     fd.append("image", formData.image);
+    updateUserInformation(fd);
+  };
+
+  const updateBannerImage = () => {
+    setIsLoading(true);
+    let fd = new FormData();
+    fd.append("bannerImage", formData.bannerImage);
     updateUserInformation(fd);
   };
 
@@ -118,6 +140,26 @@ const useUserDetail = () => {
     }
     if (formData.email !== initialValues.email && !formData.signedUpWithEmail) {
       fd.append("email", formData.email);
+      changed = true;
+    }
+    if (!changed) {
+      setToastMessage("Nothing to update");
+      setToastType("error");
+      setToastOpen(true);
+      return;
+    }
+    updateUserInformation(fd);
+  };
+
+  const updateAboutInfo = () => {
+    let fd = new FormData();
+    let changed = false;
+    if (formData.about !== initialValues.about) {
+      fd.append("about", formData.about);
+      changed = true;
+    }
+    if (formData.description !== initialValues.description) {
+      fd.append("description", formData.description);
       changed = true;
     }
     if (!changed) {
@@ -225,6 +267,21 @@ const useUserDetail = () => {
           setFormData({ name: "userName", value: responseResult.username });
           setFormData({ name: "joined", value: responseResult.createdAt });
           setFormData({ name: "email", value: responseResult.email });
+          if (responseResult.about) {
+            setFormData({ name: "about", value: responseResult.about });
+          }
+          if (responseResult.description) {
+            setFormData({
+              name: "description",
+              value: responseResult.description,
+            });
+          }
+          if (responseResult.bannerImage) {
+            setFormData({
+              name: "bannerImage",
+              value: responseResult.bannerImage,
+            });
+          }
           if (responseResult.phone) {
             setFormData({
               name: "phone",
@@ -264,8 +321,15 @@ const useUserDetail = () => {
             name: "userName",
             value: responseResult.username,
           });
+          setInitialValues({
+            name: "about",
+            value: responseResult.about,
+          });
+          setInitialValues({
+            name: "description",
+            value: responseResult.description,
+          });
           setInitialValues({ name: "joined", value: responseResult.createdAt });
-
           setInitialValues({ name: "email", value: responseResult.email });
           setInitialValues({ name: "phone", value: responseResult.phone });
           setInitialValues({
@@ -302,6 +366,7 @@ const useUserDetail = () => {
   return {
     formData,
     handleChange,
+    handleImageChange,
     handlePhoneInputChange,
     isLoading,
     toastMessage,
@@ -310,10 +375,14 @@ const useUserDetail = () => {
     setToastOpen,
     resetUserInformation,
     resetPasswordInformation,
+    resetUserAboutInformation,
+    resetBannerImage,
     resetImage,
     updateImage,
     updateUser,
     updatePassword,
+    updateAboutInfo,
+    updateBannerImage,
   };
 };
 
