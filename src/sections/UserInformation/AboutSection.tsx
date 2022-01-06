@@ -1,32 +1,41 @@
-import { Button, Grid, TextField } from "@material-ui/core";
-interface UserInformationProps {
-  formData: any;
-  handleChange: (event: any) => void;
-  handleReset: () => void
-  handleSubmit: ()=>void
-}
+import React from 'react'
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 
-const PasswordSection = ({ formData, handleChange, handleReset, handleSubmit }: UserInformationProps) => {
+interface IAboutSectionProps {
+    formData: any;
+    handleChange: (event: any) => void;
+    handleReset: () => void;
+    handleSubmit: () => void;
+  }
+
+const AboutSection: React.FC<IAboutSectionProps> = ({
+  formData,
+  handleChange,
+  handleReset,
+  handleSubmit,
+}) => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <TextField
-          name="newPassword"
+          name="about"
           onChange={handleChange}
-          value={formData.newPassword}
-          label={"New Password"}
-          type="password"
+          value={formData.about}
+          label={"About"}
           required
           fullWidth
         />
       </Grid>
       <Grid item xs={12}>
         <TextField
-          name="confirmPassword"
+          multiline
+          rows={4}
+          name="description"
           onChange={handleChange}
-          value={formData.confirmPassword}
-          label={"Confirm Password"}
-          type="password"
+          value={formData.description}
+          label={"Description"}
           required
           fullWidth
         />
@@ -58,4 +67,4 @@ const PasswordSection = ({ formData, handleChange, handleReset, handleSubmit }: 
   );
 };
 
-export default PasswordSection;
+export default AboutSection
