@@ -65,7 +65,7 @@ const useCarColors = () => {
 
     addEditData(body)
       .then((response: any) => {
-        console.log(response);
+        
         if (response && response.data && response.data.status === "success") {
           if (colorId) {
             let temp = result;
@@ -123,7 +123,7 @@ const useCarColors = () => {
       `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.CAR_COLOR}/${colorId}`
     )
       .then((response: any) => {
-        console.log(response);
+        
         if (response && response.data && response.data.status === "success") {
           setToastMessage(response.data.message);
           setToastType("success");

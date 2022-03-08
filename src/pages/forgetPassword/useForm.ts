@@ -41,11 +41,11 @@ export const useForm = (validateOnChange = false) => {
       let requestBody = {
         data: values.data,
       };
-      console.log("requestBody", requestBody);
+      
       setIsLoading(true);
       await addData(USERS + FORGOT_PASSWORD, requestBody)
         .then((response) => {
-          console.log("data", response);
+          
           setIsLoading(false);
           if (response && response.data && response.data.status === "success") {
             setAlertOpen(true);

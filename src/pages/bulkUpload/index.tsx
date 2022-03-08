@@ -106,7 +106,7 @@ const BulkUpload: React.FC = () => {
       })
       .catch((error) => {
         setIsLoading(false);
-        console.log("Error", error);
+        
       });
   };
 

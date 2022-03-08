@@ -63,13 +63,13 @@ const useUsers = () => {
         : endpoint;
     getData(endpoint)
       .then((response: any) => {
-        console.log(response);
+        
         window.scrollTo(0, 0);
         if (response && response.data && response.data.status === "success") {
           setData(response.data);
           setResult(response.data.data.result);
           setPage(pageValue);
-          // console.log("response pages count= ", response.data.totalCount);
+          // ("response pages count= ", response.data.totalCount);
           let totalPages = Math.ceil(response.data.totalCount / dataLimit);
           setPageCount(totalPages);
         } else {

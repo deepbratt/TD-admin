@@ -53,10 +53,10 @@ export const useForm = (validateOnChange = false) => {
         password: values.password,
       };
       setIsLoading(true);
-      console.log("requestBody", requestBody);
+      
       await addData(USERS + LOGIN, requestBody)
         .then((response) => {
-          console.log("data", response);
+          
           setIsLoading(false);
           if (response && response.data && response.data.status === "success") {
             setAlertOpen(true);
@@ -75,7 +75,6 @@ export const useForm = (validateOnChange = false) => {
         })
         .catch((error) => {
           setIsLoading(false);
-          console.log("Error log", error);
           setAlertOpen(true);
           setResponseMessage({
             status: error.status,

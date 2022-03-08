@@ -42,7 +42,7 @@ const useTicketsTableRow = (
         setToastMessage(response.data.message);
         setToastType("success");
       } else {
-        console.log(response);
+        
         setToastMessage(response.message);
         setToastType("error");
       }
@@ -65,7 +65,7 @@ const useTicketsTableRow = (
         setToastMessage(response.data.message);
         setToastType("success");
       } else {
-        console.log(response);
+        
         setToastMessage(response.message);
         setToastType("error");
       }
