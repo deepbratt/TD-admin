@@ -43,7 +43,7 @@ const useCarBodyTypes= () => {
       `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.BODY_TYPES}`
     )
       .then((response: any) => {
-        console.log(response);
+        
         if (response && response.data && response.data.status === "success") {
           setData(response.data);
           setResult(response.data.data.result);
@@ -77,7 +77,7 @@ const useCarBodyTypes= () => {
     fd.append("image", bodyTypeValues.image)
     addEditData(fd)
       .then((response: any) => {
-        console.log(response);
+        
         if (response && response.data && response.data.status === "success") {
             if(bodyTypeValues._id){
                 let temp = result
@@ -135,7 +135,7 @@ const useCarBodyTypes= () => {
       `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.BODY_TYPES}/${bodyTypeValues._id}`
     )
       .then((response: any) => {
-        console.log(response);
+        
         if (response && response.data && response.data.status === "success") {
           setToastMessage(response.data.message);
           setToastType("success");

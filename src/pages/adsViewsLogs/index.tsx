@@ -92,7 +92,7 @@ const AdsViewsLogs: React.FC = () => {
     await getData(ADS + CARS + params)
       .then((response) => {
         setIsLoading(false);
-        console.log("response", response);
+        
         if (response && response.data && response.data.status === "success") {
           setViewsLogs(response.data.data.result);
           setTotalCount(response.data.totalCount);
@@ -100,7 +100,7 @@ const AdsViewsLogs: React.FC = () => {
       })
       .catch((error) => {
         setIsLoading(false);
-        console.log("Error", error);
+        
       });
   };
 

@@ -23,7 +23,7 @@ const useCarModels = () => {
       `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.MAKE_MODELS}${id}`
     )
       .then((response: any) => {
-        console.log(response);
+        
         if (response && response.data && response.data.status === "success") {
           setData(response.data);
           setResult(response.data.data.result);
@@ -55,7 +55,7 @@ const useCarModels = () => {
     let body = { name: modelName, make_id: id };
     addEditData(body)
       .then((response: any) => {
-        console.log(response);
+        
         if (response && response.data && response.data.status === "success") {
             if(modelId){
                 let temp = result
@@ -110,7 +110,7 @@ const useCarModels = () => {
       `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.MODEL}/${modelId}`
     )
       .then((response: any) => {
-        console.log(response);
+        
         if (response && response.data && response.data.status === "success") {
           setToastMessage(response.data.message);
           setToastType("success");

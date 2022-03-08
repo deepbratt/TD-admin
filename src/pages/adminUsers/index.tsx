@@ -86,7 +86,6 @@ const AdminUsers: React.FC = () => {
     await deleteData(USERS + "/" + id)
       .then((response) => {
         setIsLoading(false);
-        console.log("response", response);
         if (response && response.data && response.data.status === "success") {
           setAlertOpen(true);
           setResponseMessage({
@@ -109,7 +108,7 @@ const AdminUsers: React.FC = () => {
           status: "Error",
           message: error.message,
         });
-        console.log("Error", error);
+        
       });
   };
 
@@ -124,7 +123,7 @@ const AdminUsers: React.FC = () => {
     await getData(USERS + params)
       .then((response) => {
         setIsLoading(false);
-        console.log("response", response);
+        
         if (response && response.data && response.data.status === "success") {
           setUsers(response.data.data.result);
           setCount(response.data.totalCount);
@@ -132,7 +131,7 @@ const AdminUsers: React.FC = () => {
       })
       .catch((error) => {
         setIsLoading(false);
-        console.log("Error", error);
+        
       });
   };
 
