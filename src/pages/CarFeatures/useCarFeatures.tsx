@@ -43,7 +43,7 @@ const useCarFeatures= () => {
       `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.CAR_FEATURES}`
     )
       .then((response: any) => {
-        console.log(response);
+        
         if (response && response.data && response.data.status === "success") {
           setData(response.data);
           setResult(response.data.data.result);
@@ -77,7 +77,7 @@ const useCarFeatures= () => {
     fd.append("image", featuresValues.image)
     addEditData(fd)
       .then((response: any) => {
-        console.log(response);
+        
         if (response && response.data && response.data.status === "success") {
             if(featuresValues._id){
                 let temp = result
@@ -135,7 +135,7 @@ const useCarFeatures= () => {
       `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.CAR_FEATURES}/${featuresValues._id}`
     )
       .then((response: any) => {
-        console.log(response);
+        
         if (response && response.data && response.data.status === "success") {
           setToastMessage(response.data.message);
           setToastType("success");

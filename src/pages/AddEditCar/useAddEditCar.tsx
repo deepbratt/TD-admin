@@ -263,7 +263,6 @@ const useAddEditCar = () => {
       .then((response) => {
         if (response && response.data && response.data.status === "success") {
           let result = response.data.data.result;
-          console.log("result.phone", result.phone);
           if (!result.phone) {
             setPhoneRequiredDialog(true);
             return;
@@ -350,13 +349,12 @@ const useAddEditCar = () => {
               : "",
             location: { coordinates: { lat: "", long: "" }, address: "" },
           };
-          console.log(result.image);
           Object.keys(FieldValues).forEach((key) => {
             setFormData({ name: key, value: FieldValues[key] });
           });
           setImages(FieldValues.images);
         } else {
-          console.log(response);
+          
           if (response.data) {
             setToastMessage(response.data.message);
             setToastType("error");
@@ -405,7 +403,6 @@ const useAddEditCar = () => {
           history.push(routes.advertisements);
           history.goBack();
         } else {
-          console.log("error", response);
           if (!response.response) {
             setToastMessage("Network Error");
             setToastType("error");
@@ -491,7 +488,6 @@ const useAddEditCar = () => {
       }
     } else if (stepValidatation === 1) {
       let secondStepValidated = images.length > 0;
-      // console.log(images.length > 0 && images.length < 21);
       setRequireError((requiredError) => {
         return { ...requiredError, images: !secondStepValidated };
       });
@@ -588,7 +584,6 @@ const useAddEditCar = () => {
         setToastMessage(msg);
         setToastType("error");
         setToastOpen(true);
-        // console.log("error", response);
       }
     });
   };

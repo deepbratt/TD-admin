@@ -54,7 +54,7 @@ export const useForm = (validateOnChange = false) => {
     await getData(USERS + "/" + id)
       .then((response) => {
         setIsLoading(false);
-        console.log("response", response);
+        
         if (response && response.data && response.data.status === "success") {
           setValues({
             firstName: response.data.data.result.firstName,
@@ -69,7 +69,7 @@ export const useForm = (validateOnChange = false) => {
       })
       .catch((error) => {
         setIsLoading(false);
-        console.log("Error", error);
+        
       });
   };
 
@@ -84,10 +84,10 @@ export const useForm = (validateOnChange = false) => {
         role: values.role,
       };
       setIsLoading(true);
-      console.log("requestBody", requestBody);
+      
       await updateData(USERS + "/" + id, requestBody)
         .then((response) => {
-          console.log("data", response);
+          
           setIsLoading(false);
           if (response && response.data && response.data.status === "success") {
             resetForm();
@@ -107,7 +107,6 @@ export const useForm = (validateOnChange = false) => {
         })
         .catch((error) => {
           setIsLoading(false);
-          console.log("Error log", error);
           setAlertOpen(true);
           setResponseMessage({
             status: "Error",
@@ -124,10 +123,10 @@ export const useForm = (validateOnChange = false) => {
         passwordConfirm: values.confirmPassword,
       };
       setIsLoading(true);
-      console.log("requestBody", requestBody);
+      
       await updateData(USERS + UPDATE_PASSWORD + "/" + id, requestBody)
         .then((response) => {
-          console.log("data", response);
+          
           setIsLoading(false);
           if (response && response.data && response.data.status === "success") {
             resetForm();
@@ -147,7 +146,6 @@ export const useForm = (validateOnChange = false) => {
         })
         .catch((error) => {
           setIsLoading(false);
-          console.log("Error log", error);
           setAlertOpen(true);
           setResponseMessage({
             status: "Error",

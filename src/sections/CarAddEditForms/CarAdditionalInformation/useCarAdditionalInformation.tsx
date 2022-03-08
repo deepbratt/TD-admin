@@ -21,7 +21,6 @@ const useCarAdditionalInformation = (
     // console.log(e.target.name)
     setFormData({ name: "features", value: temp });
     // setFormData({ name: arrayName, value: temp });
-    console.log(temp);
   };
 
   return { handleChangeCheckBoxes };

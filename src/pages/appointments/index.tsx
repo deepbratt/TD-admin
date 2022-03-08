@@ -80,7 +80,7 @@ const Appointments: React.FC = () => {
     await deleteData(APPOINTMENTS + "/" + id)
       .then((response) => {
         setIsLoading(false);
-        console.log("response", response);
+        
         if (response && response.data && response.data.status === "success") {
           setAlertOpen(true);
           setResponseMessage({
@@ -103,7 +103,7 @@ const Appointments: React.FC = () => {
           status: "Error",
           message: error.message,
         });
-        console.log("Error", error);
+        
       });
   };
 
@@ -118,14 +118,14 @@ const Appointments: React.FC = () => {
     await getData(APPOINTMENTS + params)
       .then((response) => {
         setIsLoading(false);
-        console.log("response", response);
+        
         if (response && response.data && response.data.status === "success") {
           setUsers(response.data.data.result);
         }
       })
       .catch((error) => {
         setIsLoading(false);
-        console.log("Error", error);
+        
       });
   };
 

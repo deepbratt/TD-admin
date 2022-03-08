@@ -107,7 +107,7 @@ const Home = () => {
         }
       })
       .catch((error) => {
-        console.log("Error", error);
+        
       });
   };
 
@@ -119,33 +119,33 @@ const Home = () => {
         }
       })
       .catch((error) => {
-        console.log("Error", error);
+        
       });
   };
 
   const getCarsSoldOutStats = async () => {
     await getData(ADS + CARS + CARS_SOLD_STATS)
       .then((response) => {
-        console.log("response", response);
+        
         if (response && response.data && response.data.status === "success") {
           setCarsSoldStats(response.data.data.result);
         }
       })
       .catch((error) => {
-        console.log("Error", error);
+        
       });
   };
 
   const getCarsSoldOutOnTezDealzStats = async () => {
     await getData(ADS + CARS + CARS_SOLD_ON_PLATFORM_STATS)
       .then((response) => {
-        console.log("response", response);
+        
         if (response && response.data && response.data.status === "success") {
           setCarSoldOnTezDealzStats(response.data.data.result);
         }
       })
       .catch((error) => {
-        console.log("Error", error);
+        
       });
   };
 
@@ -157,7 +157,7 @@ const Home = () => {
         }
       })
       .catch((error) => {
-        console.log("Error", error);
+        
       });
   };
 
