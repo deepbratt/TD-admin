@@ -20,8 +20,14 @@ const PageHeader = ({
         justifyContent="space-between"
         alignItems="center"
       >
-        <Typography variant={component} gutterBottom>{heading}</Typography>
-        {children}
+        <Grid item xs={12} md={5}>
+          <Typography variant={component} gutterBottom>
+            {heading}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={7}>
+          {children}
+        </Grid>
       </Grid>
     </Grid>
   );

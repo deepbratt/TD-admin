@@ -21,6 +21,5 @@ export const isResponseSuccess = (response:any)=>{
 
 const phoneRegex = /^[1-9]{3}[-\s.]?[0-9]{4}[-\s.]?[0-9]{3}$/
 export const isValidPhone = (phone:string) =>{
-  console.log(phoneRegex.test(phone))
   return phoneRegex.test(phone)
 }

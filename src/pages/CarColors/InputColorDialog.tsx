@@ -49,8 +49,6 @@ const InputColorDialog = ({
   const [colorCodeError, setColorCodeError] = useState(false);
 
   const handleColorPicker = (newValue: Color) => {
-    // console.log(newValue.hex)
-    // return
     handleColorChange(`#${newValue.hex}`);
   };
 

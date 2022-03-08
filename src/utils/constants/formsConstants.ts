@@ -15,4 +15,6 @@ export const fieldNames = {
   role: "role",
   password: "password",
   confirmPassword: "confirmPassword",
+  condition: "condition",
+  sortingOptions: 'sort',
 };

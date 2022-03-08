@@ -53,7 +53,7 @@ const useTickets = () => {
       .then((response) => {
         let responseResult = isResponseSuccess(response);
         if (responseResult.success) {
-          console.log(response);
+          
           window.scrollTo(0, 0);
           setPage(pageValue);
           let totalPages = Math.ceil(response.data.totalCount / dataLimit);

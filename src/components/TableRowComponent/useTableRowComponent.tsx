@@ -23,7 +23,6 @@ const useTableRowComponent = (data: any, resultArray: Array<any>, setResultArray
         setToastMessage(response.data.message);
         setToastType("success");
       } else {
-        console.log(response);
         setToastMessage(response.message);
         setToastType("error");
       }
@@ -46,7 +45,7 @@ const useTableRowComponent = (data: any, resultArray: Array<any>, setResultArray
         setToastMessage(response.data.message);
         setToastType("success");
       } else {
-        console.log(response);
+        
         setToastMessage(response.message);
         setToastType("error");
       }
@@ -66,7 +65,7 @@ const useTableRowComponent = (data: any, resultArray: Array<any>, setResultArray
           temp = temp.filter((x:any)=>x._id!==data._id)
           setResultArray(temp)
         } else {
-          console.log(response);
+          
           setToastMessage(response.message);
           setToastType("error");
         }

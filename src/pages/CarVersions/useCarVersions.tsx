@@ -23,7 +23,7 @@ const useCarVersions = () => {
       `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.MODEL_VERSIONS}${id}`
     )
       .then((response: any) => {
-        console.log(response);
+        
         if (response && response.data && response.data.status === "success") {
           setData(response.data);
           setResult(response.data.data.result);
@@ -64,7 +64,7 @@ const useCarVersions = () => {
     };
     addEditData(body)
       .then((response: any) => {
-        console.log(response);
+        
         if (response && response.data && response.data.status === "success") {
           if (versionId) {
             let temp = result;
@@ -119,7 +119,7 @@ const useCarVersions = () => {
       `${API_ENDPOINTS.ADS}${API_ENDPOINTS.CARS}${API_ENDPOINTS.REMOVE_VERSION}/${versionId}`
     )
       .then((response: any) => {
-        console.log(response);
+        
         if (response && response.data && response.data.status === "success") {
           setToastMessage(response.data.message);
           setToastType("success");

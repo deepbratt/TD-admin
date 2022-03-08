@@ -29,7 +29,6 @@ const useCarCard = (
         setToastType("success");
         setReload(!reload);
       } else {
-        console.log(response);
         setToastMessage(response.message);
         setToastType("error");
       }
@@ -53,7 +52,6 @@ const useCarCard = (
         setToastType("success");
         setReload(!reload);
       } else {
-        console.log(response);
         setToastMessage(response.message);
         setToastType("error");
       }
@@ -90,7 +88,6 @@ const useCarCard = (
           setToastType("success");
           setReload(!reload);
         } else {
-          console.log(response);
           setToastMessage(response.message);
           setToastType("error");
         }
