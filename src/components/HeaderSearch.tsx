@@ -7,46 +7,51 @@ interface HeaderSearchProps{
     getResults: (pageValue?: number) => void
 }
 
-const HeaderSearch:React.FC<TextFieldProps & HeaderSearchProps> = ({setKeywords, getResults,variant="outlined",...props}) =>{
-    const classes = HeaderSearchStyles()
-    return(
-        <TextField
-            placeholder="Search"
-            onKeyDown={(e)=>{if(e.key === "Enter"){
-              return getResults(1)
-            }
-            }}
-            onChange={(e)=>setKeywords(e.target.value)}
-            style={{ backgroundColor: Colors.background }}
-            InputProps={{
-              disableUnderline: true,
-              classes: {
-                input: classes.inputStyles,
-                adornedEnd:classes.adornedEndStyle
-              },
-              endAdornment: (
-                <InputAdornment
-                  position="end"
-                  className={classes.inputStyles}
-                >
-                  <IconButton className={classes.inputStyles} onClick={()=>getResults(1)}>
-                    <SearchOutlined />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            variant="outlined"
-            {...props}
-          />
-    )
-
-}
+const HeaderSearch: React.FC<TextFieldProps & HeaderSearchProps> = ({
+  setKeywords,
+  getResults,
+  variant = "outlined",
+  ...props
+}) => {
+  const classes = HeaderSearchStyles();
+  return (
+    <TextField
+      placeholder="Search"
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          return getResults(1);
+        }
+      }}
+      onChange={(e) => setKeywords(e.target.value)}
+      style={{ backgroundColor: Colors.background }}
+      InputProps={{
+        disableUnderline: true,
+        classes: {
+          input: classes.inputStyles,
+          adornedEnd: classes.adornedEndStyle,
+        },
+        endAdornment: (
+          <InputAdornment position="end" className={classes.inputStyles}>
+            <IconButton
+              className={classes.inputStyles}
+              onClick={() => getResults(1)}
+            >
+              <SearchOutlined />
+            </IconButton>
+          </InputAdornment>
+        ),
+      }}
+      variant="outlined"
+      {...props}
+    />
+  );
+};
 
 export default HeaderSearch
 
 const HeaderSearchStyles = makeStyles(() => ({
     inputStyles: {
-      padding: 5,
+      padding: 10,
     },
     adornedEndStyle:{
         padding:"0"
