@@ -41,7 +41,10 @@ const CardStyles = makeStyles((theme: Theme) => ({
       lineHeight: '12px'
     }
   },
-
+  adTypeBadge: {
+    margin: '0 7px',
+    backgroundColor: Colors.darkBlue
+  },
   detailRoot: {
     display: "flex",
     flexDirection: "column",

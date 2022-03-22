@@ -29,4 +29,5 @@ export interface ICarCard {
     regNumber: string;
     createdBy: string;
     updatedAt: string;
+    adType: "Rental" | "Sell";
   } 

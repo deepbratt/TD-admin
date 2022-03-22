@@ -3,6 +3,19 @@ import {onlyYears} from '../../../functions/helperFunctions';
 const addEditCarData = {
   // headings:{},
   fields: {
+    adType: {
+      label: 'Ad Type',
+      defaultValue: 'Sell',
+      menu: ['Sell', 'Rental']
+    },
+    rentType: {
+      label: 'Rental Basis',
+      menu: ['Daily', 'Weekly', 'Monthly']
+    },
+    rentalCharge: {
+      label: 'Rate (Rs.)',
+      defaultValue: 'Rate (Rs.)'
+    },
     selectCity: {
       label: 'Select City',
       defaultValue: 'City'

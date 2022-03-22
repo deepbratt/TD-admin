@@ -15,6 +15,9 @@ import useCarInformationForm from "./useCarInformationForm";
 
 interface CarInformationFormProps {
   formData: {
+    adType: '',
+    rentType: '',
+    rentalCharge: '',
     city: "";
     carModel: "";
     carMake: "";
@@ -32,6 +35,8 @@ interface CarInformationFormProps {
   requireError: any;
   handleChangeSelect: any;
   setFormData: React.Dispatch<any>;
+  adType: string;
+  handleChangeAdType: (name: string, value: any) => void;
   bodyColorArray: any[];
 }
 
@@ -41,6 +46,8 @@ const CarInformationForm = ({
   requireError,
   handleChangeSelect,
   setFormData,
+  adType,
+  handleChangeAdType,
   bodyColorArray,
 }: CarInformationFormProps) => {
   const classes = useStyles();
@@ -228,22 +235,75 @@ const CarInformationForm = ({
           onChange={handleTextChange}
         />
       </Grid>
+      {/* Ad Type Section and Conditional Rendering */}
       <Grid item xs={12} sm={12} md={6}>
-        <TextField
-          name={"price"}
-          type="number"
+        <SelectInputComponent
+          name={"adType"}
+          dataArray={addEditCarData.fields.adType.menu}
           className={classes.selectFields}
-          value={formData.price}
-          label={addEditCarData.fields.price.label}
+          value={formData.adType}
+          label={addEditCarData.fields.adType.label}
           required
-          error={requireError.price}
+          error={requireError.adType}
           helperText={
-            requireError.price ? addEditCarData.requiredFieldText : ""
+            requireError.adType ? addEditCarData.requiredFieldText : ""
           }
-          // onChange={handleChange}
-          onChange={handleTextChange}
+          handleChangeSelect={handleChangeAdType}
         />
       </Grid>
+
+      {adType === "Sell" && (
+        <Grid item xs={12} sm={12} md={6}>
+          <TextField
+            name={"price"}
+            type="number"
+            className={classes.selectFields}
+            value={formData.price}
+            label={addEditCarData.fields.price.label}
+            required
+            // error={adType === 'Sell' && requireError.price}
+            // helperText={
+            //   adType === 'Sell' && requireError.price ? addEditCarData.requiredFieldText : ''
+            // }
+            onChange={handleTextChange}
+          />
+        </Grid>
+      )}
+
+      {adType === "Rental" && (
+        <>
+          <Grid item xs={12} sm={6} md={3}>
+            <TextField
+              name={"rentalCharge"}
+              type="number"
+              className={classes.selectFields}
+              value={formData.rentalCharge}
+              label={addEditCarData.fields.rentalCharge.label}
+              required
+              // error={adType === 'Rental' && requireError.rentalCharge}
+              // helperText={
+              //   adType === 'Rental' && requireError.rentalCharge ? addEditCarData.requiredFieldText : ''
+              // }
+              onChange={handleTextChange}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <SelectInputComponent
+              name={"rentType"}
+              dataArray={addEditCarData.fields.rentType.menu}
+              className={classes.selectFields}
+              value={formData.rentType}
+              label={addEditCarData.fields.rentType.label}
+              required
+              // error={requireError.rentType}
+              // helperText={
+              //   requireError.rentType ? addEditCarData.requiredFieldText : ''
+              // }
+              handleChangeSelect={handleChangeSelect}
+            />
+          </Grid>
+        </>
+      )}
       <Grid
         item
         xs={12}

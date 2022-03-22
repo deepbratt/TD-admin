@@ -50,6 +50,7 @@ const useAdvertisements = (createdBy?: string) => {
     endpoint += keywords ? "&keyword=" + keywords : "";
     endpoint += createdBy ? "&createdBy=" + createdBy : "";
     endpoint += carFilters.sort !== "" ? "&sort=" + carFilters.sort : "";
+    endpoint += carFilters.adType !== "" ? "&adType=" + carFilters.adType : "";
     getData(endpoint)
       .then((response: any) => {
         window.scrollTo(0, 0);

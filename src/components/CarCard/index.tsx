@@ -50,7 +50,7 @@ const CarCard = ({
   reload,
   setReload,
 }: CarCardProps) => {
-  const { root, grid, location, featuredBadgeContainer, featuredBadge } =
+  const { root, grid, location, featuredBadgeContainer, featuredBadge, adTypeBadge } =
     CardStyles();
   const {
     isActive,
@@ -137,10 +137,23 @@ const CarCard = ({
               justifyContent="space-between"
             >
               <Grid item container justifyContent="space-between" xs={12}>
-                <Grid item>
+                <Grid
+                  item
+                  xs={12}
+                  container
+                  justifyContent="flex-start"
+                  alignItems="center"
+                >
                   <Typography variant="h5">
                     {moment(data.createdAt).format("DD MMMM YYYY")}
                   </Typography>
+                  {data.adType && (
+                    <span className={`${featuredBadge} ${adTypeBadge}`}>
+                      <Typography variant="body2">
+                        {data.adType.toUpperCase()}
+                      </Typography>
+                    </span>
+                  )}
                 </Grid>
                 <Grid item>
                   <Typography color="secondary" variant="h4">

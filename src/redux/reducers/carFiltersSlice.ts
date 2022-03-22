@@ -39,15 +39,15 @@ const initialState: IInitialState = {
     bodyColor: [],
     bodyType: [],
     sellerType: [],
-    adType: [],
-    sort: '',
-    condition: '',
-    keyword: '',
-    price: ['', ''],
-    modelYear: ['', ''],
-    milage: ['', ''],
-    engineCapacity: ['', '']
-  }
+    sort: "",
+    condition: "",
+    keyword: "",
+    price: ["", ""],
+    modelYear: ["", ""],
+    milage: ["", ""],
+    engineCapacity: ["", ""],
+    adType: "",
+  },
 };
 
 const carFiltersSlice = createSlice({
@@ -89,14 +89,14 @@ const carFiltersSlice = createSlice({
         bodyColor: [],
         bodyType: [],
         sellerType: [],
-        adType: [],
-        sort: '',
-        condition: '',
-        keyword: '',
-        price: ['', ''],
-        modelYear: ['', ''],
-        milage: ['', ''],
-        engineCapacity: ['', '']
+        adType: "",
+        sort: "",
+        condition: "",
+        keyword: "",
+        price: ["", ""],
+        modelYear: ["", ""],
+        milage: ["", ""],
+        engineCapacity: ["", ""],
       };
     }
   }

@@ -20,7 +20,7 @@ import { BULK_UPLOAD_ADS } from "../../utils/constants/language/en/buttonLabels"
 import { ADVERTISEMENTS } from "../../utils/constants/language/en/text";
 import {
   sortingOptions,
-  
+  listingOptions
 } from '../../utils/constants/language/en/filtersData';
 import useAdvertisements from "./useAdvertisements";
 
@@ -58,7 +58,16 @@ const Advertisements: React.FC<AdvertisementsProps> = (props) => {
       <Grid container>
         <PageHeader heading={ADVERTISEMENTS + ` (${totalCount})`}>
           <Grid item xs={12} container justifyContent="flex-end" spacing={1}>
-            <Grid item xs={6}>
+            <Grid item xs={3}>
+              <Dropdown
+                label="AD TYPE"
+                name={fieldNames.adType}
+                onChange={handleInputChange}
+                value={carFilters.adType}
+                options={listingOptions}
+              />
+            </Grid>
+            <Grid item xs={3}>
               <Dropdown
                 label="SORT"
                 name={fieldNames.sortingOptions}

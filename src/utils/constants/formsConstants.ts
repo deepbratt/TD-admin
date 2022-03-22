@@ -17,4 +17,5 @@ export const fieldNames = {
   confirmPassword: "confirmPassword",
   condition: "condition",
   sortingOptions: 'sort',
+  adType: 'adType',
 };
