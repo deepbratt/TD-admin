@@ -28,10 +28,10 @@ const useAdvertisements = (createdBy?: string) => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (name === 'condition' && value === 'any') {
+    if ((name === 'condition' || name === 'adType') && value === 'any') {
       let filter = {
         name: name,
-        value: ''
+        value: "",
       };
       dispatch(setFilter(filter));
     } else {
